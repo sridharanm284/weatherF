@@ -1,0 +1,140 @@
+@import "./../../../styles/variables";
+
+.heading_div {
+  display: flex;
+  align-items: center;
+  padding-inline: 18px;
+  justify-content: space-between;
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.rightBox {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-block: 8px;
+  padding-inline: 16px;
+  background-color: #030F2E;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.maincontainer {
+  font-family: system-ui;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  .mini_header_main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+  .mini_color_box {
+    display: flex;
+    flex-direction: row;
+    height: 1vh;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .criteria_list_name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    gap: 10px;
+    margin-top: 20px;
+    span {
+      text-align: center;
+      width: 28vh;
+    }
+  }
+  .criteria_list_data {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    gap: 10px;
+  }
+  .mini_header_box {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-family: system-ui;
+    width: 45vh;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid black;
+    background-color: rgba(255, 255, 255, 0.69);
+    .mini_header_date {
+      text-align: center;
+      font-size: 18px;
+    }
+    .mini_header_time {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      justify-content: space-evenly;
+    }
+  }
+}
+
+.legend_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: white;
+  border: 2px solid black;
+}
+.legend_heading {
+  color: #1A1D57;
+  font-size: 18px;
+  font-weight: 600;
+  padding-top: 10px;
+}
+.lengend_details_div, .legend_inner_div {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-inline: 10px;
+}
+.legend_content {
+  padding: 10px;
+  padding-block: 20px;
+}
+.lengend_details_div {
+  flex-direction: row;
+}
+.lengend_inner_div {
+  flex-direction: column;
+}
+.high_legend, .normal_legend, .low_legend {
+  height: 0.4em;
+  border-radius: 10px;
+}
+.high_legend {
+  background-color: red;
+}
+.normal_legend {
+  background-color: yellow;
+}
+.low_legend {
+  background-color: green;
+}

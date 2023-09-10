@@ -1,0 +1,65 @@
+@import "./../../../styles/variables";
+
+.maincontainer {
+  font-family: system-ui;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  .overview_table_container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    align-items: center;
+    .mini_color_box {
+      display: flex;
+      flex-direction: row;
+      height: 3vh;
+      border-radius: 0;
+    }
+  }
+  .graph {
+    border-radius: 15px;
+    background-color: $white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 5px 0 0 0;
+    margin: 10px;
+  }
+  .heading-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background: $white;
+    border-radius: 15px;
+    width: 90%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    .heading {
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .weather_window {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: '100%',
+    }    
+  }
+}
+
+.green_overview {
+  color: $white;
+  background-color: $btn-success;
+}
+.yellow_overview {
+  color: black;
+  background-color: $btn-skip-bg;
+}
+.red_overview {
+  color: $white;
+  background-color: $red;
+}

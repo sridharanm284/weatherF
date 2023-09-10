@@ -1,0 +1,163 @@
+@import "./../../../styles/variables";
+
+.observation-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.observation-container {
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 35px;
+  border-radius: 15px;
+  flex-direction: column;
+  background: $white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  .observation-container-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .observation-container-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .field-name {
+        font-weight: 600;
+        font-size: 16px;
+        width: 40vh;
+        text-align: center;
+      }
+      .field-input {
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        padding: 8px;
+        width: 80%;
+        background-color: $field-input;
+        font-family: system-ui;
+        font-weight: 500;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+      }
+    }
+  }
+  .container-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    button {
+      padding: 10px;
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      width: 10vh;
+      color: $white;
+      font-family: system-ui;
+      font-weight: 600;
+    }
+  }
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+  .popup-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 90vh;
+    .popup-content {
+      width: max-content;
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      font-size: 16px;
+      button {
+        padding: 10px;
+        height: 80%;
+        border-radius: 6px;
+        outline: none;
+        border: none;
+        color: $white;
+        background-color: $blue;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// .popup-content {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-direction: column;
+//   background-color: #ffffff;
+//   padding: 20px;
+//   border-radius: 5px;
+//   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+//   animation: fadeIn 0.3s ease-in-out;
+
+//   .success-icon {
+//     font-size: 48px;
+//     color: green;
+//     animation: bounce 0.5s infinite;
+//   }
+
+//   @keyframes fadeIn {
+//     from {
+//       opacity: 0;
+//       transform: translateY(10px);
+//     }
+//     to {
+//       opacity: 1;
+//       transform: translateY(0);
+//     }
+//   }
+
+//   @keyframes bounce {
+//     0%, 100% {
+//       transform: translateY(0);
+//     }
+//     50% {
+//       transform: translateY(-10px);
+//     }
+//   }
+// }
+
+.popup-content {
+  
+
+  .animated-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .success-icon {
+      img {
+        width: 80px; 
+        height: 80px;
+      }
+    }
+  }
+}
+
+
+

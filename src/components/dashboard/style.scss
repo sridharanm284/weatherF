@@ -1,0 +1,50 @@
+@import "./../../styles/variables";
+
+.hoverable {
+  display: flex;
+  flex-direction: column;
+  transition: transform 250ms;
+  gap: 5px;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+}
+
+.color_icon {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.color_icon_red {
+  background-color: $red;
+}
+
+.color_icon_orange {
+  background-color: $warn;
+}
+
+.color_icon_green {
+  background-color: $btn-success;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.loader-spinner {
+  margin-bottom: 10px;
+}
+
+.loader-message {
+  font-size: 16px;
+}
