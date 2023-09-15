@@ -352,6 +352,7 @@ const AddNewUserComponent = () => {
 								<InputLabel htmlFor='name'>Name</InputLabel>
 								<input
 									name='name'
+									required
 									value={formData.name}
 									onChange={handleInputChange}
 

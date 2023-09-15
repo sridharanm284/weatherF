@@ -1,0 +1,66 @@
+.settings_div {
+    display: flex;
+    flex-direction: row;
+    height: 64vh;
+    width: 42em;
+    background-color: white;
+}
+
+.settings_profile_ico_div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background-color: #132c3e;
+}
+
+.settings_profile_ico_details_div {    
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 15px 20px;
+}
+
+.settings_details_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.settings_details_inner input {
+    outline: none;
+    border: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+.settings_input {
+    padding: 4px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    border: none;
+    border-bottom: 2px solid black;
+}
+
+.settings_buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+    gap: 10px;
+}
+
+.settings_buttons button {
+    color: white;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background-color: gray;
+}

@@ -14,10 +14,44 @@ import SendIcon from '@mui/icons-material/Send';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import { PieChart } from '@mui/icons-material';
 import logoMain from './../../assets/logoMain.jpg';
+import useWebSocket from 'react-use-websocket';
 
 const SideNavMenu = (props: any) => {
 	const [location, setLocation] = useState(window.location);
+
 	const [unreadMsgs, setUnreadMsgs] = useState<number>(0)
+	if (!((location.pathname === '/adminchat') || (location.pathname === '/chat'))) {
+		const [unreadMsgs, setUnreadMsgs] = useState<number>(0)
+		const [socketOpened, setSocketOpened] = useState(false)
+		const socketUrl = `ws://localhost:8001/ws/chat/${localStorage.getItem("user_id")}/`;
+		if (localStorage.getItem('type') === 'admin') {
+			const {
+				sendMessage,
+				sendJsonMessage,
+				lastMessage,
+				lastJsonMessage,
+				readyState,
+				getWebSocket,
+			} = useWebSocket(socketUrl, {
+				onOpen: () => {console.log('WS Opened'); setSocketOpened(true); sendJsonMessage({mode: 'listchats', token: localStorage.getItem("token"), user_type: 'admin'});},
+				shouldReconnect: (closeEvent) => true,
+				onMessage: (event) =>  processWebSocketMessages(event)
+			});
+		} else {
+			const {
+				sendMessage,
+				sendJsonMessage,
+				lastMessage,
+				lastJsonMessage,
+				readyState,
+				getWebSocket,
+			} = useWebSocket(socketUrl, {
+				onOpen: () => {console.log('WS Opened'); setSocketOpened(true); sendJsonMessage({mode: 'createchat', user_id: localStorage.getItem("user_id"), user_type: 'user'});},
+				shouldReconnect: (closeEvent) => true,
+				onMessage: (event) =>  processWebSocketMessages(event)
+			});		
+		}
+	}
 
 	useEffect(() => {
 		if (!localStorage.getItem('token')) {
@@ -25,21 +59,28 @@ const SideNavMenu = (props: any) => {
 		}
 	}, []);
 
-	useEffect(() => {
-		if (localStorage.getItem('type') === 'user') {
-			fetch(`http://127.0.0.1:8000/api/chatroom/${localStorage.getItem('user_id')}/`, {method: "GET"})
-				.then(data => data.json())
-				.then(data => {
-					setUnreadMsgs(data.rooms.unread_user)
-				})
-		} else if (localStorage.getItem('type') === 'admin') {			
-			fetch("http://127.0.0.1:8000/api/listchats/", {method: "POST", body: JSON.stringify({user: localStorage.getItem('token')}), headers: {"Content-Type": "application/json"}})
-				.then(data => data.json())
-				.then(data => {
-					setUnreadMsgs(data.map((msgs: any) => msgs.unread_admin).reduce((a: number, b: number) => a + b, 0))
-				})
+	const processWebSocketMessages = (event: any) => {
+		let data = JSON.parse(event.data)
+		console.log(data)
+		if (data.mode === 'listchats') {
+			if (localStorage.getItem('type') === 'admin') {
+				setUnreadMsgs(data.rooms.map((data: any) => data.unread_admin).reduce((data: number, acc: number) => acc += data, 0))
+			} else {
+				setUnreadMsgs(data.rooms.unread_user)
+			}
+		} else if (data.mode === 'createchat') {
+			if (localStorage.getItem('type') === 'user') {
+				setUnreadMsgs(data.rooms.unread_user)
+			} else {
+				setUnreadMsgs(data.rooms.unread_admin)
+			}
+		} else if (data.mode === 'readmessages') {
+			setUnreadMsgs(0)
+		} else if (data.mode === 'receivemsg') {
+			setUnreadMsgs(unreadMsgs + 1)
 		}
-	}, [unreadMsgs])
+		console.log(data)
+	}
 
 	return (
 		<div className='sidenav'>

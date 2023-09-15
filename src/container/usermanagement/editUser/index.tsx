@@ -273,7 +273,7 @@ const EditUserComponent = () => {
                     getOptionLabel={(option: any) => option.label}
                     ref={clientRef}
                     onChange={(
-                      e: any,
+                      e,
                       newValue: any | { label: string; value: string } | null
                     ) => {
                       getClientData(newValue.value);
@@ -282,6 +282,7 @@ const EditUserComponent = () => {
                       <TextField
                         ref={clientRef}
                         type="search"
+                        onChange={(event) => {if (event.currentTarget.value === "") {const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)}}}
                         {...params}
                         label="Client Name"
                         required
@@ -295,6 +296,7 @@ const EditUserComponent = () => {
                     onClick={() => {
                       setSelectedClientName(true);
                       clientRef.current && clientRef.current.focus();
+                      const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)
                     }}
                   />
                 )}

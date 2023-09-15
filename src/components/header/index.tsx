@@ -10,7 +10,9 @@ import { IconButton, MenuItem, Box, Avatar, Menu, Typography,
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PhoneIcon from '@mui/icons-material/Phone';
 import PasswordIcon from '@mui/icons-material/Password';
+import MarkunreadIcon from '@mui/icons-material/Markunread';
 import { useState, useEffect } from "react";
 import HeaderTitle from "./title";
 import Switch from '@mui/material/Switch';
@@ -22,6 +24,8 @@ import UpdateIcon from '@mui/icons-material/Update';
 import KeyIcon from '@mui/icons-material/Key';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SettingsIcon from '@mui/icons-material/Settings';
+import "./styles.scss"
+import { EmailOutlined } from "@mui/icons-material";
 
 const Header = (props: any) => {
 	const mystyle = {
@@ -58,7 +62,6 @@ const Header = (props: any) => {
 		null
 	);
 	const [modalOpen, setModalOpen] = useState(false);
-	const [passmodalOpen, setPassModalOpen] = useState(false);
 	const [userModal, setUserModal] = useState<any | {}>({
 		name: localStorage.getItem("user_name"),
 		id: localStorage.getItem("user_id"),
@@ -67,9 +70,8 @@ const Header = (props: any) => {
 	});
 	const [passwordModal, setPasswordModal] = useState<any | {}>({
 		id: localStorage.getItem("user_id"),
-		password: localStorage.getItem("password"),
-		old_password: localStorage.getItem("old_password"),
-		c_password: localStorage.getItem("c_password"),
+		old_password: "",
+		password: "",
 	});
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -82,12 +84,6 @@ const Header = (props: any) => {
 	) => {
 		if (option === "Settings") {
 			setModalOpen(true);
-			setPassModalOpen(false);
-			setsAnchorElUser(null);
-			setAnchorElUser(null);
-		} else if (option === "change_password") {
-			setModalOpen(false);
-			setPassModalOpen(true);
 			setsAnchorElUser(null);
 			setAnchorElUser(null);
 		} else if (option === "Theme") {
@@ -110,7 +106,6 @@ const Header = (props: any) => {
 	};
 	const handleClose = () => {
 		setModalOpen(false);
-		setPassModalOpen(false);
 	};
 
 	const updatedata = async () => {
@@ -128,6 +123,25 @@ const Header = (props: any) => {
 		} else {
 			window.location.reload();
 		}
+	};
+
+	const updatepassword = async () => {
+		/*
+		const res = await fetch(`http://127.0.0.1:8000/api/user/get/${localStorage.getItem('user_id')}`, {
+			method: "UPDATE",
+			body: JSON.stringify(passwordModal),
+			headers: {
+				"Content-type": "application/json; charset=UTF-8",
+				Authorization: "Basic " + btoa("admin:admin"),
+			},
+		});
+		if (res.status === 200) {
+			localStorage.clear();
+			window.location.href = "/auth";
+		} else {
+			window.location.reload();
+		}
+		*/
 	};
 
 	const [themeSwitch, setThemeSwitch] = useState(localStorage.getItem('theme') === 'dark')
@@ -217,187 +231,53 @@ const Header = (props: any) => {
 						</div>
 					</div>
 				</div>
-				<Dialog open={modalOpen} onClose={handleClose}>
-					<div
-						className="header_title_settings"
-						style={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: 10,
-							marginBottom: 10,
-							backgroundColor: "black",
-							color: "yellow",
-						}}
-					>
-						<span style={{ fontSize: '16px' }}>Profile</span>
-						<button
-							style={{ backgroundColor: 'transparent', outline: 'none', border: 'none', cursor: 'pointer' }}
-							onClick={handleClose}
-						>
-							<CloseIcon fontSize="small" style={{ color: 'white', fontWeight: '600' }} />
-						</button>
-					</div>
-					<Avatar sx={{ width: 120, height: 120 }} style={{ alignSelf: 'center' }}>
-						{localStorage
-							.getItem("user_name")
-							?.slice(0, 1)}
-					</Avatar>
-					<p style={mystyle.content}>Personal Detail</p>
-					<DialogContent
-						style={{
-							padding: "0 24px",
-							display: "flex",
-							flexDirection: "column",
-							gap: 4,
-							width: 600,
-						}}
-					>
-						<div style={mystyle.textBox}>
-							<TextField
-								disabled={userEdit.name}
-								autoFocus
-								margin="dense"
-								id="name"
-								label="Name"
-								type="text"
-								fullWidth
-								defaultValue={userDetails.name}
-								onChange={(e: any) => {
-									setUserModal({
-										...userModal,
-										name: e.target.value,
-									});
-								}}
-								variant="outlined"
-								size="small"
-							/>
-							<span onClick={() => setUserEdit({...userEdit, name: !userEdit.name})} style={{ alignSelf: 'end', cursor: 'pointer' }}>
-								<ModeEditIcon style={{ border: '2px solid gray', padding: '6px', borderRadius: '4px' }} />
-							</span>
+				<Dialog style={{ width: '100vw' }} open={modalOpen} onClose={handleClose}>
+					<div className="settings_div">
+						<div className="settings_profile_ico_div">
+							<span style={{ color: 'white', fontSize: '20px' }}>Profile Picture</span>
+							<Avatar sx={{ width: 120, height: 120 }} style={{ alignSelf: 'center', fontSize: '24px', fontWeight: 500 }}>
+								{localStorage
+									.getItem("user_name")
+									?.slice(0, 1).toUpperCase()}
+							</Avatar>
 						</div>
-						<div style={mystyle.textBox}>
-							<TextField
-								disabled={userEdit.email}
-								autoFocus
-								margin="dense"
-								id="email"
-								label="Email Address"
-								type="text"
-								fullWidth
-								defaultValue={userDetails.email_address}
-								onChange={(e: any) => {
-									setUserModal({
-										...userModal,
-										email: e.target.value,
-									});
-								}}
-								variant="outlined"
-								size="small"
-							/>
-							<span onClick={() => setUserEdit({...userEdit, email: !userEdit.email})} style={{ alignSelf: 'end', cursor: 'pointer' }}>
-								<ModeEditIcon style={{ border: '2px solid gray', padding: '6px', borderRadius: '4px' }} />
-							</span>
-						</div>
-						<div style={mystyle.textBox}>
-							<TextField
-								disabled={userEdit.telephone}
-								autoFocus
-								margin="dense"
-								id="telephone"
-								label="Telephone"
-								type="text"
-								defaultValue={userDetails.telephone}
-								onChange={(e: any) => {
-									setUserModal({
-										...userModal,
-										tel: e.target.value,
-									});
-								}}
-								fullWidth
-								variant="outlined"
-								size="small"
-							/>
-							<span onClick={() => setUserEdit({...userEdit, telephone: !userEdit.telephone})} style={{ alignSelf: 'end', cursor: 'pointer' }}>
-								<ModeEditIcon style={{ border: '2px solid gray', padding: '6px', borderRadius: '4px' }} />
-							</span>
-						</div>
-					</DialogContent>
-					<div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingInline: '20px', paddingBlock: '8px' }}>
-						<div style={{ display: 'inline-flex', justifyContent: 'flex-end', gap: '10px' }}>
-							<Button
-								style={{
-									width: "fit-content",
-									gap: "10px",
-									border: "1.5px solid #384e73",
-								}}
-								onClick={(e: any) =>
-									handleOpenUserMenus(e, "change_password")
-								}
-							>
-								<KeyIcon fontSize="small" /> Change Password
-							</Button>
-							<Button
-								style={{
-									width: "fit-content",
-									gap: "10px",
-									border: "1.5px solid #384e73",
-								}}
-								onClick={updatedata}
-							>
-								<UpdateIcon fontSize="small" /> Update Details
-							</Button>
+						<div className="settings_profile_ico_details_div">
+							<div className="settings_details_inner">
+								<span style={{ fontSize: '22px', fontWeight: 500 }}>Personal Details</span>
+								<div className="settings_input">
+									<AccountCircleIcon />
+									<input value={userDetails.name} onChange={(event) => setUserDetails({...userDetails, name: event.currentTarget.value})} placeholder="Name"></input>
+								</div>
+								<div className="settings_input">
+									<EmailOutlined />
+									<input value={userDetails.email_address} onChange={(event) => setUserDetails({...userDetails, email_address: event.currentTarget.value})} placeholder="Email Address"></input>
+								</div>
+								<div className="settings_input">
+									<PhoneIcon />
+									<input value={userDetails.telephone} onChange={(event) => setUserDetails({...userDetails, telephone: event.currentTarget.value})} placeholder="Telephone"></input>
+								</div>
+								<div className="settings_buttons">
+									<button onClick={(event) => {setModalOpen(false); setsAnchorElUser(null); setAnchorElUser(null);}}>Cancel</button>
+									<button onClick={updatedata} style={{ backgroundColor: '#132c3e' }}>Save</button>
+								</div>
+							</div>
+							<div className="settings_details_inner">
+								<span style={{ fontSize: '22px', fontWeight: 500 }}>Security</span>
+								<div className="settings_input">
+									<PasswordIcon />
+									<input value={passwordModal.old_password} onChange={(event) => setPasswordModal({...passwordModal, old_password: event.currentTarget.value})} placeholder="Enter the Current Password"></input>
+								</div>
+								<div className="settings_input">
+									<PasswordIcon />
+									<input value={passwordModal.password} onChange={(event) => setPasswordModal({...passwordModal, password: event.currentTarget.value})} placeholder="Enter the New Password"></input>
+								</div>
+								<div className="settings_buttons">
+									<button onClick={(event) => {setModalOpen(false); setsAnchorElUser(null); setAnchorElUser(null);}}>Cancel</button>
+									<button onClick={updatepassword} style={{ backgroundColor: '#132c3e' }}>Update Password</button>
+								</div>
+							</div>
 						</div>
 					</div>
-				</Dialog>
-				<Dialog open={passmodalOpen} onClose={handleClose}>
-					<h4
-						className="header_title_settings"
-						style={{
-							padding: 10,
-							backgroundColor: "black",
-							color: "yellow",
-						}}
-					>
-						Change Password
-					</h4>
-					<DialogContent>
-						<TextField
-							autoFocus
-							margin="dense"
-							id="old_pass"
-							label="Old Password"
-							type="text"
-							fullWidth
-							variant="standard"
-						/>
-						<TextField
-							autoFocus
-							margin="dense"
-							id="new_pass"
-							label="New Password"
-							type="text"
-							fullWidth
-							variant="standard"
-						/>
-						<TextField
-							autoFocus
-							margin="dense"
-							id="new_pass_confirm"
-							label="Confirm New Password"
-							type="text"
-							fullWidth
-							variant="standard"
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button variant="contained" onClick={handleClose}>
-							Update Password
-						</Button>
-						<Button variant="contained" onClick={handleClose}>
-							Cancel
-						</Button>
-					</DialogActions>
 				</Dialog>
 			</div>
 		</>

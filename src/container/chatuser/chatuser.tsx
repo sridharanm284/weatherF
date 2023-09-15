@@ -10,7 +10,7 @@ import useWebSocket from 'react-use-websocket';
 
 interface ChatMessage {
   id: number;
-  user: string;
+  user_type: string;
   date_time: string;
   imgfile: string;
   file_name: any;
@@ -41,7 +41,7 @@ const ChatAppClient: React.FC = () => {
     readyState,
     getWebSocket,
   } = useWebSocket(socketUrl, {
-    onOpen: () => {console.log('WS Opened'); setSocketOpened(true); sendJsonMessage({mode: 'createchat', user_id: localStorage.getItem("user_id"), user: 'user'});},
+    onOpen: () => {console.log('WS Opened'); setSocketOpened(true); sendJsonMessage({mode: 'createchat', user_id: localStorage.getItem("user_id"), user_type: 'user'});},
     shouldReconnect: (closeEvent) => true,
     onMessage: (event) =>  processWebSocketMessages(event)
   });
@@ -79,7 +79,9 @@ const ChatAppClient: React.FC = () => {
       msgRef &&
         msgRef.current &&
         msgRef?.current.scrollIntoView({ behavior: "smooth" });
-      sendJsonMessage({mode: 'readmessages', chat_id: data.chats.chat_id, user_id: localStorage.getItem("user_id"), user: 'user'})
+      sendJsonMessage({mode: 'readmessages', chat_id: data.rooms.chat_id, user_type: 'user'})
+    } else if (data.mode === 'receivemsg') {
+      setMessage([...message, data.chats[0]]);
     }
   }
 
@@ -115,19 +117,16 @@ const ChatAppClient: React.FC = () => {
       //       `${chatRoom}_message_${new Date()}_${sx.name}`
       //     );
       //   });
-      sendJsonMessage({mode: 'sendmessage', chat_id: chatRoom, message: text, user: 'user'})
+      sendJsonMessage({mode: 'sendmessage', chat_id: chatRoom, message: text, user_type: 'user'})
       setText("");
-      sendJsonMessage({mode: 'readmessages', chat_id: localStorage.getItem("user_id"), user: 'user'});
+      sendJsonMessage({mode: 'readmessages', chat_id: chatRoom, user_type: 'user'});
       setSelectedFile([]);
       setShowFileModal(false);
       setFileUrl([]);
-      console.log(data);
     } else {
       alert("Message Cannot be null");
     }
   };
-
-  console.log(localStorage.getItem("sideNav"));
 
   return (
     <div>
@@ -162,7 +161,7 @@ const ChatAppClient: React.FC = () => {
                     <div
                       key={idx}
                       className={`chat_container_${
-                        data.user === "admin" ? "admin" : "user"
+                        data.user_type === "admin" ? "admin" : "user"
                       }`}
                     >
                       <div className="message_conatiner">
@@ -171,7 +170,7 @@ const ChatAppClient: React.FC = () => {
                             alignItems: "flex-end",
                           }}
                           className={`message_${
-                            data.user === "admin" ? "admin" : "user"
+                            data.user_type === "admin" ? "admin" : "user"
                           } ${
                             data.imgfile !== null
                               ? isImage
@@ -215,7 +214,7 @@ const ChatAppClient: React.FC = () => {
                           </div>
                           <div
                             className={`time_${
-                              data.user === "admin" ? "admin" : "user"
+                              data.user_type === "admin" ? "admin" : "user"
                             }`}
                           >
                             {d1.toISOString().slice(11, 16)}

@@ -1,4 +1,4 @@
-// @format
+
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/_index.scss";
 import store from "../../store";
@@ -12,11 +12,12 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useSelector } from "react-redux";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import BasicModal from "../../components/modal";
+import useWebSocket from 'react-use-websocket';
 
 interface ChatMessage {
   id: number;
   file: string;
-  user: string;
+  user_type: string;
   imgfile: string;
   file_name: any;
   date_time: string;
@@ -26,7 +27,7 @@ interface ChatMessage {
 interface Rooms {
   user_id: number;
   read_admin: string;
-  user: string;
+  user_name: string;
   operation: string;
   chat_id: string;
   unread_admin: string;
@@ -59,21 +60,33 @@ const ChatAdmin: React.FC = () => {
   const [activeChat, setActiveChat] = useState("");
   const [searchUsers, setSearchUsers] = useState("");
   const [showFilemodal, setShowFileModal] = useState(false);
-  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [unread_msgs, setUnread_msgs] = useState(0)
 
-  const getMessages = async () => {
-    await callChats();
+  const [socketOpened, setSocketOpened] = useState(false)
+  const socketUrl = `ws://localhost:8001/ws/chat/${localStorage.getItem("user_id")}/`;
+  const {
+    sendMessage,
+    sendJsonMessage,
+    lastMessage,
+    lastJsonMessage,
+    readyState,
+    getWebSocket,
+  } = useWebSocket(socketUrl, {
+    onOpen: () => {console.log('WS Opened'); setSocketOpened(true); setToogleChats(true); sendJsonMessage({mode: 'listchats', token: localStorage.getItem("token"), user_type: 'admin'});},
+    shouldReconnect: (closeEvent) => true,
+    onMessage: (event) =>  processWebSocketMessages(event)
+  });
+  
+  const getMessages = (data: any) => {
+    setLoading(true);
+    setCurrentChat(data.user_id.toString());
+    setToogleChats(!toogleChats);
+    setActiveChat(data.chat_id);
+    sendJsonMessage({mode: 'createchat', user_id: data.user_id, user_type: 'admin'})
     msgRef &&
       msgRef.current &&
       msgRef?.current.scrollIntoView({ behavior: "smooth" });
   };
-
-  useEffect(() => {
-    getMessages();
-    msgRef &&
-      msgRef.current &&
-      msgRef?.current.scrollIntoView({ behavior: "smooth" });
-  }, [chatRoom, currentChat]);
 
   const drawerWidth = 240;
 
@@ -81,6 +94,28 @@ const ChatAdmin: React.FC = () => {
     open?: boolean;
   }
 
+  function processWebSocketMessages(event: any) {
+    let data = JSON.parse(event.data)
+    console.log(data)
+    if (data.mode === 'createchat') {
+      setMessage(data.chats);
+      setChatRoom(data.rooms.chat_id)
+      setUserData(data.userdata);
+      setLoading(false);
+      msgRef &&
+        msgRef.current &&
+        msgRef?.current.scrollIntoView({ behavior: "smooth" });
+      sendJsonMessage({mode: 'readmessages', chat_id: activeChat, user_type: 'admin'})
+    } else if (data.mode === 'receivemsg') {
+      setMessage([...message, data.chats[0]]);
+      setRooms(data.rooms);
+    } else if (data.mode === 'listchats') {
+      setRooms(data.rooms);
+    } else if (data.mode === 'readmessages') {
+      setUnread_msgs(0)
+    }
+  }
+ 
   const windowWidth = useRef<number>(window.innerWidth);
 
   const [open, setOpen] = useState<boolean>(
@@ -102,118 +137,18 @@ const ChatAdmin: React.FC = () => {
     setToogleChats(!toogleChats);
   };
 
-  const getRooms = async () => {
-    setToogleChats(true);
-    try {
-      let res = await fetch(`http://127.0.0.1:8000/api/listchats/`, {
-        method: "POST",
-        body: JSON.stringify({
-          user: localStorage.getItem("token"),
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: "Basic " + btoa("admin:admin"),
-        },
-      });
-      const data = await res.json();
-      await setRooms(data);
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getRooms();
-  }, []);
-
-  const callChats = async () => {
-    setLoading(true);
-    if (currentChat === "") return;
-    try {
-      let res = await fetch(
-        `http://127.0.0.1:8000/api/chatroom/${currentChat}/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: "Basic " + btoa("admin:admin"),
-          },
-        }
-      );
-      const data = await res.json();
-      setMessage(data.chats);
-      await setChatRoom(data.rooms.chat_id);
-      await setUserData(data.userdata);
-
-      console.log(chatRoom, "chatRoom");
-    } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-  };
-
   const sendData = async (e: any) => {
     e.preventDefault();
     if (text !== "" || selectedFile.length > 0) {
       const l = selectedFile;
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Basic YWRtaW46YWRtaW4=");
-      var formdata = new FormData();
-      formdata.append("id", chatRoom);
-      formdata.append("message", text);
-      formdata.append("user", "admin");
-      l &&
-        l.forEach((sx: any) => {
-          formdata.append(
-            "file",
-            sx,
-            `${chatRoom}_message_${new Date()}_${sx.name}`
-          );
-        });
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: formdata,
-      };
-      try {
-        let res = await fetch(
-          "http://127.0.0.1:8000/api/sendmessage/",
-          requestOptions
-        );
-        const data = await res.json();
-        setText("");
-        getMessages();
-        setShowFileModal(false);
-        setSelectedFile([]);
-        setFileUrl([]);
-        console.log(data);
-      } catch (err) {
-        console.log(err);
-      }
+      
+      sendJsonMessage({mode: 'sendmessage', chat_id: chatRoom, message: text, user_type: 'admin'})
+      setText("");
+      setSelectedFile([]);
+      setShowFileModal(false);
+      setFileUrl([]);
     } else {
       alert("Message Cannot be null");
-    }
-  };
-
-  const readDatas = async (chat_id: string) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Basic YWRtaW46YWRtaW4=");
-    var formdata = new FormData();
-    formdata.append("id", chat_id);
-    formdata.append("user", "admin");
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-    };
-    try {
-      await fetch(
-        "http://127.0.0.1:8000/api/readmessages/",
-        requestOptions
-      );
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -310,27 +245,25 @@ const ChatAdmin: React.FC = () => {
                       }}
                     >
                       {rooms
-                        ?.filter((data) => data.user.includes(searchUsers))
+                        ?.filter((data) => {if (searchUsers === "") {return true;} ; data.user_name.includes(searchUsers)})
                         ?.map((data) =>
                           data.user_id.toString() ===
                           localStorage.getItem("user_id") ? null : (
                             <div
                               onClick={() => {
-                                setCurrentChat(data.user_id.toString());
-                                setToogleChats(!toogleChats);
-                                setActiveChat(data.chat_id);
-                                readDatas(data.chat_id);
+                                getMessages(data);
                               }}
+                              key={data.chat_id}
                               className={`button_chat ${
                                 data.chat_id === activeChat ? "active_chat" : ""
                               }`}
                             >
                               <div className="button_chat_userprofile">
-                                {data?.user.slice(0, 1)}
+                                {data?.user_name.slice(0, 1)}
                               </div>
                               <div className="button_chat_usercontent">
                                 <div className="button_chat_user_name">
-                                  {data?.user}
+                                  {data?.user_name}
                                 </div>
                                 <div className="button_chat_user_operation">
                                   {data?.operation}
@@ -389,26 +322,24 @@ const ChatAdmin: React.FC = () => {
                       />
                     </div>
                     {rooms
-                      ?.filter((data) => data.user.includes(searchUsers))
+                      ?.filter((data) => {if (searchUsers === "") {return true;} ; data.user_name.includes(searchUsers)})
                       ?.map((data) =>
                         data.user_id.toString() ===
                         localStorage.getItem("user_id") ? null : (
                           <div
                             onClick={() => {
-                              setCurrentChat(data.user_id.toString());
-                              setToogleChats(!toogleChats);
-                              setActiveChat(data.chat_id);
+                              getMessages(data);
                             }}
                             className={`button_chat ${
                               data.chat_id === activeChat ? "active_chat" : ""
                             }`}
                           >
                             <div className="button_chat_userprofile">
-                              {data?.user?.slice(0, 1)}
+                              {data?.user_name?.slice(0, 1)}
                             </div>
                             <div className="button_chat_usercontent">
                               <div className="button_chat_user_name">
-                                {data?.user}
+                                {data?.user_name}
                               </div>
                               <div className="button_chat_user_operation">
                                 {data?.operation}
@@ -477,14 +408,14 @@ const ChatAdmin: React.FC = () => {
                             <div
                               key={idx}
                               className={`chat_container_${
-                                data.user === "admin" ? "admina" : "usera"
+                                data.user_type === "admin" ? "admina" : "usera"
                               }`}
                             >
                               <div className="message_conatiner">
                                 <div
                                   style={{ alignItems: "flex-end" }}
                                   className={`message_${
-                                    data.user === "admin" ? "admin" : "user"
+                                    data.user_type === "admin" ? "admin" : "user"
                                   } ${
                                     data.imgfile !== null
                                       ? isImage
@@ -530,7 +461,7 @@ const ChatAdmin: React.FC = () => {
                                   </div>
                                   <div
                                     className={`time_${
-                                      data.user === "admin" ? "admina" : "usera"
+                                      data.user_type === "admin" ? "admina" : "usera"
                                     }`}
                                   >
                                     {d1.toISOString().slice(11, 16)}
@@ -639,14 +570,14 @@ const ChatAdmin: React.FC = () => {
                               <div
                                 key={idx}
                                 className={`chat_container_${
-                                  data.user === "admin" ? "admina" : "usera"
+                                  data.user_type === "admin" ? "admina" : "usera"
                                 }`}
                               >
                                 <div className="message_conatiner">
                                   <div
                                     style={{ alignItems: "flex-end" }}
                                     className={`message_${
-                                      data.user === "admin" ? "admin" : "user"
+                                      data.user_type === "admin" ? "admin" : "user"
                                     } ${
                                       data.imgfile !== null
                                         ? isImage
@@ -693,7 +624,7 @@ const ChatAdmin: React.FC = () => {
                                     </div>
                                     <div
                                       className={`time_${
-                                        data.user === "admin"
+                                        data.user_type === "admin"
                                           ? "admina"
                                           : "usera"
                                       }`}
@@ -727,30 +658,28 @@ const ChatAdmin: React.FC = () => {
                         )}
                         <div ref={msgRef}>&nbsp;</div>
                       </div>
-                      {message.length > 0 && (
-                        <form onSubmit={sendData} className="inputcontainer">
-                          <input
-                            type="file"
-                            accept="*"
-                            multiple
-                            onChange={saveFile}
-                            style={{ display: "none" }}
-                            ref={fileInputRef}
-                          />
-                          <AttachFileIcon onClick={handleFileSelect} />
-                          <input
-                            onChange={(e) => setText(e.target.value)}
-                            type="text"
-                            required
-                            className="input_text"
-                            value={text}
-                            placeholder="Enter Your Message"
-                          />
-                          <button className="button" onClick={sendData}>
-                            <SendIcon />
-                          </button>
-                        </form>
-                      )}
+                      <form onSubmit={sendData} className="inputcontainer">
+                        <input
+                          type="file"
+                          accept="*"
+                          multiple
+                          onChange={saveFile}
+                          style={{ display: "none" }}
+                          ref={fileInputRef}
+                        />
+                        <AttachFileIcon onClick={handleFileSelect} />
+                        <input
+                          onChange={(e) => setText(e.target.value)}
+                          type="text"
+                          required
+                          className="input_text"
+                          value={text}
+                          placeholder="Enter Your Message"
+                        />
+                        <button className="button" onClick={sendData}>
+                          <SendIcon />
+                        </button>
+                      </form>
                     </div>
                   )
                 )}
