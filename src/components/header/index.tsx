@@ -234,12 +234,6 @@ const Header = (props: any) => {
 				<Dialog style={{ width: '100vw' }} open={modalOpen} onClose={handleClose}>
 					<div className="settings_div">
 						<div className="settings_profile_ico_div">
-							<span style={{ color: 'white', fontSize: '20px' }}>Profile Picture</span>
-							<Avatar sx={{ width: 120, height: 120 }} style={{ alignSelf: 'center', fontSize: '24px', fontWeight: 500 }}>
-								{localStorage
-									.getItem("user_name")
-									?.slice(0, 1).toUpperCase()}
-							</Avatar>
 						</div>
 						<div className="settings_profile_ico_details_div">
 							<div className="settings_details_inner">

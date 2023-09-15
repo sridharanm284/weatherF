@@ -187,7 +187,7 @@ export default function TyphoonComponent() {
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
 
   const map = useRef<mapboxgl.Map | null>(null);
-  const [zoom, setZoom] = useState<number>(6);
+  const [zoom, setZoom] = useState<number>(0);
 
   const userCircleRadius = ["warning_radius1_frequency", "warning_radius2_frequency", "warning_radius3_frequency"]
   const userCircleColors: any = {
@@ -322,19 +322,19 @@ export default function TyphoonComponent() {
       if (userGeoCords.lng !== undefined && userGeoCords.lat !== undefined) {
         // Convert user coordinates to a Turf.js point
         const userCenter = turf.point([parseFloat(userGeoCords.lng), parseFloat(userGeoCords.lat)]);
-        
+      
         // Check if map and fetchedDatas are available
         if (map.current && fetchedDatas && fetchedDatas.cyclone_data) {
           userCircleRadius.forEach((radius, rIndex) => {
             const cycloneData = fetchedDatas.cyclone_data[radius];
-        
+      
             // Check if cycloneData is available
             if (cycloneData !== undefined) {
-              const warningRadiusX = cycloneData + CIRCLE_X_RADIUS_OFFSET;
-              const warningRadiusY = cycloneData + CIRCLE_Y_RADIUS_OFFSET; // Adjust this value for the oval shape
+              const warningRadiusX = cycloneData + 300;
+              const warningRadiusY = cycloneData + 200; // Adjust this value for the oval shape
                     
               const northPoint = turf.destination(userCenter, warningRadiusY, 0);
-        
+      
               map.current!.addSource(`northPoint-${rIndex}`, {
                 type: 'geojson',
                 data: {
@@ -342,7 +342,7 @@ export default function TyphoonComponent() {
                   features: [northPoint],
                 },
               });
-        
+      
               map.current!.addLayer({
                 id: `north-point-${rIndex}`,
                 type: 'circle',
@@ -352,16 +352,16 @@ export default function TyphoonComponent() {
                   'circle-radius': 6,
                 },
               });
-      
+
               const ellipseFeature = turf.ellipse(userCenter, warningRadiusX, warningRadiusY, {
                 steps: 64,
               });
-        
+      
               map.current!.addSource(`ellipseData-${rIndex}`, {
                 type: 'geojson',
                 data: ellipseFeature,
               });
-        
+      
               map.current!.addLayer({
                 id: `ellipse-fill-${rIndex}`,
                 type: 'fill',
@@ -371,7 +371,7 @@ export default function TyphoonComponent() {
                   'fill-opacity': 0.2,
                 },
               });
-        
+      
               map.current!.addLayer({
                 id: `ellipse-stroke-${rIndex}`,
                 type: 'line',
@@ -383,16 +383,8 @@ export default function TyphoonComponent() {
               });
             }
           });
-        } else {
-          // Handle the case when map or fetchedDatas are not available
         }
-      } else {
-        // Handle the case when userGeoCords.lng or userGeoCords.lat are undefined
       }
-      
-      // Constants for oval shape dimensions
-      const CIRCLE_X_RADIUS_OFFSET = 300;
-      const CIRCLE_Y_RADIUS_OFFSET = 200;
       
       
       stormDatas.map((datas: any) =>
