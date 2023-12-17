@@ -80,7 +80,7 @@ const EditUserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         setClientNames(data);
       })
       .catch((error) => {
@@ -107,7 +107,7 @@ const EditUserComponent = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           setFormData(data);
           setFilesData({
             wind: data.wind,
@@ -139,7 +139,7 @@ const EditUserComponent = () => {
       });
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async () => {
     const newData = {
       ...formData,
       name: formData.name,
@@ -233,19 +233,35 @@ const EditUserComponent = () => {
 
   return (
     <div
-      style={open ? { marginLeft: 260, width: "calc(100% - 260px)", background: 'transparent' } : { background: 'transparent' }}
+      style={
+        open
+          ? {
+              marginLeft: 260,
+              width: "calc(100% - 260px)",
+              background: "transparent",
+            }
+          : { background: "transparent" }
+      }
       className={"maina"}
     >
-      <div  style={{ paddingBlock: '20px', paddingInline: '25px', borderRadius: '10px', background: 'white' }} className={`content-wrap chatwrap`}>
+      <div
+        style={{
+          paddingBlock: "20px",
+          paddingInline: "25px",
+          borderRadius: "10px",
+          background: "white",
+        }}
+        className={`content-wrap chatwrap`}
+      >
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             onClick={(_: any) => navigate("/usermanagement")}
-            style={{ backgroundColor: "blue", color: "white" }}
+            style={{ backgroundColor: "blue", color: "white",  margin:'10px 0' }}
           >
             Back
           </Button>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form>
           <Grid container spacing={2}>
             <Grid
               spacing={3}
@@ -261,46 +277,46 @@ const EditUserComponent = () => {
               <React.Fragment>
                 <InputLabel>Client</InputLabel>
                 {selectedClientName ? (
-                  <Autocomplete
-                    id="free-solo-demo"
-                    size="small"
-                    freeSolo
-                    disableClearable
-                    options={clientNames.map((option) => ({
-                      label: option.client_name,
-                      value: option.client_id.toString(),
-                    }))}
-                    getOptionLabel={(option: any) => option.label}
-                    ref={clientRef}
-                    onChange={(
-                      e,
-                      newValue: any | { label: string; value: string } | null
-                    ) => {
-                      getClientData(newValue.value);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        ref={clientRef}
-                        type="search"
-                        onChange={(event) => {if (event.currentTarget.value === "") {const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)}}}
-                        {...params}
-                        label="Client Name"
-                        required
-                      />
-                    )}
-                  />
-                ) : (
-                  <input
-                    required
-                    value={formData.client}
-                    onClick={() => {
-                      setSelectedClientName(true);
-                      clientRef.current && clientRef.current.focus();
-                      const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)
-                    }}
-                  />
-                )}
-                <InputLabel>Project No</InputLabel>
+<Autocomplete
+                   id="free-solo-demo"
+                   size="small"
+                   freeSolo
+                   disableClearable
+                   options={clientNames.map((option) => ({
+                     label: option.client_name,
+                     value: option.client_id.toString(),
+                   }))}
+                   getOptionLabel={(option: any) => option.label}
+                   ref={clientRef}
+                   onChange={(
+                     e,
+                     newValue: any | { label: string; value: string } | null
+                   ) => {
+                     getClientData(newValue.value);
+                   }}
+                   renderInput={(params) => (
+<TextField
+                       ref={clientRef}
+                       type="search"
+                       onChange={(event) => {if (event.currentTarget.value === "") {const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)}}}
+                       {...params}
+                       label="Client Name"
+                       required
+                     />
+                   )}
+                 />
+               ) : (
+<input
+                   required
+                   value={formData.client}
+                   onClick={() => {
+                     setSelectedClientName(true);
+                     clientRef.current && clientRef.current.focus();
+                     const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)
+                   }}
+                 />
+               )}
+                <InputLabel>Project Location</InputLabel>
                 {selectedForecast_id ? (
                   <Autocomplete
                     id="free-solo-demoa"
@@ -323,12 +339,12 @@ const EditUserComponent = () => {
                         contract_no: n?.contract_number,
                         region: n?.region_id,
                         vessel: n?.vessel_rig_platform_name,
-                        lat: n?.lat,
-                        lon: n?.long,
+                        lat: n?.latitude,
+                        lon: n?.longitude,
                         site_route: n?.route,
                         start_date: n?.start_date,
                         forecast_id: n?.forecast_id,
-                        expected_date: n?.expected_date,
+                        expected_date: n?.expected_end_date,
                         operation: n?.forecast_description,
                         client_id: n?.client_id,
                       });
@@ -340,9 +356,8 @@ const EditUserComponent = () => {
                         value={formData.operation}
                         ref={foreRef}
                         type="search"
-                        required
                         {...params}
-                        label="Project No"
+                        label="Project Location"
                       />
                     )}
                   />
@@ -356,7 +371,7 @@ const EditUserComponent = () => {
                     }}
                   />
                 )}
-                <InputLabel htmlFor="name">Name</InputLabel>
+                <InputLabel htmlFor="name">username</InputLabel>
                 <input
                   name="name"
                   required
@@ -369,15 +384,13 @@ const EditUserComponent = () => {
                   type="password"
                   defaultValue={formData.password}
                   onChange={handleInputChange}
-                  required
-                  />
+                />
                 <InputLabel htmlFor="user_type">User Type</InputLabel>
                 <Select
                   labelId="role-label"
                   id="role-select"
                   value={formData?.user_type}
                   size="small"
-                  required
                   onChange={(e) => {
                     setFormData({ ...formData, user_type: e.target.value });
                   }}
@@ -391,7 +404,6 @@ const EditUserComponent = () => {
                   type="email"
                   defaultValue={formData.email_address}
                   onChange={handleInputChange}
-                  required
                 />
                 <InputLabel htmlFor="telephone">Telephone</InputLabel>
                 <input
@@ -399,7 +411,6 @@ const EditUserComponent = () => {
                   type="text"
                   defaultValue={formData.telephone}
                   onChange={handleInputChange}
-                  required
                 />
                 <InputLabel htmlFor="contract_no">CTRCT NO</InputLabel>
                 <input
@@ -407,7 +418,6 @@ const EditUserComponent = () => {
                   type="text"
                   defaultValue={formData.contract_no}
                   onChange={handleInputChange}
-                  required
                 />
                 <InputLabel htmlFor="region">Region</InputLabel>
                 <input
@@ -415,7 +425,6 @@ const EditUserComponent = () => {
                   type="text"
                   defaultValue={formData.region}
                   onChange={handleInputChange}
-                  required
                 />
                 <InputLabel htmlFor="vessel">VESSEL/RIG/PLTFRM</InputLabel>
                 <input
@@ -423,14 +432,12 @@ const EditUserComponent = () => {
                   type="text"
                   defaultValue={formData.vessel}
                   onChange={handleInputChange}
-                  required
                 />
                 <InputLabel htmlFor="lat">Latitude</InputLabel>
                 <input
                   name="lat"
                   defaultValue={formData.lat}
                   onChange={handleInputChange}
-                  required
                 />
                 <InputLabel htmlFor="lon">Longitude</InputLabel>
                 <input
@@ -443,7 +450,6 @@ const EditUserComponent = () => {
                   name="site_route"
                   defaultValue={formData.site_route}
                   onChange={handleInputChange}
-                  required
                 />
                 <InputLabel htmlFor="start_date">Start Date</InputLabel>
                 <input
@@ -451,7 +457,6 @@ const EditUserComponent = () => {
                   type="datetime-local"
                   value={formData.start_date}
                   onChange={handleInputChange}
-                  required
                 />
               </React.Fragment>
             </Grid>
@@ -466,42 +471,44 @@ const EditUserComponent = () => {
               }}
               xs={6}
             >
+              {/* <InputLabel htmlFor="end_date">End Date</InputLabel>
+              <input
+                name="end_date"
+                type="datetime-local"
+                value={formData.end_date}
+                onChange={handleInputChange}
+              /> */}
               <InputLabel htmlFor="expected_date">Expected Date</InputLabel>
               <input
                 name="expected_date"
                 type="datetime-local"
                 defaultValue={formData.expected_date}
                 onChange={handleInputChange}
-                required
               />
-              <InputLabel htmlFor="metsys_name">Metsys Name</InputLabel>
+              <InputLabel htmlFor="metsys_name">Metsys</InputLabel>
               <input
                 name="metsys_name"
                 type="text"
                 value={formData.metsys_name}
                 onChange={handleInputChange}
-                required
               />
               <InputLabel htmlFor="service_types">Service Types</InputLabel>
               <input
                 name="service_types"
                 value={formData.service_types}
                 onChange={handleInputChange}
-                required
               />
               <InputLabel htmlFor="day_shift">Day Shift</InputLabel>
               <input
                 name="day_shift"
                 value={formData.day_shift}
                 onChange={handleInputChange}
-                required
               />
               <InputLabel htmlFor="night_shift">Night Shift</InputLabel>
               <input
                 name="night_shift"
                 value={formData.night_shift}
                 onChange={handleInputChange}
-                required
               />
               <div
                 style={{
@@ -516,38 +523,39 @@ const EditUserComponent = () => {
                     name="wind"
                     value={filesData?.wind}
                     onChange={handleInputChange}
-                    required
+                    style={{width:'90%'}}
                   />
                   <InputLabel htmlFor="wave">Wave</InputLabel>
                   <input
                     name="wave"
                     value={filesData?.wave}
                     onChange={handleInputChange}
-                    required
+                    style={{width:'90%'}}
                   />
                   <InputLabel htmlFor="current">Current</InputLabel>
                   <input
                     name="current"
                     value={filesData?.current}
                     onChange={handleInputChange}
-                    required
+                    style={{width:'90%'}}
                   />
                   <InputLabel htmlFor="satpic">Satpic</InputLabel>
                   <input
                     name="satpic"
                     value={filesData?.satpic}
                     onChange={handleInputChange}
-                    required
+                    style={{width:'90%'}}
                   />
                 </Grid>
               </div>
             </Grid>
           </Grid>
-          <Button variant="contained" color="primary">
+
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
             Submit
           </Button>
         </form>
-        <div style={{ height: "100px" }}></div> {/* Space below the form */}
+        <div style={{ height: "100px" }}></div>
       </div>
     </div>
   );

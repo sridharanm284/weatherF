@@ -22,7 +22,7 @@
   justify-content: center;
   padding-block: 8px;
   padding-inline: 16px;
-  background-color: #030F2E;
+  background-color: #030f2e;
   border-radius: 8px;
   gap: 10px;
 }
@@ -102,14 +102,21 @@
   border-radius: 10px;
   background-color: white;
   border: 2px solid black;
+ 
 }
+
+
+
+
+
 .legend_heading {
-  color: #1A1D57;
+  color: #1a1d57;
   font-size: 18px;
   font-weight: 600;
   padding-top: 10px;
 }
-.lengend_details_div, .legend_inner_div {
+.lengend_details_div,
+.legend_inner_div {
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -125,7 +132,9 @@
 .lengend_inner_div {
   flex-direction: column;
 }
-.high_legend, .normal_legend, .low_legend {
+.high_legend,
+.normal_legend,
+.low_legend {
   height: 0.4em;
   border-radius: 10px;
 }

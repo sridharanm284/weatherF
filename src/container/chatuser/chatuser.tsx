@@ -6,15 +6,16 @@ import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import BasicModal from "../../components/modal";
-import useWebSocket from 'react-use-websocket';
+import useWebSocket from "react-use-websocket";
 
 interface ChatMessage {
   id: number;
   user_type: string;
   date_time: string;
   imgfile: string;
-  file_name: any;
+  file: any;
   message: string;
+  token: string;
 }
 
 const ChatAppClient: React.FC = () => {
@@ -31,21 +32,27 @@ const ChatAppClient: React.FC = () => {
   const windowWidth = useRef(window.innerWidth);
   const [open, setOpen] = useState(windowWidth.current > 1000 ? true : false);
 
-  const [socketOpened, setSocketOpened] = useState(false)
-  const socketUrl = `ws://localhost:8001/ws/chat/${localStorage.getItem("user_id")}/`;
+  const [socketOpened, setSocketOpened] = useState(false);
+  const socketUrl = `ws://localhost:8000/ws/chat/${localStorage.getItem(
+    "user_id"
+  )}/`;
   const {
-    sendMessage,
     sendJsonMessage,
-    lastMessage,
-    lastJsonMessage,
-    readyState,
-    getWebSocket,
   } = useWebSocket(socketUrl, {
-    onOpen: () => {console.log('WS Opened'); setSocketOpened(true); sendJsonMessage({mode: 'createchat', user_id: localStorage.getItem("user_id"), user_type: 'user'});},
+    onOpen: () => {
+      console.log("WS Opened");
+      setSocketOpened(true);
+      sendJsonMessage({
+        mode: "createchat",
+        user_id: localStorage.getItem("user_id"),
+        user_type: "user",
+        token: localStorage.getItem("token"),
+      });
+    },
     shouldReconnect: (closeEvent) => true,
-    onMessage: (event) =>  processWebSocketMessages(event)
+    onMessage: (event) => processWebSocketMessages(event),
   });
-  
+
   const handleFileSelect = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -71,17 +78,68 @@ const ChatAppClient: React.FC = () => {
   const drawerWidth = 260;
 
   function processWebSocketMessages(event: any) {
-    let data = JSON.parse(event.data)
-    if (data.mode === 'createchat') {
-      console.log(data)
-      setMessage(data.chats);
-      setChatRoom(data.rooms.chat_id);
-      msgRef &&
-        msgRef.current &&
-        msgRef?.current.scrollIntoView({ behavior: "smooth" });
-      sendJsonMessage({mode: 'readmessages', chat_id: data.rooms.chat_id, user_type: 'user'})
-    } else if (data.mode === 'receivemsg') {
-      setMessage([...message, data.chats[0]]);
+    let data = JSON.parse(event.data);
+    if (
+      data.rooms &&
+      data.user_type == "user" &&
+      data.rooms.user_id == localStorage.getItem("user_id")
+    ) {
+      localStorage.setItem("rooms", data.rooms.chat_id);
+    }
+    if (
+      data.mode === "createchat" &&
+      data.rooms.chat_id == localStorage.getItem("rooms")
+    ) {
+      if (data.user_type != "admin") {
+        if (data.chats !== null) {
+          setMessage(data.chats);
+          setChatRoom(data.rooms.chat_id);
+          if (data.user_type != "admin")
+            msgRef &&
+              msgRef.current &&
+              msgRef?.current.scrollIntoView({ behavior: "smooth" });
+          sendJsonMessage({
+            mode: "readmessages",
+            chat_id: data.rooms.chat_id,
+            user_type: "user",
+          });
+        }
+      }
+    } else if (
+      data.mode === "latest" &&
+      (localStorage.getItem("rooms") === data.rooms.chat_id ||
+        localStorage.getItem("rooms") === data.chats[0].chat_id)
+    ) {
+      if (data.user_type) {
+        var chats = [...message, data.chats];
+        if (1) {
+          setMessage(data.chats);
+          setChatRoom(data.rooms.chat_id);
+          msgRef &&
+            msgRef.current &&
+            msgRef?.current.scrollIntoView({ behavior: "smooth" });
+          sendJsonMessage({
+            mode: "readmessages",
+            chat_id: data.rooms.chat_id,
+            user_type: "user",
+          });
+        }
+      }
+    } else if (
+      data.mode === "sendmsg" &&
+      data.chat_id == localStorage.getItem("rooms")
+    ) {
+      sendJsonMessage({
+        mode: "latest",
+        user_id: localStorage.getItem("user_id"),
+        user_type: "user",
+        token: localStorage.getItem("token"),
+        send_by: "user",
+      });
+    } else if (data.mode === "receivemsg") {
+      if (data.chats !== null) {
+        setMessage(data.chats);
+      }
     }
   }
 
@@ -92,8 +150,8 @@ const ChatAppClient: React.FC = () => {
   const saveFile = async (event: any) => {
     if (event.target.files && event.target.files.length > 0) {
       const filesArray = Array.from(event.target.files) as File[];
+      console.log(filesArray);
       setSelectedFile(filesArray);
-
       filesArray.forEach((file: any) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -109,20 +167,61 @@ const ChatAppClient: React.FC = () => {
     e.preventDefault();
     if (text !== "" || selectedFile.length > 0) {
       const l = selectedFile;
-      // l &&
-      //   l.forEach((sx: any) => {
-      //     formdata.append(
-      //       "file",
-      //       sx,
-      //       `${chatRoom}_message_${new Date()}_${sx.name}`
-      //     );
-      //   });
-      sendJsonMessage({mode: 'sendmessage', chat_id: chatRoom, message: text, user_type: 'user'})
-      setText("");
-      sendJsonMessage({mode: 'readmessages', chat_id: chatRoom, user_type: 'user'});
-      setSelectedFile([]);
-      setShowFileModal(false);
-      setFileUrl([]);
+      if (l && l.length != 0) {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic YWRtaW46YWRtaW4=");
+        var formdata = new FormData();
+        formdata.append("id", chatRoom);
+        formdata.append("message", text);
+        formdata.append("user", "user");
+        l.forEach((sx: any) => {
+          formdata.append("file", sx, `${sx.name}`);
+        });
+        setSelectedFile([]);
+        setText("");
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: formdata,
+        };
+        try {
+          let res = await fetch(
+            "http://127.0.0.1:8000/api/sendmessage/",
+            requestOptions
+          );
+          console.log("Executed");
+          sendJsonMessage({
+            mode: "latest",
+            user_id: localStorage.getItem("user_id"),
+            user_type: "user",
+            token: localStorage.getItem("token"),
+            send_by: "user",
+            select: "false",
+          });
+        } catch {
+          console.log("Error");
+          return;
+        }
+      } else {
+        console.log("Executing");
+        sendJsonMessage({
+          mode: "sendmessage",
+          chat_id: chatRoom,
+          message: text,
+          user_type: "user",
+          user_id: localStorage.getItem("user_id"),
+          send_by: "user",
+        });
+        setText("");
+        sendJsonMessage({
+          mode: "readmessages",
+          chat_id: chatRoom,
+          user_type: "user",
+        });
+        setSelectedFile([]);
+        setShowFileModal(false);
+        setFileUrl([]);
+      }
     } else {
       alert("Message Cannot be null");
     }
@@ -134,7 +233,9 @@ const ChatAppClient: React.FC = () => {
         style={open ? { marginLeft: 240, width: "calc(100% - 240px)" } : {}}
         className={"main"}
       >
-        {data.unread_admin > 0 && <div className="badge">{data.unread_admin}</div>}
+        {data.unread_admin > 0 && (
+          <div className="badge">{data.unread_admin}</div>
+        )}
 
         <div className={`content-wrap chatwrap`}>
           <div className={"main"}>
@@ -153,9 +254,15 @@ const ChatAppClient: React.FC = () => {
               />
               <div className="messages">
                 {message?.map((data, idx) => {
-                  const d1 = new Date(data.date_time);
+                  const formatter = new Intl.DateTimeFormat('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true,
+                  });
+                  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                  const currentTime = new Date(data.date_time);
                   const isImage = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(
-                    data.file_name
+                    data.file
                   );
                   return (
                     <div
@@ -185,19 +292,29 @@ const ChatAppClient: React.FC = () => {
                               flexDirection: "column",
                               alignItems: "",
                             }}
+                            className={data.file ? "" : "message_content"}
                           >
-                            {data.imgfile ? (
+                            {data.file ? (
                               isImage ? (
                                 data.imgfile ? (
-                                  <img src={data.imgfile} />
-                                ) : null
+                                  <h1>Hello</h1>
+                                ) : (
+                                  // <img src={`data:image/jpeg;base64,${data.imgfile}`} alt="Received Image" />
+                                  // eslint-disable-next-line jsx-a11y/alt-text
+                                  <img
+                                    src={
+                                      "http://localhost:8000/uploads/" +
+                                      data.file
+                                    }
+                                  />
+                                )
                               ) : (
                                 <a
                                   target="_bank"
                                   className="button_file"
                                   href={data.imgfile}
                                 >
-                                  {data?.file_name}
+                                  {data?.file}
                                 </a>
                               )
                             ) : null}
@@ -217,7 +334,11 @@ const ChatAppClient: React.FC = () => {
                               data.user_type === "admin" ? "admin" : "user"
                             }`}
                           >
-                            {d1.toISOString().slice(11, 16)}
+                          {currentTime.toLocaleTimeString([], {
+                                      timeZone: userTimeZone,
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
                           </div>
                         </div>
                       </div>

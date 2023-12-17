@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './styles/_index.scss';
+import React, { useState } from "react";
+import "./styles/_index.scss";
 
 interface Option {
   value: string;
@@ -17,7 +17,9 @@ const AwesomeSelect: React.FC<AwesomeSelectProps> = ({
   defaultValue,
   onChange,
 }) => {
-  const [selectedValue, setSelectedValue] = useState<string>(defaultValue || '');
+  const [selectedValue, setSelectedValue] = useState<string>(
+    defaultValue || ""
+  );
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;

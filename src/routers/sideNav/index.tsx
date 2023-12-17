@@ -15,43 +15,82 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import { PieChart } from '@mui/icons-material';
 import logoMain from './../../assets/logoMain.jpg';
 import useWebSocket from 'react-use-websocket';
+import { map } from 'jquery';
+
+
+
+  interface ChatMessage {
+	id: number;
+	file: string;
+	user_type: string;
+	imgfile: string;
+	file_name: any;
+	date_time: string;
+	message: string;
+	user: string;
+  }
+
+
+  interface CountRoom {
+	unread_admin: number
+  }
 
 const SideNavMenu = (props: any) => {
 	const [location, setLocation] = useState(window.location);
-
+	const [countAdmin, setcountAdmin] = useState(0)
+	const [countUser, setcountUser] = useState(0);
 	const [unreadMsgs, setUnreadMsgs] = useState<number>(0)
-	if (!((location.pathname === '/adminchat') || (location.pathname === '/chat'))) {
-		const [unreadMsgs, setUnreadMsgs] = useState<number>(0)
-		const [socketOpened, setSocketOpened] = useState(false)
-		const socketUrl = `ws://localhost:8001/ws/chat/${localStorage.getItem("user_id")}/`;
-		if (localStorage.getItem('type') === 'admin') {
-			const {
-				sendMessage,
-				sendJsonMessage,
-				lastMessage,
-				lastJsonMessage,
-				readyState,
-				getWebSocket,
-			} = useWebSocket(socketUrl, {
-				onOpen: () => {console.log('WS Opened'); setSocketOpened(true); sendJsonMessage({mode: 'listchats', token: localStorage.getItem("token"), user_type: 'admin'});},
-				shouldReconnect: (closeEvent) => true,
-				onMessage: (event) =>  processWebSocketMessages(event)
-			});
-		} else {
-			const {
-				sendMessage,
-				sendJsonMessage,
-				lastMessage,
-				lastJsonMessage,
-				readyState,
-				getWebSocket,
-			} = useWebSocket(socketUrl, {
-				onOpen: () => {console.log('WS Opened'); setSocketOpened(true); sendJsonMessage({mode: 'createchat', user_id: localStorage.getItem("user_id"), user_type: 'user'});},
-				shouldReconnect: (closeEvent) => true,
-				onMessage: (event) =>  processWebSocketMessages(event)
-			});		
+	const [ messageCount, setmessageCount ] = useState(0)
+	const [socketOpened, setSocketOpened] = useState(false)
+	const socketUrl = `ws://localhost:8000/ws/chat/${localStorage.getItem("user_id")}/`;
+	const {
+		sendMessage,
+		sendJsonMessage,
+		lastMessage,
+		lastJsonMessage,
+		readyState,
+		getWebSocket,
+	  } = useWebSocket(socketUrl, {
+		onOpen: () => {
+		  console.log('WS Opened'); 
+		  setSocketOpened(true); 
+		  sendJsonMessage({mode: 'sidebar', token: localStorage.getItem("token"), user_type: localStorage.getItem("type"), user_id: localStorage.getItem("user_id")});},
+		  shouldReconnect: (closeEvent) => true,
+		  onMessage: (event) =>  processWebSocketMessages(event)
+	  });
+	
+	  const getList = () => {
+		sendJsonMessage({mode:"sidebar", token: localStorage.getItem("token"), user_type:localStorage.getItem("type"), user_id: localStorage.getItem("user_id")})
+	  }
+	
+	  
+	function processWebSocketMessages(event: any) {
+		let data = JSON.parse(event.data)
+		if (data.mode === "latest") {
+			getList();
+		}
+
+		if(data.mode==="createchat")
+			getList();
+		// console.log(data)
+		if(data.user_type == "admin" && data.mode === 'sidebar'){
+			setcountAdmin(data.count)
+		}
+		if(data.user_type == "user" && data.mode === 'sidebar') {
+			if((window.location.href.split("/")[3]) === "chat") {
+				sendJsonMessage({mode:"userchat", user_id: localStorage.getItem("user_id"), user_type: localStorage.getItem("type"), chat_id: localStorage.getItem("rooms")})
+			}
+			setcountUser(data.count)
 		}
 	}
+
+	const divStyle = {
+		padding: "13px",
+		backgroundColor: "red",
+		borderRadius: "13px",
+		display: "flex",
+		alignItems: "center",
+	  };
 
 	useEffect(() => {
 		if (!localStorage.getItem('token')) {
@@ -59,28 +98,6 @@ const SideNavMenu = (props: any) => {
 		}
 	}, []);
 
-	const processWebSocketMessages = (event: any) => {
-		let data = JSON.parse(event.data)
-		console.log(data)
-		if (data.mode === 'listchats') {
-			if (localStorage.getItem('type') === 'admin') {
-				setUnreadMsgs(data.rooms.map((data: any) => data.unread_admin).reduce((data: number, acc: number) => acc += data, 0))
-			} else {
-				setUnreadMsgs(data.rooms.unread_user)
-			}
-		} else if (data.mode === 'createchat') {
-			if (localStorage.getItem('type') === 'user') {
-				setUnreadMsgs(data.rooms.unread_user)
-			} else {
-				setUnreadMsgs(data.rooms.unread_admin)
-			}
-		} else if (data.mode === 'readmessages') {
-			setUnreadMsgs(0)
-		} else if (data.mode === 'receivemsg') {
-			setUnreadMsgs(unreadMsgs + 1)
-		}
-		console.log(data)
-	}
 
 	return (
 		<div className='sidenav'>
@@ -138,11 +155,17 @@ const SideNavMenu = (props: any) => {
 						<ListItemText>Weather Window</ListItemText>
 					</Link>
 				</MenuItem>
-				<MenuItem>
-					<ListItemIcon>
-						<AirIcon style={{ color: 'white' }} fontSize='small' />
-					</ListItemIcon>
-					<ListItemText>Squall</ListItemText>
+				<MenuItem
+					className={location.pathname === '/squall' ? 'custom_active' : ''}>
+					<Link
+						to={'/squall'}
+						state={{ title: 'Quick Overview' }}
+						style={{ display: 'flex' }}>
+						<ListItemIcon>
+							<QuickreplyIcon style={{ color: 'white' }} fontSize='small' />
+						</ListItemIcon>
+						<ListItemText>squall </ListItemText>
+					</Link>
 				</MenuItem>
 				<MenuItem
 				className={location.pathname === '/typhoon' ? 'custom_active' : ''}>
@@ -188,7 +211,7 @@ const SideNavMenu = (props: any) => {
 									fontSize='small'
 								/>
 							</ListItemIcon>
-							<Badge badgeContent={unreadMsgs} color="info">
+							<Badge badgeContent={countUser} onClick={() => setcountUser(0)} color="info">
 								<ListItemText>Contact Duty Forecaster</ListItemText>
 							</Badge>
 						</Link>
@@ -205,7 +228,7 @@ const SideNavMenu = (props: any) => {
 									fontSize='small'
 								/>
 							</ListItemIcon>
-							<Badge badgeContent={unreadMsgs} color="info">
+							<Badge badgeContent={countAdmin} color="info">
 								<ListItemText>Contact Duty Forecaster</ListItemText>
 							</Badge>
 						</Link>

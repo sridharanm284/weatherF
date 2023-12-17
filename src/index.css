@@ -5,32 +5,29 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
+ }
+ 
+ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-.headerpadding {
+ }
+ 
+ .headerpadding {
   padding-left: 0px !important;
-}
-
-::-webkit-scrollbar {
+ }
+ 
+ ::-webkit-scrollbar {
   width: 0px;
-}
-
-::-webkit-scrollbar-track {
+ }
+ 
+ ::-webkit-scrollbar-track {
   background: #4662ff70;
-}
-
-::-webkit-scrollbar-thumb {
+ }
+ 
+ ::-webkit-scrollbar-thumb {
   background: #3700ff;
-}
-
-::-webkit-scrollbar-thumb:hover {
+ }
+ 
+ ::-webkit-scrollbar-thumb:hover {
   background: #1b0691;
-}
-.header_title_settings {
-  color: white !important;
-}
+ }

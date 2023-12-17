@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import SideNavMenu from '../../routers/sideNav';
 
 interface SideNavProps {

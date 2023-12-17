@@ -1,6 +1,6 @@
-import './styles/_app.scss';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import MainComponent from './main';
+import './styles/_app.scss';
 
 const theme = createTheme({
   palette: {
@@ -44,10 +44,6 @@ const theme = createTheme({
 });
 
 function App() {
-  // setInterval(() => {
-	// 	console.clear();
-	// }, 3000);
-  
   return (
     <ThemeProvider theme={theme}>
         <MainComponent />

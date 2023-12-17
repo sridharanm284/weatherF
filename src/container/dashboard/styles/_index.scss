@@ -98,16 +98,19 @@
 .headerpadding {
     padding-left: 20px;
 }
-
 .blink {
     color: red;
     animation: blink 0.5s linear infinite;
-}
-@keyframes blink {
+ }
+ @keyframes blink-red {
     0% {
-        color: red;
+      color: red;
     }
     100% {
-        color: rgb(172, 102, 102);
+      color: rgb(172, 102, 102);
     }
-}
+  }
+ 
+  .blink-text-red {
+    animation: blink-red 0.5s linear infinite;
+  }

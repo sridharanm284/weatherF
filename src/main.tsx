@@ -9,7 +9,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import SideNavComponent from './components/sideNav/sideNav';
 import { router } from './routers/appRoutes';
 
-const drawerWidth = 240;
 
 function MainComponent() {
 	const windowWidth = useRef(window.innerWidth);
@@ -30,10 +29,8 @@ function MainComponent() {
 
 	useEffect(() => {
 		setOpen(data.toggle);
-		localStorage.setItem('sideNav', open.toString())
+		localStorage.setItem('sideNav',open.toString())
 	}, [data]);
-
-	console.log(window.location);
 
 	interface AppBarProps extends MuiAppBarProps {
 		open?: boolean;

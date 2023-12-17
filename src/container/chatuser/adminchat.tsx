@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/_index.scss";
 import store from "../../store";
@@ -22,6 +21,7 @@ interface ChatMessage {
   file_name: any;
   date_time: string;
   message: string;
+  user: string;
 }
 
 interface Rooms {
@@ -39,7 +39,24 @@ interface UserData1 {
   client_id: string;
 }
 
+interface ImageModalProps {
+  imageUrl: string;
+  onClose: () => void;
+}
+
+const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content">
+        <img src={"http://localhost:8000/uploads/"+imageUrl} alt="Preview" style={{ width: '500%', height: '500%', objectFit: 'contain' }} />
+      </div>
+    </div>
+  );
+};
 const ChatAdmin: React.FC = () => {
+  const [singleClickTimeout, setSingleClickTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
   const [message, setMessage] = useState<ChatMessage[]>([]);
   const [text, setText] = useState("");
   const [currentChat, setCurrentChat] = useState("");
@@ -60,10 +77,10 @@ const ChatAdmin: React.FC = () => {
   const [activeChat, setActiveChat] = useState("");
   const [searchUsers, setSearchUsers] = useState("");
   const [showFilemodal, setShowFileModal] = useState(false);
-  const [unread_msgs, setUnread_msgs] = useState(0)
+  const [lastClickTime, setLastClickTime] = useState(0);
 
   const [socketOpened, setSocketOpened] = useState(false)
-  const socketUrl = `ws://localhost:8001/ws/chat/${localStorage.getItem("user_id")}/`;
+  const socketUrl = `ws://localhost:8000/ws/chat/${localStorage.getItem("user_id")}/`;
   const {
     sendMessage,
     sendJsonMessage,
@@ -72,21 +89,65 @@ const ChatAdmin: React.FC = () => {
     readyState,
     getWebSocket,
   } = useWebSocket(socketUrl, {
-    onOpen: () => {console.log('WS Opened'); setSocketOpened(true); setToogleChats(true); sendJsonMessage({mode: 'listchats', token: localStorage.getItem("token"), user_type: 'admin'});},
-    shouldReconnect: (closeEvent) => true,
-    onMessage: (event) =>  processWebSocketMessages(event)
+    onOpen: () => {
+      console.log('WS Opened'); 
+      setSocketOpened(true); 
+      setToogleChats(true); 
+      sendJsonMessage({mode: 'listchats', token: localStorage.getItem("token"), user_type: 'admin'});},
+      shouldReconnect: (closeEvent) => true,
+      onMessage: (event) =>  processWebSocketMessages(event)
   });
   
-  const getMessages = (data: any) => {
-    setLoading(true);
-    setCurrentChat(data.user_id.toString());
-    setToogleChats(!toogleChats);
+  
+useEffect(() => {
+  if (activeChat) {
+    getMessages();
+  }
+}, [activeChat]);
+
+
+const handleUserChatClick = (data:any) => {
+  if (data.chat_id === activeChat) {
+
+  } else {
+    
     setActiveChat(data.chat_id);
-    sendJsonMessage({mode: 'createchat', user_id: data.user_id, user_type: 'admin'})
+    setCurrentChat(data.user_id.toString());
+    data.unread_admin = '0';
+  }
+};
+
+
+  
+  const getList = () => {
+    setLoading(true);
+    sendJsonMessage({mode:"listchats", token: localStorage.getItem("token"), user_type:"admin"})
+  }
+
+  const getMessages = () => {
+    setLoading(true);
+    if (currentChat === "") return;
+    sendJsonMessage({mode: 'createchat', user_id: currentChat, select:"true", user_type: 'admin', send_by:"admin"})
+    if(msgRef.current) {
+      msgRef?.current.scrollTo({
+        top: msgRef?.current.scrollHeight,
+        behavior:"instant"
+      });  
+    }
+  };
+
+  const newMessages = () => {
+    setLoading(true);
+    if (currentChat === "") return;
+    sendJsonMessage({mode: 'latest', user_id: currentChat, select:"true", user_type: 'admin', send_by:"admin"})
     msgRef &&
       msgRef.current &&
       msgRef?.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const sidebar = () => {
+    sendJsonMessage({mode:"sidbar", user_id: localStorage.getItem("user_id"), user_type: "admin"})
+  }
 
   const drawerWidth = 240;
 
@@ -96,23 +157,47 @@ const ChatAdmin: React.FC = () => {
 
   function processWebSocketMessages(event: any) {
     let data = JSON.parse(event.data)
-    console.log(data)
-    if (data.mode === 'createchat') {
-      setMessage(data.chats);
-      setChatRoom(data.rooms.chat_id)
-      setUserData(data.userdata);
-      setLoading(false);
-      msgRef &&
-        msgRef.current &&
-        msgRef?.current.scrollIntoView({ behavior: "smooth" });
-      sendJsonMessage({mode: 'readmessages', chat_id: activeChat, user_type: 'admin'})
-    } else if (data.mode === 'receivemsg') {
+    if (data.mode === 'createchat' && currentChat != '') {
+      console.log(data);
+      if(data.user_type != 'user' || data.user_type == 'admin'){
+        setMessage(data.chats);
+        setChatRoom(data.rooms.chat_id)
+        setUserData(data.userdata);
+        setLoading(false);
+        sendJsonMessage({mode: 'readmessages', chat_id: data.rooms.chat_id, user_type: 'admin'})
+        msgRef && msgRef.current &&  msgRef?.current.scrollIntoView({ behavior: "smooth" });
+      } 
+    }
+
+    else if (data.mode === 'latest' && (data.send_by == 'admin' || (data.userdata).id == currentChat)) {
+      console.log(currentChat)
+      if((data.userdata).id){
+        var chats = [ ...message, data.chats]
+        setMessage(data.chats);
+        // setChatRoom(data.rooms.chat_id)
+        // setUserData(data.userdata);
+        setLoading(false);
+        sendJsonMessage({mode: 'readmessages', chat_id: data.rooms.chat_id, user_type: 'admin'})
+        msgRef && msgRef.current &&  msgRef?.current.scrollIntoView({ behavior: "smooth" });
+      } 
+    }
+
+    else if (data.mode === "latest" && data.send_by == "admin") {
+      getList();
+      newMessages()
+    }
+
+    else if(data.mode === "latest" && data.send_by == "user" && data.user_id == currentChat) {
+      newMessages();
+    }
+
+    else if(data.mode === "latest") {
+      getList();
+    }
+    else if (data.mode === 'receivemsg') {
       setMessage([...message, data.chats[0]]);
-      setRooms(data.rooms);
     } else if (data.mode === 'listchats') {
       setRooms(data.rooms);
-    } else if (data.mode === 'readmessages') {
-      setUnread_msgs(0)
     }
   }
  
@@ -141,12 +226,48 @@ const ChatAdmin: React.FC = () => {
     e.preventDefault();
     if (text !== "" || selectedFile.length > 0) {
       const l = selectedFile;
-      
-      sendJsonMessage({mode: 'sendmessage', chat_id: chatRoom, message: text, user_type: 'admin'})
-      setText("");
-      setSelectedFile([]);
-      setShowFileModal(false);
-      setFileUrl([]);
+      if(l && l.length != 0){
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic YWRtaW46YWRtaW4=");
+        var formdata = new FormData();
+        formdata.append("id", chatRoom);
+        formdata.append("message",text);
+        formdata.append("user","admin");
+        l.forEach((sx: any) => {
+          formdata.append(
+            'file',
+            sx,
+            `${sx.name}`
+          )
+        });
+        setSelectedFile([])
+        setText("")
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: formdata,
+        };
+        try {
+          let res = await fetch(
+            "http://127.0.0.1:8000/api/sendmessage/",
+            requestOptions
+          );
+          sendJsonMessage({mode: 'latest', user_id: currentChat, user_type: 'admin', token: localStorage.getItem("token"),send_by:'admin',select:'false'})
+          
+        }
+        catch {
+          console.log("Error")
+          return
+        }
+      }
+      else {
+        sendJsonMessage({mode: 'sendmessage', chat_id: chatRoom, message: text, user_type: 'admin', user:localStorage.getItem("user_name"), user_id: localStorage.getItem("user_id"), send_by: 'admin', file: l})
+        setText("");
+        sendJsonMessage({mode:"readmessages", chat_id: chatRoom, user_type: 'admin', send_by: 'admin'});
+        setSelectedFile([]);
+        setShowFileModal(false);
+        setFileUrl([]);
+      }
     } else {
       alert("Message Cannot be null");
     }
@@ -164,6 +285,16 @@ const ChatAdmin: React.FC = () => {
       setSelectedFile(filesArray);
       setShowFileModal(true);
     }
+  };
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [imagePreview, setImagePreview] = useState('');
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -245,19 +376,18 @@ const ChatAdmin: React.FC = () => {
                       }}
                     >
                       {rooms
-                        ?.filter((data) => {if (searchUsers === "") {return true;} ; data.user_name.includes(searchUsers)})
-                        ?.map((data) =>
-                          data.user_id.toString() ===
-                          localStorage.getItem("user_id") ? null : (
-                            <div
-                              onClick={() => {
-                                getMessages(data);
-                              }}
-                              key={data.chat_id}
-                              className={`button_chat ${
-                                data.chat_id === activeChat ? "active_chat" : ""
-                              }`}
-                            >
+  ?.filter((data) => {
+    if (searchUsers === "") return true;
+    return data.user_name.includes(searchUsers);
+  })
+  ?.map((data) =>
+    data.user_id.toString() === localStorage.getItem("user_id") ? null : (
+      <div
+        onClick={() => handleUserChatClick(data)}
+        className={`button_chat ${
+          data.chat_id === activeChat ? "active_chat" : ""
+        }`}
+      >
                               <div className="button_chat_userprofile">
                                 {data?.user_name.slice(0, 1)}
                               </div>
@@ -322,18 +452,18 @@ const ChatAdmin: React.FC = () => {
                       />
                     </div>
                     {rooms
-                      ?.filter((data) => {if (searchUsers === "") {return true;} ; data.user_name.includes(searchUsers)})
-                      ?.map((data) =>
-                        data.user_id.toString() ===
-                        localStorage.getItem("user_id") ? null : (
-                          <div
-                            onClick={() => {
-                              getMessages(data);
-                            }}
-                            className={`button_chat ${
-                              data.chat_id === activeChat ? "active_chat" : ""
-                            }`}
-                          >
+  ?.filter((data) => {
+    if (searchUsers === "") return true;
+    return data.user_name.includes(searchUsers);
+  })
+  ?.map((data) =>
+    data.user_id.toString() === localStorage.getItem("user_id") ? null : (
+      <div
+        onClick={() => handleUserChatClick(data)}
+        className={`button_chat ${
+          data.chat_id === activeChat ? "active_chat" : ""
+        }`}
+      >
                             <div className="button_chat_userprofile">
                               {data?.user_name?.slice(0, 1)}
                             </div>
@@ -396,14 +526,18 @@ const ChatAdmin: React.FC = () => {
                     >
                       {message.length > 0 ? (
                         message?.map((data, idx) => {
-                          const d1 = new Date(data.date_time);
+                          const formatter = new Intl.DateTimeFormat('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true, 
+                          });
+                          const d1:any = new Date(data.date_time);
                           const isImage =
                             /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(
-                              data.file_name
+                              data.file
                             );
                           const newid =
                             idx !== message.length - 1 ? idx + 1 : idx;
-
                           return (
                             <div
                               key={idx}
@@ -431,11 +565,12 @@ const ChatAdmin: React.FC = () => {
                                       gap: 20,
                                       alignItems: "",
                                     }}
+                                    className={data.file ? "" : "message_content"}
                                   >
                                     {data.imgfile ? (
                                       isImage ? (
                                         data.imgfile ? (
-                                          <img src={data.imgfile} />
+                                          <img src={`data:image/jpeg;base64,${data.imgfile}`} alt="Received Image" />
                                         ) : null
                                       ) : (
                                         <a
@@ -464,7 +599,7 @@ const ChatAdmin: React.FC = () => {
                                       data.user_type === "admin" ? "admina" : "usera"
                                     }`}
                                   >
-                                    {d1.toISOString().slice(11, 16)}
+                                    {formatter.format(d1)}
                                   </div>
                                 </div>
                               </div>
@@ -493,7 +628,9 @@ const ChatAdmin: React.FC = () => {
                       )}
                     </div>
                     <div ref={msgRef}>&nbsp;</div>
-                    {message.length > 0 ? (
+                    {message.length > 0 ? 
+                    
+                    (
                       <form onSubmit={sendData} className="inputcontainer">
                         <input
                           type="file"
@@ -511,11 +648,15 @@ const ChatAdmin: React.FC = () => {
                           value={text}
                           placeholder="Enter Your Message"
                         />
+
+                        {/* The send function. */}
                         <button className="button" onClick={sendData}>
                           <SendIcon />
                         </button>
                       </form>
-                    ) : null}
+                    ) 
+                    
+                    : null}
                   </div>
                 ) : (
                   !isMobile && (
@@ -559,10 +700,15 @@ const ChatAdmin: React.FC = () => {
                       >
                         {message.length > 0 ? (
                           message?.map((data, idx) => {
-                            const d1 = new Date(data.date_time);
+                            const formatter = new Intl.DateTimeFormat('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: true, 
+                            });
+                            const d1:any = new Date(data.date_time);
                             const isImage =
                               /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(
-                                data.file_name
+                                data.file
                               );
                             const newid =
                               idx !== message.length - 1 ? idx + 1 : idx;
@@ -593,12 +739,17 @@ const ChatAdmin: React.FC = () => {
                                         gap: 20,
                                         alignItems: "",
                                       }}
+                                      className={data.file ? "" : "message_content"}
                                     >
-                                      {data.imgfile ? (
+                                      {data.file ? (
                                         isImage ? (
                                           data.imgfile ? (
-                                            <img src={data.imgfile} />
-                                          ) : null
+                                            <h1>Hello</h1>
+                                            // <img src={data.imgfile} />
+                                          ) : <>
+                                          <img src={"http://localhost:8000/uploads/"+data.file} alt="Picture" onClick={() => {setModalIsOpen(true); setImagePreview(data.file)}}/>
+                                          {modalIsOpen && <ImageModal imageUrl={imagePreview} onClose={closeModal} />}
+                                          </>
                                         ) : (
                                           <a
                                             target="_bank"
@@ -629,7 +780,7 @@ const ChatAdmin: React.FC = () => {
                                           : "usera"
                                       }`}
                                     >
-                                      {d1.toISOString().slice(11, 16)}
+                                      {formatter.format(d1)}
                                     </div>
                                   </div>
                                 </div>
@@ -658,28 +809,31 @@ const ChatAdmin: React.FC = () => {
                         )}
                         <div ref={msgRef}>&nbsp;</div>
                       </div>
-                      <form onSubmit={sendData} className="inputcontainer">
-                        <input
-                          type="file"
-                          accept="*"
-                          multiple
-                          onChange={saveFile}
-                          style={{ display: "none" }}
-                          ref={fileInputRef}
-                        />
-                        <AttachFileIcon onClick={handleFileSelect} />
-                        <input
-                          onChange={(e) => setText(e.target.value)}
-                          type="text"
-                          required
-                          className="input_text"
-                          value={text}
-                          placeholder="Enter Your Message"
-                        />
-                        <button className="button" onClick={sendData}>
-                          <SendIcon />
-                        </button>
-                      </form>
+                      {
+                        currentChat !== '' ?
+                        <form onSubmit={sendData} className="inputcontainer">
+                          <input
+                            type="file"
+                            accept="*"
+                            multiple
+                            onChange={saveFile}
+                            style={{ display: "none" }}
+                            ref={fileInputRef}
+                          />
+                          <AttachFileIcon onClick={handleFileSelect} />
+                          <input
+                            onChange={(e) => setText(e.target.value)}
+                            type="text"
+                            required
+                            className="input_text"
+                            value={text}
+                            placeholder="Enter Your Message"
+                          />
+                          <button className="button" onClick={sendData}>
+                            <SendIcon />
+                          </button>
+                        </form> : null
+                      }
                     </div>
                   )
                 )}

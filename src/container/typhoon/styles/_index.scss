@@ -1,0 +1,144 @@
+.map-container {
+  height: 100vh; 
+  width: 100vw; 
+}
+
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(35, 55, 75, 0.5);
+  color: #fff;
+  padding: 6px 4px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  align-items: center;
+  border-radius: 12px;
+  right: 0.5%;
+  top: 12.5em;
+  gap: 6px;
+}
+
+.sidebar-2 {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 8px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  margin: 12px;
+  border-radius: 4px;
+  right: 2.5%;
+  top: 13%;
+  gap: 15px;
+}
+.sidebar-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 25px;
+}
+
+.mode-button {
+  color: white;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  padding-block: 2px 0;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.bottom-bar-popup {
+  display: flex;
+  flex-direction: column;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  right: 4.5em;
+  top: 5em;
+  gap: 6px;
+  background-color: rgba(35, 55, 75, 0.5);
+  border-radius: 12px;
+  width: auto; 
+  max-width: 20vw; 
+  height: auto; 
+  max-height: 25vh; 
+  overflow: auto;
+}
+
+
+.bottom-bar-box {
+  cursor: pointer;
+  color: white;
+  padding-block: 8px;
+  padding-inline: 16px;
+  border-radius: 10px;
+  background-color: #77abff;
+  max-height: 5 * (8px + 16px); 
+  overflow: auto; 
+  display: flex;
+  flex-direction: column; 
+  gap: 10px; 
+}
+
+
+.radius-btn {
+  padding: 6px 12px;
+  background-color: transparent;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-family: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hover-over {
+  opacity: 0;
+}
+.hover-over:hover {
+  opacity: 100;
+}
+
+.active-button {
+  background-color: #77abff;
+}
+.popup-table {
+  height: 45vh;
+  width: 62em;
+  overflow: auto;
+}
+.popup-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.popup-table td, .popup-table th {
+  text-align: center;
+  padding: 2px;
+  padding-inline: 4px;
+  width: 15em;
+}
+.popup-table tr:nth-child(even) {
+  background-color: #adb8ba;
+}
+.popup-table thead {
+  top:0;
+  position: sticky;
+}
+.popup-table thead tr {
+  color: white;
+  background-color: #1c1d28;
+}
+
+.transparent-popup.mapboxgl-popup-content {
+  background-color: rgba(0, 0, 0, 0); /* Set the background to transparent */
+  box-shadow: none; /* Remove box shadow if needed */
+}

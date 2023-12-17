@@ -1,79 +1,166 @@
 @import "../../../../styles/variables";
-
-.login_main {
-	height: 100vh;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-image: url(../../../../assets/background.png);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 20px;
-	gap: 20px;
+.login-centre-div {
+  overflow: hidden;
+  .login-box {
+    background: $white;
+    min-height: 100%;
+    min-width: 100vw;
+    display: flex;
+    border-radius: 0px !important;
+    flex-direction: column;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    .login-head {
+      color: $primary;
+      font-weight: 600;
+      font-size: 26px;
+    }
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      gap: 20px;
+      .login-input-div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .login-input-title {
+          font-size: 16px;
+          font-weight: 600;
+          font-family: system-ui;
+        }
+        .login-input-text {
+          padding: 10px;
+          outline: none;
+          border-radius: 5px;
+          width: 150px;
+          border: none;
+          box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset,
+            rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;
+        }
+        .login-input-text:focus {
+          box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+        }
+      }
+      .login-forgot {
+        text-align: end;
+        width: 100%;
+      }
+      .login-submit {
+        font-size: 15px;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        outline: none;
+        color: $white;
+        background: $primary;
+        border: none;
+      }
+    }
+  }
 }
 
-.login_header {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	padding: 20px;
-	gap: 5px;
+.login-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.login_header_text {
-	color: white;
-	font-size: 22px;
+.loginImage {
+  height: 100%;
+  left: 0;
+  width: 45%;
+  position: fixed;
 }
 
-.login_form {
-	display: flex;
-	width: 25em;
-	align-self: center;
-	flex-direction: column;
-	gap: 10px;
+.login-centre-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.login_icon_input {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	border: 1px solid black;
-	background-color: white;
-	border-radius: 50px;
-	overflow: hidden;
+.login-box {
+  height: 80%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.login_icon {
-	font-size: 18px;
-	padding-left: 15px;
+.login-container {
+  height: 100%;
+  width: 100%;
 }
 
-.login_input {
-	width: 100%;
-	outline: none;
-	border: none;
-	padding: 18px 15px;
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.submit_button {
-	display: block;
-	color: white;
-	text-align: center;
-	font-size: 17px;
-	background-color: #1d49a5;
-	padding: 18px 15px;
-	outline: none;
-	border: none;
-	cursor: pointer;
+.login-head {
+  color: #fff;
+  font-weight: bold;
 }
 
-.error_box {
-	font-size: 16px;
-	font-weight: 400;
-	text-align: center;
-	padding-block: 12px;
-	padding-inline: 22px;
-	background: #fad1d8;
-	border: 1px solid #d11529;
+.login-head-logo {
+  color: #f44336;
+}
+
+.login-subhead {
+  color: #fff;
+  margin-top: 10px;
+}
+
+.login-input-text {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.login-forgot {
+  color: #fff;
+  margin-top: 10px;
+}
+
+.login-submit {
+  width: 80%;
+  height: 50px;
+  margin-top: 20px;
+  background-color: #f44336;
+}
+
+.login-signup {
+  color: #1a1dc9;
+  margin-top: 20px;
+}
+
+.login-signup-link {
+  color: #f44336;
+}
+
+.login-social {
+  color: #fff;
+}
+
+.login-social-icons {
+  display: flex;
+}
+
+.login-social-icon {
+  color: #fff;
+}
+
+.login-image {
+  background-size: cover;
+  background-position: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
