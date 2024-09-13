@@ -1,6 +1,10 @@
 .headerpadding {
   padding-left: 20px;
  }
+ .navbar {
+  height: 60px;
+ }
+ 
  .chat {
   display: flex;
   flex-direction: column;
@@ -9,7 +13,8 @@
   left: 0;
   justify-content: space-between;
   background-color: white;
-  height: 93vh;
+  height: calc(100vh - 55px);
+  overflow: hidden;
   .chat_container_user {
     width: 100%;
     display: flex;
@@ -38,7 +43,7 @@
       background-color: #e9e9e9 !important;
     }
     img {
-      width: 300px !important;
+      width: 300px;
     }
     .button_file {
       padding: 10px;
@@ -66,20 +71,20 @@
   .messages_header {
     position: initial;
     padding-left: 10px;
-    margin-top: -10px;
+    margin-top: 24px;
     padding: 0 0 0 20px;
     border-bottom: 1px solid #f1f1f1;
   }
-  .adminmes {
-    height: 50vh !important;
-  }
+  // .adminmes {
+  //   height: 75vh !important;
+  // }
   .messages {
     display: flex;
     flex-direction: column;
     gap: 10px;
     position: relative;
     padding: 20px;
-    height: 79vh;
+    height: 100%;
     overflow: auto;
     width: 100%;
     .message_user {
@@ -98,17 +103,13 @@
       text-align: left;
       background-color: #8441f0;
       img {
-        width: 300px !important;
+        width: 300px;
       }
-
-
       .message_content {
-        max-width: 100vh; 
+        max-width: 100vh;
         position: relative;
         word-wrap: break-word;
       }
-
-
     }
     .file1 {
       color: #ffffff !important;
@@ -118,17 +119,14 @@
       padding: 10px 15px;
       position: relative;
       display: flex;
-      // justify-content: space-between;
-
       width: 100%;
       border-radius: 10px;
       cursor: pointer;
       color: #000000 !important;
       background-color: #f1f1f1;
       img {
-        width: 300px !important;
+        width: 300px;
       }
-
       .message_content {
         max-width: 100vh;
         word-wrap: break-word;
@@ -142,7 +140,7 @@
   gap: 10px;
   padding: 10px;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: -26px;
   width: 90%;
   .button {
     cursor: pointer;
@@ -174,9 +172,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 25px 10px 10px;
-  height: 95vh;
+  height: 100vh;
+  max-width: 20vw;
+  min-width: 25vw !important;
   border-right: 1px solid black;
+  margin-left: 2%;
+  flex-grow: 0;
  }
  .rooms1 {
   display: flex;
@@ -218,6 +219,7 @@
   }
   .button_chat_user_operation {
     color: #00000066;
+    width: 20vh;
   }
  }
  .admin_chat {
@@ -225,10 +227,10 @@
  }
  .top_container {
   display: flex;
-  height: 100%;
+  height: 99.5%;
+  margin-bottom: -10px;
   flex-direction: row;
   width: 99%;
-  overflow: auto;
  }
  .time_usera {
   font-size: 12px;
@@ -264,7 +266,7 @@
   width: 100%;
  }
  .admin_left_side {
-  height: 100vh !important;
+  height: 95vh !important;
  }
  .messages::-webkit-scrollbar {
   width: 3px;
@@ -280,7 +282,7 @@
   float: right;
   margin-bottom: 10px;
   gap: 15px;
-  padding: 24px;
+  padding: 4px;
   border-bottom: 1px solid grey;
   justify-content: center;
   align-items: center;
@@ -289,6 +291,8 @@
   font-style: normal;
   font-weight: 600;
   line-height: 150%;
+  position: sticky;
+  margin-top: 60px;
   .message_count {
     display: flex;
     padding: 2px 8px;
@@ -312,6 +316,7 @@
   .input {
     color: var(--black, #000);
     font-size: 14px;
+    width: 14vw;
     font-style: normal;
     border: none;
     font-weight: 400;
@@ -341,11 +346,11 @@
   display: flex;
   align-items: center;
  }
- 
  .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
+  padding-left: 55vh;
   z-index: 1;
   width: 100%;
   height: 100%;
@@ -356,13 +361,13 @@
  }
  .modal-content {
   background: rgba(255,255,255,0.0);
-  padding: 20px;
-  max-width: 200%;
-  max-height: 200%;
+  padding: 100px;
+  max-width: 100%;
+  max-height: 100%;
  }
  .modal-content img {
   background: rgba(255,255,255,0.4);
-  width: 100%;
-  height: 100%;
+  width: 50% !important;
+  height: 50% !important;
   object-fit: contain;
- } 
+ }

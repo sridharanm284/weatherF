@@ -1,66 +1,56 @@
 .settings_div {
    display: flex;
-   flex-direction: row;
-   height: 64vh;
-   width: 42em;
-   background-color: white;
-}
-
-.settings_profile_ico_div {
-   flex: 1;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
    justify-content: center;
-   gap: 15px;
-   background-color: #132c3e;
-}
-
-.settings_profile_ico_details_div {    
-   flex: 2;
-   display: flex;
-   flex-direction: column;
-   gap: 25px;
-   padding: 15px 20px;
-}
-
-.settings_details_inner {
-   display: flex;
-   flex-direction: column;
-   gap: 6px;
-}
-
-.settings_details_inner input {
-   outline: none;
-   border: none;
-   width: 100%;
-   font-size: 14px;
-}
-
-.settings_input {
-   padding: 4px 10px;
-   display: flex;
-   flex-direction: row;
    align-items: center;
-   overflow: hidden;
-   border: none;
-   border-bottom: 2px solid black;
-}
-
-.settings_buttons {
+   padding: 20px;
+   background-color: #eee;
+ }
+ .settings_profile_ico_details_div {
+   max-width: 400px;
+   padding: 20px;
+   background: #fff;
+   border-radius: 20px;
    display: flex;
-   flex-direction: row;
-   justify-content: flex-end;
-   margin-top: 5px;
-   gap: 10px;
-}
-
-.settings_buttons button {
-   color: white;
+   flex-direction: column;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+ }
+ .settings_section_title {
+   margin-bottom: 10px;
+   font-size: 18px;
+   font-weight: bold;
+   color: #1565c0;
+ }
+ .settings_input input {
+   width: 200px;
+   padding: 12px 24px;
+   font-size: 14px;
+   border: 1px solid #ccc;
    border-radius: 8px;
-   padding: 6px 16px;
-   font-size: 16px;
-   border: none;
    cursor: pointer;
-   background-color: gray;
-}
+   transition: border-color 0.3s ease;
+   overflow: hidden;
+ }
+ .settings_input:focus, .settings_buttons button:hover {
+   border-color: #132c3e;
+   background-color: #333;
+ }
+ .settings_buttons button {
+   padding: 9px 13px;
+   font-size: 14px;
+   border: none;
+   border-radius: 45px;
+   cursor: pointer;
+   background-image: linear-gradient(to right, #1a2d81, #002ed3);
+   color: #fff;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+   transition: all 0.3s ease;
+   margin-top: 15px;
+ }
+ .settings_buttons {
+   display: flex;
+   justify-content: space-between;
+ }
+ .settings_buttons button:hover {
+   background-image: linear-gradient(to right, #1a2d81, #002ed3);
+   transform: scale(1.02);
+ }

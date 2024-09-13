@@ -6,21 +6,17 @@ import {
   Grid,
   TextField,
   Autocomplete,
-  FormControl,
-  ThemeProvider,
   Select,
   MenuItem,
-  Checkbox,
-  FormControlLabel,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 interface ClientNamesInterface {
   client_name: string;
   client_id: string;
 }
-
 const EditUserComponent = () => {
   const [sn, setSn] = useState(localStorage.getItem("sideNav"));
   const data = useSelector((state: any) => state?.app);
@@ -72,42 +68,36 @@ const EditUserComponent = () => {
   const foreRef = useRef<any>(null);
 
   const getClientNames = async () => {
-    fetch("http://localhost:8000/api/getclients/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log(data);
-        setClientNames(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_IP}api/getclients/`
+      );
+      const data = response.data;
+      setClientNames(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
   useEffect(() => {
     getClientNames();
   }, []);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   useEffect(() => {
-    if (id) {
-      fetch(`http://localhost:8000/api/user/get/${id}/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          //console.log(data);
+    const fetchData = async () => {
+      try {
+        if (id) {
+          const response = await axios.get(
+            `${process.env.REACT_APP_BACKEND_IP}api/user/get/${id}/`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = response.data;
           setFormData(data);
           setFilesData({
             wind: data.wind,
@@ -115,28 +105,25 @@ const EditUserComponent = () => {
             current: data.current,
             satpic: data.satpic,
           });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  }, [id]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  }, [id, setFormData, setFilesData]);
 
   const getFiles = async (id: any) => {
     await setFilesData({ wind: "", wave: "", satpic: "", current: "" });
-    fetch(`http://localhost:8000/api/getfiles/${id}/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then(async (data) => {
-        await setFilesData(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_IP}api/getfiles/${id}/`
+      );
+      const data = response.data;
+      await setFilesData(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleSubmit = async () => {
@@ -160,6 +147,10 @@ const EditUserComponent = () => {
       start_date:
         formData.start_date === null ? "" : formData.start_date.toString(),
       end_date: formData.end_date === null ? "" : formData.end_date.toString(),
+      expected_date:
+        formData.expected_date === null
+          ? ""
+          : formData.expected_date.toString(),
       metsys_name:
         formData.metsys_name === null ? "" : formData.metsys_name.toString(),
       service_types:
@@ -176,87 +167,81 @@ const EditUserComponent = () => {
       satpic: filesData.satpic.toString(),
       client_id: formData.client_id.toString(),
     };
-
-    fetch(`http://localhost:8000/api/user/get/${id}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigate("/usermanagement");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACKEND_IP}api/user/get/${id}/`,
+        newData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      navigate("/usermanagement");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   useEffect(() => {
     const l = localStorage.getItem("sideNav");
     setSn(l);
   }, []);
-
   useEffect(() => {
     store.dispatch({
       type: "TOGGLE_MENU",
       payload: windowWidth.current > 1000 ? true : false,
     });
   }, []);
-
   useEffect(() => {
     setOpen(data.toggle);
   }, [data]);
-
   const getClientData = async (a: any) => {
-    await fetch(`http://localhost:8000/api/operations/${a}/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setOperationsData(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_IP}api/operations/${a}/`
+      );
+      const data = response.data;
+      setOperationsData(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
   useEffect(() => {
     getClientData(formData.client_id);
-  }, []);
-
+  }, [formData]);
   return (
     <div
-      style={
-        open
-          ? {
-              marginLeft: 260,
-              width: "calc(100% - 260px)",
-              background: "transparent",
-            }
-          : { background: "transparent" }
-      }
+      style={{
+        marginLeft: open ? 260 : 0,
+        transition: "margin-left 0.3s ease-in-out",
+        //background: "#f5f5f5",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       className={"maina"}
     >
       <div
         style={{
-          paddingBlock: "20px",
-          paddingInline: "25px",
+          padding: "20px",
           borderRadius: "10px",
           background: "white",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          width: "60%",
+          maxWidth: "800px",
         }}
         className={`content-wrap chatwrap`}
       >
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             onClick={(_: any) => navigate("/usermanagement")}
-            style={{ backgroundColor: "blue", color: "white",  margin:'10px 0' }}
+            style={{
+              backgroundColor: "blue",
+              color: "white",
+              margin: "10px 0",
+            }}
           >
             Back
           </Button>
@@ -277,45 +262,68 @@ const EditUserComponent = () => {
               <React.Fragment>
                 <InputLabel>Client</InputLabel>
                 {selectedClientName ? (
-<Autocomplete
-                   id="free-solo-demo"
-                   size="small"
-                   freeSolo
-                   disableClearable
-                   options={clientNames.map((option) => ({
-                     label: option.client_name,
-                     value: option.client_id.toString(),
-                   }))}
-                   getOptionLabel={(option: any) => option.label}
-                   ref={clientRef}
-                   onChange={(
-                     e,
-                     newValue: any | { label: string; value: string } | null
-                   ) => {
-                     getClientData(newValue.value);
-                   }}
-                   renderInput={(params) => (
-<TextField
-                       ref={clientRef}
-                       type="search"
-                       onChange={(event) => {if (event.currentTarget.value === "") {const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)}}}
-                       {...params}
-                       label="Client Name"
-                       required
-                     />
-                   )}
-                 />
-               ) : (
-<input
-                   required
-                   value={formData.client}
-                   onClick={() => {
-                     setSelectedClientName(true);
-                     clientRef.current && clientRef.current.focus();
-                     const new_obj: any = {}; Object.keys(formData).forEach(key => new_obj[key] = ""); setFormData(new_obj); const new_files_obj: any = {}; Object.keys(filesData).forEach(key => new_files_obj[key] = ""); setFilesData(new_files_obj)
-                   }}
-                 />
-               )}
+                  <Autocomplete
+                    id="free-solo-demo"
+                    size="small"
+                    freeSolo
+                    disableClearable
+                    options={clientNames.map((option) => ({
+                      label: option.client_name,
+                      value: option.client_id.toString(),
+                    }))}
+                    getOptionLabel={(option: any) => option.label}
+                    ref={clientRef}
+                    onChange={(
+                      e,
+                      newValue: any | { label: string; value: string } | null
+                    ) => {
+                      getClientData(newValue.value);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        ref={clientRef}
+                        style={{ width: "20vw" }}
+                        type="search"
+                        onChange={(event) => {
+                          if (event.currentTarget.value === "") {
+                            const new_obj: any = {};
+                            Object.keys(formData).forEach(
+                              (key) => (new_obj[key] = "")
+                            );
+                            setFormData(new_obj);
+                            const new_files_obj: any = {};
+                            Object.keys(filesData).forEach(
+                              (key) => (new_files_obj[key] = "")
+                            );
+                            setFilesData(new_files_obj);
+                          }
+                        }}
+                        {...params}
+                        label="Client Name"
+                        required
+                      />
+                    )}
+                  />
+                ) : (
+                  <input
+                    required
+                    value={formData.client}
+                    onClick={() => {
+                      setSelectedClientName(true);
+                      clientRef.current && clientRef.current.focus();
+                      const new_obj: any = {};
+                      Object.keys(formData).forEach(
+                        (key) => (new_obj[key] = "")
+                      );
+                      setFormData(new_obj);
+                      const new_files_obj: any = {};
+                      Object.keys(filesData).forEach(
+                        (key) => (new_files_obj[key] = "")
+                      );
+                      setFilesData(new_files_obj);
+                    }}
+                  />
+                )}
                 <InputLabel>Project Location</InputLabel>
                 {selectedForecast_id ? (
                   <Autocomplete
@@ -348,11 +356,11 @@ const EditUserComponent = () => {
                         operation: n?.forecast_description,
                         client_id: n?.client_id,
                       });
-
                       getFiles(n.forecast_id);
                     }}
                     renderInput={(params) => (
                       <TextField
+                        style={{ width: "22vw" }}
                         value={formData.operation}
                         ref={foreRef}
                         type="search"
@@ -389,14 +397,19 @@ const EditUserComponent = () => {
                 <Select
                   labelId="role-label"
                   id="role-select"
+                  style={{ width: "20vw" }}
                   value={formData?.user_type}
                   size="small"
                   onChange={(e) => {
                     setFormData({ ...formData, user_type: e.target.value });
                   }}
                 >
-                  <MenuItem value="user">User</MenuItem>
-                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem style={{ width: "20vw" }} value="user">
+                    User
+                  </MenuItem>
+                  <MenuItem style={{ width: "20vw" }} value="admin">
+                    Admin
+                  </MenuItem>
                 </Select>
                 <InputLabel htmlFor="email_address">Email Address</InputLabel>
                 <input
@@ -471,13 +484,6 @@ const EditUserComponent = () => {
               }}
               xs={6}
             >
-              {/* <InputLabel htmlFor="end_date">End Date</InputLabel>
-              <input
-                name="end_date"
-                type="datetime-local"
-                value={formData.end_date}
-                onChange={handleInputChange}
-              /> */}
               <InputLabel htmlFor="expected_date">Expected Date</InputLabel>
               <input
                 name="expected_date"
@@ -510,47 +516,64 @@ const EditUserComponent = () => {
                 value={formData.night_shift}
                 onChange={handleInputChange}
               />
-              <div
-                style={{
-                  border: "1px solid black",
-                  padding: 10,
-                  marginTop: 20,
-                }}
-              >
-                <Grid>
+              <Grid container justifyContent="center" component="div">
+                <div
+                  style={{
+                    border: "1px solid black",
+                    borderRadius: "0vw",
+                    padding: 10,
+                    marginTop: 20,
+                    width: "90%",
+                    maxWidth: "30em",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    boxSizing: "border-box",
+                  }}
+                >
                   <InputLabel htmlFor="wind">Wind</InputLabel>
                   <input
                     name="wind"
                     value={filesData?.wind}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
+                    style={{
+                      width: "100%",
+                      marginBottom: "10px",
+                      boxSizing: "border-box",
+                    }}
                   />
                   <InputLabel htmlFor="wave">Wave</InputLabel>
                   <input
                     name="wave"
                     value={filesData?.wave}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
+                    style={{
+                      width: "100%",
+                      marginBottom: "10px",
+                      boxSizing: "border-box",
+                    }}
                   />
                   <InputLabel htmlFor="current">Current</InputLabel>
                   <input
                     name="current"
                     value={filesData?.current}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
+                    style={{
+                      width: "100%",
+                      marginBottom: "10px",
+                      boxSizing: "border-box",
+                    }}
                   />
                   <InputLabel htmlFor="satpic">Satpic</InputLabel>
                   <input
                     name="satpic"
                     value={filesData?.satpic}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
+                    style={{ width: "100%", boxSizing: "border-box" }}
                   />
-                </Grid>
-              </div>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
-
           <Button variant="contained" color="primary" onClick={handleSubmit}>
             Submit
           </Button>
@@ -560,5 +583,4 @@ const EditUserComponent = () => {
     </div>
   );
 };
-
 export default EditUserComponent;

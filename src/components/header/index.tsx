@@ -4,39 +4,25 @@ import {
   IconButton,
   MenuItem,
   Box,
-  Avatar,
   Menu,
   Typography,
-  Button,
-  TextField,
   Dialog,
-  DialogActions,
-  DialogContent,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import successIcon from "../../assets/vectos/icons8-tick.gif";
-import FailIcon from '../../assets/vectos/icons8-fail.gif'
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PhoneIcon from "@mui/icons-material/Phone";
-import PasswordIcon from "@mui/icons-material/Password";
-import MarkunreadIcon from "@mui/icons-material/Markunread";
 import { useState, useEffect, useRef } from "react";
-import HeaderTitle from "./title";
 import Switch from "@mui/material/Switch";
 import store from "../../store";
-import CloseIcon from "@mui/icons-material/Close";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import UpdateIcon from "@mui/icons-material/Update";
-import KeyIcon from "@mui/icons-material/Key";
+import LockIcon from "@mui/icons-material/Lock";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import SettingsIcon from "@mui/icons-material/Settings";
 import "./style.scss";
 import { EmailOutlined } from "@mui/icons-material";
-import { update } from "react-spring";
-import { router } from "../../routers/appRoutes";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
+import axios from "axios";
 
 const Header = (props: any) => {
   const mystyle = {
@@ -60,20 +46,18 @@ const Header = (props: any) => {
   const location = useLocation();
   const navigate = useNavigate();
   const data = useSelector((state: any) => state?.app);
-
   const handleToggle = () => {
     store.dispatch({
       type: "TOGGLE_MENU",
       payload: data.toggle ? false : true,
     });
   };
-
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [sanchorElUser, setsAnchorElUser] = useState<null | HTMLElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [updateIcon, setUpdateIcon] = useState(null);
-  const [updateText,setUpdateText] = useState("")
-  const [updateStatus, setUpdateStatus] = useState<any>(null)
+  //const [updateText, setUpdateText] = useState("");
+  const [updateStatus, setUpdateStatus] = useState<any>(null);
   const popup = useRef<HTMLDivElement>(null);
   const [userModal, setUserModal] = useState<any | {}>({
     name: localStorage.getItem("user_name"),
@@ -86,11 +70,9 @@ const Header = (props: any) => {
     old_password: "",
     password: "",
   });
-
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleOpenUserMenus = (
     event: React.MouseEvent<HTMLElement>,
     option: any
@@ -103,7 +85,6 @@ const Header = (props: any) => {
       setsAnchorElUser(event.currentTarget);
     }
   };
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("login");
@@ -112,219 +93,228 @@ const Header = (props: any) => {
     localStorage.setItem("sideNav", "true");
     window.location.href = "/auth";
   };
-
   const handleCloseUserMenu = () => {
     setsAnchorElUser(null);
     setAnchorElUser(null);
   };
-
   const handleClose = () => {
     setModalOpen(false);
-    setUpdateStatus(null)
+    setUpdateStatus(null);
   };
-
   useEffect(() => {
     const getDatas = async () => {
-      const response = await fetch(
-        `http://localhost:8000/api/user/get/${localStorage.getItem("user_id")}`
-      );
-      const data = await response.json();
-      console.log("HERE",data)
-      localStorage.setItem("email_address", data.email_address);
-      localStorage.setItem("telephone", data.telephone)
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_IP}api/user/get/${localStorage.getItem("user_id")}`
+        );
+        const data = response.data;
+        localStorage.setItem("email_address", data.email_address);
+        localStorage.setItem("telephone", data.telephone);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
     };
     getDatas();
-  })
+  }, []);
 
   const updatedata = async () => {
-    console.log(userModal)
-    if(userModal.name === " " || userModal.name === "" || userModal.name === null ) {
-      const message:any = <Alert severity="warning">Name field is required</Alert>
-      setUpdateIcon(message)
+    if (
+      userModal.name === " " ||
+      userModal.name === "" ||
+      userModal.name === null
+    ) {
+      const message: any = (
+        <Alert severity="warning">Name field is required</Alert>
+      );
+      setUpdateIcon(message);
       const popupdiv = popup.current;
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
       return;
     }
-
-    if(userModal.email === " " || userModal.email === "" || userModal.email === null ) {
-      const message:any = <Alert severity="warning">Email field is required</Alert>
-      setUpdateIcon(message)
+    if (
+      userModal.email === " " ||
+      userModal.email === "" ||
+      userModal.email === null
+    ) {
+      const message: any = (
+        <Alert severity="warning">Email field is required</Alert>
+      );
+      setUpdateIcon(message);
       const popupdiv = popup.current;
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
       return;
     }
-
-    if(userModal.tel === " " || userModal.tel === "" || userModal.tel === null ) {
-      const message:any = <Alert severity="warning">Telephone field is required</Alert>
-      setUpdateIcon(message)
+    if (
+      userModal.tel === " " ||
+      userModal.tel === "" ||
+      userModal.tel === null
+    ) {
+      const message: any = (
+        <Alert severity="warning">Telephone field is required</Alert>
+      );
+      setUpdateIcon(message);
       const popupdiv = popup.current;
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
       return;
     }
-
-    const res = await fetch(
-      `http://127.0.0.1:8000/api/user/update/${localStorage.getItem("user_id")}`,
+   
+    const res = await axios.post(
+      `${process.env.REACT_APP_BACKEND_IP}api/user/update/${localStorage.getItem(
+                "user_id"
+              )}`,
+      userModal,
       {
-        method: "POST",
-        body: JSON.stringify(userModal),
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: "Basic " + btoa("admin:admin"),
+          'Content-Type': 'application/json; charset=UTF-8',
+          Authorization: 'Basic ' + btoa('admin:admin'),
         },
       }
     );
     if (res.status === 200) {
-      const message:any = <Alert severity="success">Successfully updated.</Alert> 
-      setUpdateIcon(message)
+      const message: any = (
+        <Alert severity="success">Successfully updated.</Alert>
+      );
+      setUpdateIcon(message);
       const popupdiv = popup.current;
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
     } else {
-      <Alert severity="error">Something went wrong.</Alert>
+      <Alert severity="error">Something went wrong.</Alert>;
     }
   };
-
   const updatepassword = async () => {
-    if(passwordModal.old_password === " " || passwordModal.old_password === "" || passwordModal.old_password === null ) {
-      const message:any = <Alert severity="warning"> Currect password field is required. </Alert>
-      setUpdateIcon(message)
+    if (
+      passwordModal.old_password === " " ||
+      passwordModal.old_password === "" ||
+      passwordModal.old_password === null
+    ) {
+      const message: any = (
+        <Alert severity="warning"> Currect password field is required. </Alert>
+      );
+      setUpdateIcon(message);
       const popupdiv = popup.current;
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
       return;
     }
-
-    if(passwordModal.password === " " || passwordModal.password === "" || passwordModal.password === null ) {
+    if (
+      passwordModal.password === " " ||
+      passwordModal.password === "" ||
+      passwordModal.password === null
+    ) {
       const popupdiv = popup.current;
-      const message:any = <Alert severity="warning"> New password field is required. </Alert> 
+      const message: any = (
+        <Alert severity="warning"> New password field is required. </Alert>
+      );
       setUpdateIcon(message);
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
       return;
     }
-
-    const res = await fetch(`http://127.0.0.1:8000/api/user/update/${localStorage.getItem('user_id')}`, {
-    method: "POST",
-    body: JSON.stringify(passwordModal),
-    headers: {
-    "Content-type": "application/json; charset=UTF-8",
-    Authorization: "Basic " + btoa("admin:admin"),
-    },
-    });
-
+    const res = await axios.post(
+      `${process.env.REACT_APP_BACKEND_IP}api/user/update/${localStorage.getItem(
+                "user_id"
+              )}`,
+    passwordModal,
+    {
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: "Basic " + btoa("admin:admin"),
+      },
+    }
+   );
     
     if (res.status === 200) {
-      const message:any = <Alert severity="success"> Successfully updated </Alert>
-      setUpdateIcon(message)
+      const message: any = (
+        <Alert severity="success"> Successfully updated </Alert>
+      );
+      setUpdateIcon(message);
       const popupdiv = popup.current;
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
-
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
       setTimeout(() => {
         localStorage.clear();
         window.location.href = "/auth";
-      }, 5000);
-    } 
-    else if(res.status === 401) {
-      const message:any = <Alert severity="error"> Invalid Password. </Alert>
-      setUpdateIcon(message)
+      }, 2000);
+    } else if (res.status === 401) {
+      const message: any = <Alert severity="error"> Invalid Password. </Alert>;
+      setUpdateIcon(message);
       const popupdiv = popup.current;
       if (popupdiv) {
         popupdiv.style.display = "block";
       }
-
       const popupdivNew = popup.current;
       setTimeout(() => {
-        if(popupdivNew)
-          popupdivNew.style.display = "none";
-      },1000)
-    }
-    else {  
+        if (popupdivNew) popupdivNew.style.display = "none";
+      }, 1000);
+    } else {
       window.location.reload();
     }
-
-    
-
   };
-
   const [themeSwitch, setThemeSwitch] = useState(
     localStorage.getItem("theme") === "dark"
   );
-
   const [userEdit, setUserEdit] = useState({
     name: true,
     project: true,
     email: true,
     telephone: true,
   });
-
   const [userDetails, setUserDetails] = useState(Object());
 
   useEffect(() => {
     const getDatas = async () => {
-      const response = await fetch(
-        `http://localhost:8000/api/user/get/${localStorage.getItem("user_id")}`
-      );
-      const data = await response.json();
-      localStorage.setItem("project", data.operation);
-      console.log(data);
-      setUserDetails(data);
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_IP}api/user/get/${localStorage.getItem("user_id")}`
+        );
+        const data = response.data;
+        localStorage.setItem("project", data.operation);
+        setUserDetails(data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
     };
     getDatas();
-  }, [setUserDetails, localStorage]);
-
+  }, [setUserDetails]);
 
   function disablePopup() {
     const popupdiv = popup.current;
@@ -332,7 +322,6 @@ const Header = (props: any) => {
       popupdiv.style.display = "none";
     }
   }
-
   return (
     <>
       <div className={props.className}>
@@ -423,21 +412,6 @@ const Header = (props: any) => {
           onClose={handleClose}
         >
           <div className="settings_div">
-            {/* <div className="settings_profile_ico_div">
-              <span style={{ color: "white", fontSize: "20px" }}>
-                Profile Picture
-              </span>
-              <Avatar
-                sx={{ width: 120, height: 120 }}
-                style={{
-                  alignSelf: "center",
-                  fontSize: "24px",
-                  fontWeight: 500,
-                }}
-              >
-                {localStorage.getItem("user_name")?.slice(0, 1).toUpperCase()}
-              </Avatar>
-            </div> */}
             <div className="settings_profile_ico_details_div">
               <div className="settings_details_inner">
                 <span style={{ fontSize: "22px", fontWeight: 500 }}>
@@ -505,7 +479,7 @@ const Header = (props: any) => {
                   Security
                 </span>
                 <div className="settings_input">
-                  <PasswordIcon />
+                  <LockIcon />
                   <input
                     value={passwordModal.old_password}
                     onChange={(event) =>
@@ -518,7 +492,7 @@ const Header = (props: any) => {
                   ></input>
                 </div>
                 <div className="settings_input">
-                  <PasswordIcon />
+                  <LockIcon />
                   <input
                     value={passwordModal.password}
                     onChange={(event) =>
@@ -548,34 +522,43 @@ const Header = (props: any) => {
                   </button>
                 </div>
               </div>
-              {updateStatus !== null ? 
-                <div style={{width: "100%",}}>
-                  <h4 style={{
-                    background: `${updateStatus !== "Invalid Password" || updateStatus !== "Something went wrong" ? "green" : "red"}`,
-                    color: "white",
-                    padding: '10px',
-                    marginLeft: '20px',
-                    textAlign: 'center',
-                    marginRight: '20px',
-                    borderRadius: '5px',
-                    fontWeight: 'bold'
-                  }}>
+              {updateStatus !== null ? (
+                <div style={{ width: "100%" }}>
+                  <h4
+                    style={{
+                      background: `${
+                        updateStatus !== "Invalid Password" ||
+                        updateStatus !== "Something went wrong"
+                          ? "green"
+                          : "red"
+                      }`,
+                      color: "white",
+                      padding: "10px",
+                      marginLeft: "20px",
+                      textAlign: "center",
+                      marginRight: "20px",
+                      borderRadius: "5px",
+                      fontWeight: "bold",
+                    }}
+                  >
                     {updateStatus}
                   </h4>
-                </div>: null}
+                </div>
+              ) : null}
             </div>
           </div>
           <div ref={popup} className="popup">
-              <div className="popup-div">
-                <div className="popup-content" style={{background:'transparent', border:'0'}}>
-                  <div>
-                    <div className="success-icon">
-                      {updateIcon}
-                    </div>
-                  </div>
+            <div className="popup-div">
+              <div
+                className="popup-content"
+                style={{ background: "transparent", border: "0" }}
+              >
+                <div>
+                  <div className="success-icon">{updateIcon}</div>
                 </div>
               </div>
             </div>
+          </div>
         </Dialog>
       </div>
     </>

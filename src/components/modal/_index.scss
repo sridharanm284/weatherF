@@ -2,21 +2,18 @@
   border: 1px solid black;
   border-radius: 10px;
   cursor: pointer;
-  &:hover {
+ &:hover {
     box-shadow: 1px 4px 20px lightblue;
   }
-}
-
-.mainImage {
+ }
+ .mainImage {
   padding: 10px;
-}
-
-.input_text_model {
+ }
+ .input_text_model {
   width: 45%;
   margin: 10px;
-}
-
-.button_model {
+ }
+ .button_model {
   display: flex;
   gap: 10px;
   border: none;
@@ -28,8 +25,8 @@
   padding: 6px;
   margin: 10px;
   flex-direction: row;
-  &:hover {
+ &:hover {
     background-color: transparent;
     color: #1b3a98;
   }
-}
+ }

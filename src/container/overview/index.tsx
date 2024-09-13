@@ -16,7 +16,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import CustomSpinner from "../../components/loader";
 import {
   AreaChart,
   Area,
@@ -25,6 +24,7 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
+import axios from "axios";
 import WeatherLoader from "../../components/loader";
 
 // space between Navigation and Table Content
@@ -71,11 +71,8 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Overview() {
-  // Reference value for current Browser Window Width
-  const windowWidth = useRef(window.innerWidth);
-
-  // Sets Track about the SideNav Bar Open/Close State
-  const [open, setOpen] = useState(windowWidth.current > 1000 ? true : false);
+  const windowWidths = useRef(window.innerWidth);
+  const [open, setOpen] = useState(windowWidths.current > 1000 ? true : false);
   const data = useSelector((state: any) => state?.app);
 
   const [criteriaDatas, setCriteriaDatas] = useState<any>([]);
@@ -83,11 +80,13 @@ export default function Overview() {
   const [TableDatas, setTableDatas] = useState<any>([]);
   const [SelectValue, setSelectValue] = useState<any>("");
   const [loading, setLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  //const windowWidthRef = useRef();
 
   useEffect(() => {
     store.dispatch({
       type: "TOGGLE_MENU",
-      payload: windowWidth.current > 1000 ? true : false,
+      payload: windowWidths.current > 1000 ? true : false,
     });
   }, []);
 
@@ -96,33 +95,34 @@ export default function Overview() {
   }, [data]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/overview/", {
-      method: "POST",
-      body: JSON.stringify({ forecast_id: localStorage.getItem("fid") }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: "Basic " + btoa("admin:admin"),
-      },
-      cache: "no-cache",
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setCriteriaDatas(data.criteria_datas);
-        setCriteriaDetailDatas(data.criteria_detail_datas);
-        setTableDatas(data.datas);
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_IP}api/overview/`,
+          { forecast_id: localStorage.getItem("fid") },
+          {
+            headers: {
+              "Content-Type": "application/json; charset=UTF-8",
+              Authorization: "Basic " + btoa("admin:admin"),
+            },
+          }
+        );
+        const data = response.data;
+        setCriteriaDatas(data.criteria_datas || []);
+        setCriteriaDetailDatas(data.criteria_detail_datas || []);
+        setTableDatas(data.datas || []);
         setSelectValue(
-          String(data.criteria_detail_datas[0].forecast_osf_criteria_id)
+          String(data.criteria_detail_datas[0]?.forecast_osf_criteria_id || "")
         );
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
+        console.error("Error fetching table data:", error);
         setLoading(false);
-        console.log("Cannot Fetch Table Datas");
-      });
+      }
+    };
+    fetchData();
   }, []);
-
+  
   function dateFormat(date: Date) {
     var montharray = [
       "Jan",
@@ -138,7 +138,7 @@ export default function Overview() {
       "Nov",
       "Dec",
     ];
-    var dayarray = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    var dayarray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     var day = dayarray[date.getDay()];
     var d = date.getDate();
     var m = montharray[date.getMonth()];
@@ -146,23 +146,52 @@ export default function Overview() {
   }
 
   function getColor(data: number) {
-    var criteria: any = {};
-    console.log(SelectValue, "selectedValue");
+    let criteria: any = {};
+    let fieldId2: any = {};
+    let fieldId62: any = {};
+    let operatorId: number | undefined;
     criteriaDetailDatas.forEach((c_data: any) => {
       if (c_data.forecast_osf_criteria_id === parseInt(SelectValue)) {
         criteria = c_data;
+        if (c_data.field_id === 2) {
+          fieldId2 = c_data;
+        } else if (c_data.field_id === 62) {
+          fieldId62 = c_data;
+        }
+        operatorId = c_data.comparison_operator_id;
       }
     });
+    let isAndOperator = operatorId === 2;
+    let isField2Green = data <= fieldId2.margin_value;
+    let isField2Yellow = data > fieldId2.margin_value && data <= criteria.value;
+    let isField2Red = data > criteria.value;
+    let isField62Green = data <= fieldId62.margin_value;
+    let isField62Yellow =
+      data > fieldId62.margin_value && data <= criteria.value;
+    let isField62Red = data > criteria.value;
     if (
-      (data >= criteria.value && data <= criteria.margin_value) ||
-      (data <= criteria.value && data >= criteria.margin_value)
+      (isField2Green && isField62Green && isAndOperator) ||
+      isField2Green ||
+      (isField62Green && !isAndOperator)
+    ) {
+      return "green_overview";
+    } else if (
+      (isField2Yellow && isField62Yellow && isAndOperator) ||
+      isField2Yellow ||
+      (isField62Yellow && !isAndOperator)
     ) {
       return "yellow_overview";
-    } else if (data > criteria.value && data > criteria.margin_value) {
+    } else {
       return "red_overview";
-    } else if (data < criteria.value && data < criteria.margin_value) {
-      return "green_overview";
     }
+  }
+
+  function dateformatting(date: any) {
+    var day = date.slice(0, 2);
+    var month = date.slice(3, 5);
+    var remain = date.slice(6);
+    var newdate = day + "/" + month + "/" + remain;
+    return new Date(newdate);
   }
 
   function calculateWindDir(data: number) {
@@ -172,9 +201,9 @@ export default function Overview() {
       NE: 45,
       ENE: 67.5,
       E: 90,
-      EFE: 112.5,
-      FE: 135,
-      FFE: 157.5,
+      ESE: 112.5,
+      SE: 135,
+      SSE: 157.5,
       S: 180,
       SSW: 202.5,
       SW: 225,
@@ -196,12 +225,26 @@ export default function Overview() {
     let data_list: Array<object> = [];
     TableDatas.forEach((datas: any) => {
       datas.forEach((data: any) => {
-        data["date"] = dateFormat(new Date(data.datetimeutc));
+        data["date"] = dateFormat(dateformatting(data.datetimeutc));
         data_list.push(data);
       });
     });
     return data_list;
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const direction = windowWidth > 650 ? "row" : "column";
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
       <Box className="fug-container bg-default flex sidenav-full">
@@ -224,12 +267,20 @@ export default function Overview() {
                   className={"weather_window"}
                   direction={{ xs: "column", sm: "row" }}
                   spacing={1}
+                  sx={{
+                    alignItems: "center",
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    backgroundColor: "#f9f9f9",
+                    maxWidth: "100%",
+                  }}
                 >
                   <span className={"heading"}>
                     Weather Window Criteria Name
                   </span>
                   <FormControl
-                    sx={{ m: 1, minWidth: 180, minHeight: 10 }}
+                    sx={{ m: 1, minWidth: 180, width: "100%" }}
                     size="small"
                   >
                     <Select
@@ -278,14 +329,15 @@ export default function Overview() {
                 <div className={"overview_table_container"}>
                   <Stack
                     className={"graph"}
-                    direction={{ xs: "column", sm: "row" }}
+                    direction={{ xs: "column", sm: direction }}
                     spacing={1}
+                    sx={{
+                      alignItems: windowWidth <= 650 ? "center" : "initial",
+                    }}
                   >
                     <AreaChart
                       width={
-                        windowWidth.current > 650
-                          ? windowWidth.current - 450
-                          : windowWidth.current
+                        windowWidth > 650 ? windowWidth - 450 : windowWidth
                       }
                       height={200}
                       data={ScrapeGraphDatas()}
@@ -329,8 +381,44 @@ export default function Overview() {
                           />
                         </linearGradient>
                       </defs>
-                      <XAxis dataKey="datetimeutc" ticks={[""]} />
-                      <YAxis />
+                      <XAxis
+                        dataKey="datetimeutc"
+                        ticks={[""]}
+                        axisLine={false}
+                        tick={{ fontSize: 12 }}
+                        tickLine={false}
+                        interval={0}
+                        padding={{ left: 20, right: 20 }}
+                        tickFormatter={(value, index) => {
+                          if (index % 2 === 0) {
+                            return value;
+                          }
+                          return "";
+                        }}
+                      />
+                      <XAxis
+                        orientation="top"
+                        dataKey="sigwaveheight"
+                        ticks={[0, 0.5, 1, 1.5, 2]}
+                        axisLine={false}
+                        tick={{ fontSize: 12 }}
+                        tickLine={false}
+                        interval={0}
+                        padding={{ left: 20, right: 20 }}
+                        tickFormatter={(value, index) => {
+                          return `${value} m`;
+                        }}
+                      />
+                      <YAxis yAxisId="left" />
+                      <YAxis
+                        yAxisId="right"
+                        orientation="right"
+                        tick={{ fontSize: 12 }}
+                        ticks={[0, 0.5, 1, 1.5, 2]}
+                        tickFormatter={(value, index) => {
+                          return `${value}`;
+                        }}
+                      />
                       <CartesianGrid strokeDasharray="3 3" />
                       <Tooltip contentStyle={{ borderRadius: "10px" }} />
                       <Area
@@ -340,6 +428,7 @@ export default function Overview() {
                         stroke="#8884d8"
                         fillOpacity={1}
                         fill="url(#colorUv)"
+                        yAxisId="left"
                       />
                       <Area
                         type="monotone"
@@ -348,6 +437,7 @@ export default function Overview() {
                         stroke="#82ca9d"
                         fillOpacity={1}
                         fill="url(#colorPv)"
+                        yAxisId="right"
                       />
                     </AreaChart>
                   </Stack>
@@ -402,7 +492,9 @@ export default function Overview() {
                                       borderRight: "1px solid #e0e0e0",
                                     }}
                                   >
-                                    {dateFormat(new Date(data.datetimeutc))}
+                                    {dateFormat(
+                                      dateformatting(data.datetimeutc)
+                                    )}
                                   </TableCell>
                                 ))
                             )}
@@ -432,7 +524,9 @@ export default function Overview() {
                                 rowSpan={datas.length + 1}
                                 key={Math.random()}
                               >
-                                {dateFormat(new Date(datas[0].datetimeutc))}
+                                {dateFormat(
+                                  dateformatting(datas[0].datetimeutc)
+                                )}
                               </TableCell>
                             </TableRow>
                             {datas.map((data: any, index: number) => (
@@ -441,11 +535,26 @@ export default function Overview() {
                                   className={getColor(data.a_10mwindspeed)}
                                   key={Math.random()}
                                 >
-                                  {new Date(data.datetimeutc).getHours() === 0
-                                    ? 24
-                                    : new Date(
+                                  {dateformatting(
+                                    data.datetimeutc
+                                  ).getHours() === 0 ? (
+                                    24
+                                  ) : (
+                                    <>
+                                      {" "}
+                                      {dateformatting(
                                         data.datetimeutc
-                                      ).getHours()}{" "}
+                                      ).getHours()}
+                                      :
+                                      {dateformatting(
+                                        data.datetimeutc
+                                      ).getMinutes() === 0
+                                        ? "00"
+                                        : dateformatting(
+                                            data.datetimeutc
+                                          ).getMinutes()}{" "}
+                                    </>
+                                  )}
                                   UTC: {calculateWindDir(data.a_10mwinddir)}{" "}
                                   {data.a_10mwindspeed} | SIG HT{" "}
                                   {data.sigwaveheight}

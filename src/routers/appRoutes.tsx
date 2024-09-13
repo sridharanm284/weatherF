@@ -7,12 +7,13 @@ import AuthPage from "../container/login/auth";
 import ChatAppClient from "../container/chatuser/chatuser";
 import ChatAdmin from "../container/chatuser/adminchat";
 import UserManagement from "../container/usermanagement";
-import AddNewUserComponent from "../container/usermanagement/addUser";
-import EditUserComponent from "../container/usermanagement/editUser";
-import Charts from "../container/charts";
-import ViewUserComponent from '../container/usermanagement/viewUser';
+import AddNewUserComponent from "../container/usermanagement/adduser";
+import EditUserComponent from "../container/usermanagement/edituser";
+import ViewUserComponent from '../container/usermanagement/viewuser';
 import Typhoon from "../container/typhoon";
 import Squall from "../container/squall";
+import Map from "../container/map/mapbpx";
+
 
 export const Roles = {
   SUPERUSER: "is_superuser",
@@ -28,6 +29,14 @@ const appRoutes = [
     permission: [],
   },
   {
+    name: "map",
+    path: "/map",
+    component: Map,
+    protected: true,
+    isNavMenu: true,
+    permission: [],
+  },
+  {
     name: "Dashboard",
     path: "/dashboard",
     component: Dashboard,
@@ -39,14 +48,6 @@ const appRoutes = [
     name: "Overview",
     path: "/overview",
     component: Overview,
-    protected: true,
-    isNavMenu: true,
-    permission: [],
-  },
-  {
-    name:"Squall",
-    path:"/squall",
-    component: Squall,
     protected: true,
     isNavMenu: true,
     permission: [],
@@ -68,17 +69,17 @@ const appRoutes = [
     permission: [],
   },
   {
-    name: "Charts",
-    path: "/charts",
-    component: Charts,
+    name: "Typhoon",
+    path: "/typhoon",
+    component: Typhoon,
     protected: true,
     isNavMenu: true,
     permission: [],
   },
   {
-    name: "Typhoon",
-    path: "/typhoon",
-    component: Typhoon,
+    name: "Squall",
+    path: "/squall",
+    component: Squall,
     protected: true,
     isNavMenu: true,
     permission: [],
@@ -106,6 +107,10 @@ export const router = [
     path: "/",
     component: <Dashboard />,
   },
+  // {
+  //   path: "/map",
+  //   component: <Map />,
+  // },
   {
     path: "/dashboard",
     component: <Dashboard />,
@@ -125,10 +130,6 @@ export const router = [
   {
     path: "/weather",
     component: <Weather />,
-  },
-  {
-    path: "/squall",
-    component: <Squall/>
   },
   {
     path: "/observation",
@@ -171,11 +172,11 @@ export const router = [
     component: <ViewUserComponent />,
     },
   {
-    path: "/charts",
-    component: <Charts />,
-  },
-  {
     path: "/typhoon",
     component: <Typhoon />,
+  },
+  {
+    path: "/squall",
+    component: <Squall />,
   },
 ];

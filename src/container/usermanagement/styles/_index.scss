@@ -65,14 +65,13 @@
 }
 
 .tabel_users {
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 10px 10px 10px grey;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: start;
   background-color: white;
-  margin-top: 20px;
+  margin: 10px 10px 10px 10px;
 }
 
 .add-user-button {
@@ -85,8 +84,8 @@
 
 .mainas {
   background-color: transparent !important;
-  padding: 10px;
-}
+  padding: 0px;
+ }
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -101,8 +100,8 @@
 }
 
 .tabel_header {
-  font-weight: bold;
-  background-color: whitesmoke;
+  font-weight: bold !important;
+  background-color:#ADD8E6;
 }
 
 .view_user_table {

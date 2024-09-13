@@ -1,47 +1,101 @@
 @import "./../../styles/variables";
 
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+}
+
+.map-container {
+  flex: 1;
+  position: relative;
+}
+
+.cards-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  overflow-x: scroll;
+  padding: 10px 0;
+  margin-bottom: 50px;
+
+  &::-webkit-scrollbar {
+    height: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;  
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;  
+    border-radius: 2px;
+  }
+
+  scrollbar-color: #888 transparent;  
+  scrollbar-width: thin;
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    margin-bottom: 55px;
+  }
+
+  @media (min-width: 1025px) {
+    margin-bottom: 55px;
+  }
+}
+
+
+.cards-grid {
+  display: flex;
+}
+
 .hoverable {
-    display: flex;
-    flex-direction: column;
-    transition: transform 250ms;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 250ms;
+  gap: 5px;
 }
 
 .hoverable:hover {
-    transform: scale(1.08);
+  transform: scale(1.08);
 }
-  
+
 .color_icon {
-    display: block;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
 }
+
 .color_icon_red {
-    background-color: $red;
+  background-color: $red;
 }
+
 .color_icon_orange {
-    background-color: $warn;
+  background-color: $warn;
 }
+
 .color_icon_green {
-    background-color: $btn-success;
+  background-color: $btn-success;
 }
+
 @keyframes blink {
-    0% {
-      background-color: red;
-    }
-    50% {
-      background-color: transparent;
-    }
-    100% {
-      background-color: red;
-    }
-   }
-   
-   .blinking-circle {
-    animation: blink 1s infinite;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    display: inline-block;
-   }
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+.blinking-circle {
+  animation: blink 1s infinite;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: inline-block;
+}

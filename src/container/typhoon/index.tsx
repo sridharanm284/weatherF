@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import store from "../../store";
 import { useSelector } from "react-redux";
 import "./styles/_index.scss";
 import mapboxgl from "mapbox-gl";
 import * as turf from "@turf/turf";
-import cyclone_0 from "./../../assets/vectos/cyclone_0.png";
-import cyclone_1 from "./../../assets/vectos/cyclone_3.png";
-import cyclone_2 from "./../../assets/vectos/cyclone_0.png";
-import cyclone_3 from "./../../assets/vectos/cyclone_4_g.png";
-import cyclone_4 from "./../../assets/vectos/cyclone_1_g.png";
-import cyclone_5 from "./../../assets/vectos/cyclone_5.png";
+import cyclone_0 from "./../../assets/vectos/cyclone_0.gif";
+import cyclone_1 from "./../../assets/vectos/cyclone_1.gif";
+import cyclone_2 from "./../../assets/vectos/cyclone_2.gif";
+import cyclone_3 from "./../../assets/vectos/cyclone_3.gif";
+import cyclone_4 from "./../../assets/vectos/cyclone_4.gif";
+import cyclone_5 from "./../../assets/vectos/cyclone_5.gif";
 import cyclone_0_g from "./../../assets/vectos/cyclone_0_g.png";
 import cyclone_1_g from "./../../assets/vectos/cyclone_1_g.png";
 import cyclone_2_g from "./../../assets/vectos/cyclone_2_g.png";
 import cyclone_3_g from "./../../assets/vectos/cyclone_3_g.png";
 import cyclone_4_g from "./../../assets/vectos/cyclone_4_g.png";
 import cyclone_5_g from "./../../assets/vectos/cyclone_5_g.png";
-import arrowImage from "./../../assets/vectos/arrow.png";
+import axios from "axios";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZHNkYXNhIiwiYSI6ImNsbDF5dTlrNTBhYTUzanFvbmVtOGp6aWMifQ.Qz5I6EJY4PZbXXvmfXKhFQ";
@@ -162,48 +161,64 @@ export default function TyphoonComponent() {
     return calc[0][1];
   }
 
-  
+  let refreshCounter = 0;
+  function generateUniqueSourceId(baseId: string) {
+    let sourceId = `${baseId}-${refreshCounter}`;
+    let counter = 0;
+    while (map.current!.getSource(sourceId)) {
+      counter += 1;
+      sourceId = `${baseId}-${counter}-${refreshCounter}`;
+    }
+    return sourceId;
+  }
+  function resetSourceIdCounter() {
+    refreshCounter += 1;
+  }
+
   useEffect(() => {
     const fetchData = async () => {
-      const response_storm = await fetch(
-        `http://localhost:8000/api/stormdatas/`
-      );
-      const data_storm = await response_storm.json();
-      setStormDatas(
-        data_storm.storm_datas === undefined ? [] : data_storm.storm_datas
-      );
-      setTrackDatas(
-        data_storm.track_datas === undefined ? [] : data_storm.track_datas
-      );
-      setMapHovers(
-        data_storm.map_hovers === undefined ? [] : data_storm.map_hovers
-      );
-
-      setTyphonCoords(
-        data_storm.storm_datas.map((datas: any) =>
-          datas.map((data: any) => {
-            const utcDate = new Date(data.date_utc + "Z");
-            const day = utcDate.getUTCDate().toString().padStart(2, "0");
-            const time = `${utcDate
-              .getUTCHours()
-              .toString()
-              .padStart(2, "0")}:${utcDate
-              .getUTCMinutes()
-              .toString()
-              .padStart(2, "0")}`;
-            const formattedDate = `${day}/${time}`;
-
-            return {
-              ...data,
-              latlng: [data.lon, data.lat],
-              info:
-                data.date_utc === undefined
-                  ? "-"
-                  : `Time UTC: ${formattedDate}`,
-            };
-          })
-        )
-      );
+      try {
+        const response_storm = await axios.get(
+          `${process.env.REACT_APP_BACKEND_IP}api/stormdatas/`
+        );
+        if (!response_storm.data) {
+          throw new Error("Failed to fetch storm data");
+        }
+        const data_storm = response_storm.data;
+        setStormDatas(data_storm.storm_datas || []);
+        setTrackDatas(data_storm.track_datas || []);
+        setMapHovers(data_storm.map_hovers || []);
+        setTyphonCoords(
+          (data_storm.storm_datas || []).map((datas: any) =>
+            datas.map((data: any) => {
+              const utcDate = new Date(data.date_utc + "Z");
+              const day = utcDate.getUTCDate().toString().padStart(2, "0");
+              const time = `${utcDate
+                .getUTCHours()
+                .toString()
+                .padStart(2, "0")}:${utcDate
+                .getUTCMinutes()
+                .toString()
+                .padStart(2, "0")}`;
+              const formattedDate = `${day}/${time}`;
+              return {
+                ...data,
+                latlng: [data.lon, data.lat],
+                info:
+                  data.date_utc === undefined
+                    ? "-"
+                    : `Time UTC: ${formattedDate}`,
+              };
+            })
+          )
+        );
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setStormDatas([]);
+        setTrackDatas([]);
+        setMapHovers([]);
+        setTyphonCoords([]);
+      }
     };
     fetchData();
   }, [setStormDatas, setTrackDatas]);
@@ -256,16 +271,6 @@ export default function TyphoonComponent() {
       return 0;
     }
   }
-  function createArrowElement(opacity:any) {
-    const arrowElement = document.createElement("img");
-    arrowElement.src = arrowImage;
-    arrowElement.style.height = "30px";
-    arrowElement.style.opacity = opacity; // Set opacity here
-    arrowElement.className = "rotate-animation";
-    return arrowElement;
-  }
-  
-  
   // display circles as per the button click
   const showClicle = () => {
     if (map.current && activeRadius) {
@@ -273,7 +278,7 @@ export default function TyphoonComponent() {
         TyphonCoords.forEach((datas: any, index: number) =>
           datas.forEach((data: any, index2: number) => {
             const layerId = `circle-fill-${index}-${index2}-${rIndex}`;
-            //console.log(layerId)
+
             if (map.current!.getLayer(layerId)) {
               const visibility = activeRadius.includes(radius)
                 ? "visible"
@@ -308,17 +313,18 @@ export default function TyphoonComponent() {
     })
   );
 
-  useEffect(() => {
+ 
+  /* useEffect(() => {
     const renderMap = async () => {
       if (map.current) return; // If map is already initialized, exit
       if (mapContainer.current) {
         let latlong: any = {};
         try {
           const response = await fetch(
-            `http://localhost:8000/api/typhoon/${localStorage.getItem("fid")}/`
+            `${process.env.REACT_APP_BACKEND_IP}api/cyclone/${localStorage.getItem("fid")}/`
           );
           const data = await response.json();
-          console.log(data);
+          ////console.log(data);
           setuserGeoCords(
             Object({
               lat: data.model_data.lat.toString(),
@@ -353,89 +359,123 @@ export default function TyphoonComponent() {
       }
     };
     renderMap();
-  }, [userGeoCords]);
+  }, [userGeoCords]);*/
+
+  useEffect(() => {
+    const renderMap = async () => {
+      if (!mapContainer.current) return;
+      try {
+        const response = await axios.get(
+          `${
+            process.env.REACT_APP_BACKEND_IP
+          }api/cyclone/${localStorage.getItem("fid")}/`
+        );
+        const data = response.data;
+        if (!data.model_data || !data.model_data.lat || !data.model_data.long) {
+          throw new Error("Cyclone data is incomplete or missing coordinates.");
+        }
+        setuserGeoCords({
+          lat: data.model_data.lat.toString(),
+          lng: data.model_data.long.toString(),
+        });
+        setFetchedDatas(data);
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: "mapbox://styles/mapbox/streets-v11",
+          center: [
+            parseFloat(data.model_data.long),
+            parseFloat(data.model_data.lat),
+          ],
+          zoom: zoom,
+          minZoom: 1.0,
+        });
+        map.current.on("load", () => {
+          setIsStyleLoaded(true);
+        });
+        map.current.addControl(
+          new mapboxgl.NavigationControl({ showCompass: false }),
+          "top-right"
+        );
+        map.current.addControl(new mapboxgl.FullscreenControl());
+      } catch (error) {
+        console.error("Error fetching or rendering map:", error);
+        setuserGeoCords({ lat: "1.290270", lng: "103.851959" });
+        setFetchedDatas(null);
+      }
+    };
+    renderMap();
+  }, []);
 
   // render map
   useEffect(() => {
-    if (isStyleLoaded && map.current && userGeoCords.lng !== undefined && userGeoCords.lat !== undefined) {
-      const currentMap = map.current;
-  
-      currentMap.on("move", () => {
-        setuserGeoCords({
-          lng: parseFloat(currentMap.getCenter().lng.toFixed(4)).toString(),
-          lat: parseFloat(currentMap.getCenter().lat.toFixed(4)).toString(),
+    if (isStyleLoaded) {
+      if (map.current) {
+        const currentMap = map.current; // Access the current map
+        currentMap.on("move", () => {
+          setuserGeoCords({
+            lng: parseFloat(currentMap.getCenter().lng.toFixed(4)).toString(),
+            lat: parseFloat(currentMap.getCenter().lat.toFixed(4)).toString(),
+          });
+          setZoom(parseFloat(currentMap.getZoom().toFixed(2)));
         });
-        setZoom(parseFloat(currentMap.getZoom().toFixed(2)));
-      });
-  
+      }
+
+      if (map.current) {
+        const marker = new mapboxgl.Marker()
+          .setLngLat([
+            parseFloat(userGeoCords.lng),
+            parseFloat(userGeoCords.lat),
+          ])
+          .addTo(map.current);
+        const popup = new mapboxgl.Popup({
+          offset: 35,
+          closeButton: false,
+          closeOnClick: false,
+        })
+          .setHTML(`<b>${localStorage.getItem("project")}</b>`)
+          .setLngLat([
+            parseFloat(userGeoCords.lng),
+            parseFloat(userGeoCords.lat),
+          ])
+          .addTo(map.current);
+
+        const popupContainer = (popup as any)._content;
+        if (popupContainer) {
+          popupContainer.style.backgroundColor = "rgba(0, 0, 0, 0)";
+          popupContainer.style.boxShadow = "none";
+          popupContainer.style.border = "1px solid #000";
+          popupContainer.style.color = "#0000FF";
+        }
+      }
       if (userGeoCords.lng !== undefined && userGeoCords.lat !== undefined) {
         const userCenter = turf.point([
           parseFloat(userGeoCords.lng),
           parseFloat(userGeoCords.lat),
         ]);
-  
         userCircleRadius.forEach((radius, rIndex) => {
-          if (fetchedDatas && fetchedDatas.cyclone_data) {
+          if (map.current && fetchedDatas && fetchedDatas.cyclone_data) {
             const cycloneData = fetchedDatas.cyclone_data[radius];
-  
             if (cycloneData !== undefined) {
-              const semiMajorAxis = cycloneData + 300;
-              const semiMinorAxis = cycloneData + 150;
-  
-              const ellipseVertices = turf.ellipse(userCenter, semiMajorAxis, semiMinorAxis, {
-                units: "kilometers",
-                steps: 64,
-              });
-  
-              const vertices = ellipseVertices.geometry.coordinates[0];
-  
-              for (let i = 0; i < vertices.length; i++) {
-                const vertex = vertices[i];
-  
-                // Create a new mapboxgl.Marker with the arrow image inside the ellipse
-                const arrowMarker = new mapboxgl.Marker({
-                  element: createArrowElement(0.5),
-                })
-                  .setLngLat([vertex[0], vertex[1]])
-                  .addTo(map.current!);
-              }
-  
-              // Calculate the ellipse vertices for the outer ellipse
-              const outerEllipseVertices = turf.ellipse(userCenter, semiMajorAxis, semiMinorAxis, {
-                units: "kilometers",
-                steps: 64,
-              });
-  
-              // Calculate the ellipse vertices for the inner ellipse
-              const innerEllipseVertices = turf.ellipse(userCenter, semiMajorAxis - 50, semiMinorAxis - 50, {
-                units: "kilometers",
-                steps: 64,
-              });
-  
-              // Combine the outer and inner ellipse vertices
-              const allEllipseVertices = turf.union(outerEllipseVertices, innerEllipseVertices);
-  
-              // Get the combined vertices coordinates
-              const vertices1 = allEllipseVertices!.geometry.coordinates[0];
-  
-              // Iterate over each vertex to create arrows inside the ellipse
-              for (let i = 0; i < vertices1.length; i++) {
-                const vertex = vertices1[i];
-  
-                // Create a new mapboxgl.Marker with the arrow image inside the ellipse
-                const arrowMarker = new mapboxgl.Marker({
-                  element: createArrowElement(0.5),
-                })
-                  .setLngLat(vertex as mapboxgl.LngLatLike)
-                  .addTo(map.current!);
-              }
-  
-              map.current!.addSource(`ellipseData-${rIndex}`, {
+              // Calculate the semi-major and semi-minor axes with different values
+              const semiMajorAxis = cycloneData + 300; // North-South distance (adjust as needed)
+              const semiMinorAxis = cycloneData + 150; // East-West distance
+
+              // Calculate the ellipse vertices
+              const ellipseVertices = turf.ellipse(
+                userCenter,
+                semiMajorAxis,
+                semiMinorAxis,
+                {
+                  units: "kilometers",
+                  steps: 64,
+                }
+              );
+
+              map.current.addSource(`ellipseData-${rIndex}`, {
                 type: "geojson",
                 data: ellipseVertices,
               });
-  
-              map.current!.addLayer({
+              map.current.addLayer({
                 id: `ellipse-fill-${rIndex}`,
                 type: "fill",
                 source: `ellipseData-${rIndex}`,
@@ -444,8 +484,7 @@ export default function TyphoonComponent() {
                   "fill-opacity": 0.2,
                 },
               });
-  
-              map.current!.addLayer({
+              map.current.addLayer({
                 id: `ellipse-stroke-${rIndex}`,
                 type: "line",
                 source: `ellipseData-${rIndex}`,
@@ -457,32 +496,6 @@ export default function TyphoonComponent() {
             }
           }
         });
-      const marker = new mapboxgl.Marker()
-      .setLngLat([
-        parseFloat(userGeoCords.lng),
-        parseFloat(userGeoCords.lat),
-      ])
-      .addTo(map.current!);
-    const popup = new mapboxgl.Popup({
-      offset: 35,
-      closeButton: false,
-      closeOnClick: false,
-    })
-      .setHTML(`<b>${localStorage.getItem("project")}</b>`)
-      .setLngLat([
-        parseFloat(userGeoCords.lng),
-        parseFloat(userGeoCords.lat),
-      ])
-      .addTo(map.current!);
-
-    const popupContainer = (popup as any)._content;
-    if (popupContainer) {
-      popupContainer.style.backgroundColor = "rgba(0, 0, 0, 0)";
-      popupContainer.style.boxShadow = "none";
-      popupContainer.style.border = "1px solid #000";
-      popupContainer.style.color = "#0000FF";
-    }
-
       }
       stormDatas.map((datas: any) =>
         datas.map((data: any) => {
@@ -526,7 +539,7 @@ export default function TyphoonComponent() {
             } as any,
             layout: {
               "text-field": "{title}",
-              "text-offset": [-2, 0],
+              "text-offset": [0, 2],
               "text-anchor": "right",
               "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
             },
@@ -655,10 +668,10 @@ export default function TyphoonComponent() {
                 </tr>`;
                               })
                               .join("")}
-      </tbody>
-       </table>
-       <div>
-      </div>`;
+</tbody>
+</table>
+<div>
+</div>`;
 
             const popup = new mapboxgl.Popup({
               offset: 125,
@@ -675,7 +688,7 @@ export default function TyphoonComponent() {
               .setPopup(popup);
 
             const popupContent = `
-          <center>
+<center>
                   ${item.info}<br> Distance:
                    ${userDistance.toFixed(0)} nm<br>
 
@@ -695,7 +708,7 @@ export default function TyphoonComponent() {
                       : "-"
                   }
                   Central Pressure: ${item.central_pressure} hPa<br>
-       </center>`;
+</center>`;
 
             new mapboxgl.Popup({
               offset: 10,
@@ -713,11 +726,11 @@ export default function TyphoonComponent() {
           circleRadius.forEach((radius, rIndex) => {
             if (map.current) {
               const sourceId = `circleData-${main_index}-${index}-${rIndex}`;
-   
+
               if (map.current.getSource(sourceId)) {
-                map.current.removeLayer(`circle-fill-${main_index}-${index}-${rIndex}`);
                 map.current.removeSource(sourceId);
               }
+
               let _center = turf.point(item.latlng);
               let _options = {
                 steps: 80,

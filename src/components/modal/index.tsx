@@ -3,9 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./_index.scss";
 import SendIcon from "@mui/icons-material/Send";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
 const style = {
   width: "80%",
   height: "88%",
@@ -21,7 +19,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%,-50%)",
 };
-
 interface Props {
   open: boolean;
   handleOpen: () => void;
@@ -31,7 +28,6 @@ interface Props {
   image: any[];
   text: string;
 }
-
 const BasicModal: React.FC<Props> = ({
   open,
   handleOpen,
@@ -43,17 +39,14 @@ const BasicModal: React.FC<Props> = ({
 }) => {
   const [mainv, setMainv] = useState("");
   const [name, setName] = useState("");
-
   const getUrl = (file: any) => {
     return URL.createObjectURL(file);
   };
-
   useEffect(() => {
     if (image.length > 0) {
       setMainv(URL.createObjectURL(image[0]));
     }
   }, [image]);
-
   return (
     <div>
       <Modal
@@ -76,7 +69,6 @@ const BasicModal: React.FC<Props> = ({
           >
             X
           </Button>
-
           <img
             src={mainv}
             className="mainImage"
@@ -145,5 +137,4 @@ const BasicModal: React.FC<Props> = ({
     </div>
   );
 };
-
 export default BasicModal;

@@ -12,12 +12,13 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import userImg from "../../../assets/icons8-arrow-24.png";
+import axios from "axios";
 
 interface ClientNamesInterface {
   client_name: string;
   client_id: string;
 }
-
 const AddNewUserComponent = () => {
   const [sn, setSn] = useState(localStorage.getItem("sideNav"));
   const data = useSelector((state: any) => state?.app);
@@ -26,7 +27,8 @@ const AddNewUserComponent = () => {
   const [clientId, setClientId] = useState(null);
   const [nameError, setNameError] = useState(false);
   const [selectedClientName, setSelectedClientName] = useState("");
-
+  const popup = useRef<HTMLDivElement>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -67,83 +69,65 @@ const AddNewUserComponent = () => {
     satpic: "",
   });
   const projectNo = useRef<HTMLInputElement | null>(null);
-
   const navigate = useNavigate();
 
   const getClientNames = async () => {
-    fetch("http://localhost:8000/api/getclients/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setClientNames(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_IP}api/getclients/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = response.data;
+      setClientNames(data);
+    } catch (error) {
+      console.error("Error fetching client names:", error);
+    }
   };
-
   useEffect(() => {
     getClientNames();
   }, []);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   const getFiles = async (id: any) => {
     await setFilesData({ wind: "", wave: "", satpic: "", current: "" });
-    fetch(`http://localhost:8000/api/getfiles/${id}/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then(async (data) => {
-        await setFilesData(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_IP}api/getfiles/${id}/`
+      );
+      const data = response.data;
+      await setFilesData(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsSubmitted(true);
     const newData = {
       ...formData,
-
-      // name: formData.name,
       password: formData.password.toString(),
       user_type: formData.user_type.toString(),
       client: formData.client.toString(),
       operation: formData.operation.toString(),
       email_address: formData.email_address.toString(),
       telephone: formData.telephone.toString(),
-      contract_no:
-        formData.contract_no === null ? "" : formData.contract_no.toString(),
-      region: formData.region === null ? "" : formData.region.toString(),
-      vessel: formData.vessel === null ? "" : formData.vessel.toString(),
-      lat: formData.lat === null ? "" : formData.lat.toString(),
-      lon: formData.lon === null ? "" : formData.lon.toString(),
-      site_route:
-        formData.site_route === null ? "" : formData.site_route.toString(),
-      start_date:
-        formData.start_date === null ? "" : formData.start_date.toString(),
-      end_date: formData.end_date === null ? "" : formData.end_date.toString(),
-      metsys_name:
-        formData.metsys_name === null ? "" : formData.metsys_name.toString(),
-      service_types:
-        formData.service_types === null
-          ? ""
-          : formData.service_types.toString(),
-      day_shift:
-        formData.day_shift === null ? "" : formData.day_shift.toString(),
+      contract_no: formData.contract_no?.toString() || "",
+      region: formData.region?.toString() || "",
+      vessel: formData.vessel?.toString() || "",
+      lat: formData.lat?.toString() || "",
+      lon: formData.lon?.toString() || "",
+      site_route: formData.site_route?.toString() || "",
+      start_date: formData.start_date?.toString() || "",
+      end_date: formData.end_date?.toString() || "",
+      metsys_name: formData.metsys_name?.toString() || "",
+      service_types: formData.service_types?.toString() || "",
+      day_shift: formData.day_shift?.toString() || "",
       night_shift: formData.night_shift.toString(),
       last_bill_update: formData.last_bill_update.toString(),
       wind: filesData.wind.toString(),
@@ -152,42 +136,41 @@ const AddNewUserComponent = () => {
       satpic: filesData.satpic.toString(),
       forecast_id: formData.forecast_id.toString(),
     };
-
-    fetch("http://localhost:8000/api/user/save/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_IP}api/user/save/`,
+        newData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.data.status === "username already exists") {
+        const popupdiv = popup.current;
+        if (popupdiv) {
+          popupdiv.style.display = "block";
+        }
+      } else {
         navigate("/usermanagement");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
   useEffect(() => {
     const l = localStorage.getItem("sideNav");
     setSn(l);
   }, []);
-
   useEffect(() => {
     store.dispatch({
       type: "TOGGLE_MENU",
       payload: windowWidth.current > 1000 ? true : false,
     });
   }, []);
-
   useEffect(() => {
     setOpen(data.toggle);
   }, [data]);
-
-  console.log(filesData);
-
   useEffect(() => {
     if (selectedClientName !== "") {
       setFormData({
@@ -197,48 +180,56 @@ const AddNewUserComponent = () => {
     }
   }, [selectedClientName]);
 
-  const getClientData = (a: any) => {
-    fetch(`http://localhost:8000/api/operations/${a}/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setOperationsData(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  const getClientData = async (a: any) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_IP}api/operations/${a}/`
+      );
+      const data = response.data;
+      setOperationsData(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+
+  function disablePopup() {
+    const popupdiv = popup.current;
+    if (popupdiv) {
+      popupdiv.style.display = "none";
+    }
+  }
   return (
     <div
-      style={
-        open
-          ? {
-              marginLeft: 260,
-              width: "calc(100% - 260px)",
-              background: "transparent",
-            }
-          : { background: "transparent" }
-      }
+      style={{
+        marginLeft: open ? 260 : 0,
+        transition: "margin-left 0.3s ease-in-out",
+        //background: "#f5f5f5",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       className={"maina"}
     >
       <div
         style={{
-          paddingBlock: "20px",
-          paddingInline: "25px",
+          padding: "20px",
           borderRadius: "10px",
           background: "white",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          width: "60%",
+          maxWidth: "800px",
         }}
         className={`content-wrap chatwrap`}
       >
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             onClick={(_: any) => navigate("/usermanagement")}
-            style={{ backgroundColor: "blue", color: "white",  margin:'10px 0'  }}
+            style={{
+              backgroundColor: "blue",
+              color: "white",
+              margin: "10px 0",
+            }}
           >
             Back
           </Button>
@@ -356,9 +347,9 @@ const AddNewUserComponent = () => {
                     }}
                     renderInput={(params) => (
                       <TextField
+                        style={{ width: "20vw" }}
                         required
                         onClick={() => {
-                          console.log("asd");
                           setSelectedClientName("");
                           clientRef.current && clientRef.current.focus();
                           const new_obj: any = {};
@@ -398,7 +389,6 @@ const AddNewUserComponent = () => {
                     }}
                   />
                 )}
-
                 {selectedClientName && (
                   <>
                     <InputLabel>Project No</InputLabel>
@@ -421,7 +411,6 @@ const AddNewUserComponent = () => {
                       }
                       onInputChange={(event, newInputValue) => {
                         if (!newInputValue.trim()) {
-                          // Clear all auto-filled content when input value is empty
                           const newFormData = {
                             ...formData,
                             contract_no: "",
@@ -436,7 +425,6 @@ const AddNewUserComponent = () => {
                             operation: "",
                             client_id: "",
                           };
-
                           setFormData(newFormData);
                           setFilesData({
                             wind: "",
@@ -455,16 +443,16 @@ const AddNewUserComponent = () => {
                           setFormData({
                             ...formData,
                             contract_no: n?.contract_number,
-                      region: n?.region_id,
-                      vessel: n?.vessel_rig_platform_name,
-                      lat: n?.latitude,
-                      lon: n?.longitude,
-                      site_route: n?.route,
-                      start_date: n?.start_date,
-                      forecast_id: n?.forecast_id,
-                      expected_date: n?.expected_end_date,
-                      operation: n?.forecast_description,
-                      client_id: n?.client_id,
+                            region: n?.region_id,
+                            vessel: n?.vessel_rig_platform_name,
+                            lat: n?.latitude,
+                            lon: n?.longitude,
+                            site_route: n?.route,
+                            start_date: n?.start_date,
+                            forecast_id: n?.forecast_id,
+                            expected_date: n?.expected_end_date,
+                            operation: n?.forecast_description,
+                            client_id: n?.client_id,
                           });
                           getFiles(n.forecast_id);
                         }
@@ -476,110 +464,199 @@ const AddNewUserComponent = () => {
                           {...params}
                           value={formData.operation}
                           label="Project No"
+                          style={{ width: "22vw" }}
                           required
                         />
                       )}
                     />
                   </>
                 )}
-
-                <InputLabel htmlFor="name">Name</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.name === "" ? "input-error" : ""
+                  }
+                  htmlFor="name"
+                >
+                  Name
+                </InputLabel>
                 <input
                   name="name"
-                  required
                   value={formData.name}
                   onChange={handleInputChange}
                 />
-                <InputLabel htmlFor="password">Password</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.password === "" ? "input-error" : ""
+                  }
+                  htmlFor="password"
+                >
+                  Password
+                </InputLabel>
                 <input
                   name="password"
                   type="password"
                   defaultValue={formData.password}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="user_type">User Type</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.user_type === ""
+                      ? "input-error"
+                      : ""
+                  }
+                  htmlFor="user_type"
+                >
+                  User Type
+                </InputLabel>
                 <Select
+                  style={{ width: "20vw" }}
                   labelId="role-label"
                   id="role-select"
                   defaultValue={formData?.user_type}
                   size="small"
-                  required
                   onChange={(e) => {
                     setFormData({ ...formData, user_type: e.target.value });
                   }}
                 >
-                  <MenuItem value="user">User</MenuItem>
-                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem style={{ width: "20vw" }} value="user">
+                    User
+                  </MenuItem>
+                  <MenuItem style={{ width: "20vw" }} value="admin">
+                    Admin
+                  </MenuItem>
                 </Select>
-                <InputLabel htmlFor="email_address">Email Address</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.email_address === ""
+                      ? "input-error"
+                      : ""
+                  }
+                  htmlFor="email_address"
+                >
+                  Email Address
+                </InputLabel>
                 <input
                   name="email_address"
                   type="email"
                   defaultValue={formData.email_address}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="telephone">Telephone</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.telephone === ""
+                      ? "input-error"
+                      : ""
+                  }
+                  htmlFor="telephone"
+                >
+                  Telephone
+                </InputLabel>
                 <input
                   name="telephone"
                   type="text"
                   defaultValue={formData.telephone}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="contract_no">CTRCT NO</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.contract_no === ""
+                      ? "input-error"
+                      : ""
+                  }
+                  htmlFor="contract_no"
+                >
+                  CTRCT NO
+                </InputLabel>
                 <input
                   name="contract_no"
                   type="text"
                   defaultValue={formData.contract_no}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="region">Region</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.region === "" ? "input-error" : ""
+                  }
+                  htmlFor="region"
+                >
+                  Region
+                </InputLabel>
                 <input
                   name="region"
                   type="text"
                   defaultValue={formData.region}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="vessel">VESSEL/RIG/PLTFRM</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.vessel === "" ? "input-error" : ""
+                  }
+                  htmlFor="vessel"
+                >
+                  VESSEL/RIG/PLTFRM
+                </InputLabel>
                 <input
                   name="vessel"
                   type="text"
                   defaultValue={formData.vessel}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="lat">Latitude</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.lat === "" ? "input-error" : ""
+                  }
+                  htmlFor="lat"
+                >
+                  Latitude
+                </InputLabel>
                 <input
                   name="lat"
                   defaultValue={formData.lat}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="lon">Longitude</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.lon === "" ? "input-error" : ""
+                  }
+                  htmlFor="lon"
+                >
+                  Longitude
+                </InputLabel>
                 <input
                   name="lon"
                   defaultValue={formData.lon}
-                  required
                   onChange={handleInputChange}
                 />
-                <InputLabel htmlFor="site_route">Site Route</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.site_route === ""
+                      ? "input-error"
+                      : ""
+                  }
+                  htmlFor="site_route"
+                >
+                  Site Route
+                </InputLabel>
                 <input
                   name="site_route"
                   defaultValue={formData.site_route}
                   onChange={handleInputChange}
-                  required
                 />
-                <InputLabel htmlFor="start_date">Start Date</InputLabel>
+                <InputLabel
+                  className={
+                    isSubmitted && formData.start_date === "" && null
+                      ? "input-error"
+                      : ""
+                  }
+                  htmlFor="start_date"
+                >
+                  Start Date
+                </InputLabel>
                 <input
                   name="start_date"
                   type="datetime-local"
                   value={formData.start_date}
                   onChange={handleInputChange}
-                  required
                 />
               </React.Fragment>
             </Grid>
@@ -594,97 +671,193 @@ const AddNewUserComponent = () => {
               }}
               xs={6}
             >
-              <InputLabel htmlFor="expected_date">Expected Date</InputLabel>
+              <InputLabel
+                className={
+                  isSubmitted && formData.expected_date === ""
+                    ? "input-error"
+                    : ""
+                }
+                htmlFor="expected_date"
+              >
+                Expected Date
+              </InputLabel>
               <input
                 name="expected_date"
                 type="datetime-local"
                 defaultValue={formData.expected_date}
                 onChange={handleInputChange}
-                required
               />
-              <InputLabel htmlFor="metsys_name">Metsys Name</InputLabel>
+              <InputLabel
+                className={
+                  isSubmitted && formData.metsys_name === ""
+                    ? "input-error"
+                    : ""
+                }
+                htmlFor="metsys_name"
+              >
+                Metsys Name
+              </InputLabel>
               <input
                 name="metsys_name"
                 type="text"
                 value={formData.metsys_name}
                 onChange={handleInputChange}
-                required
               />
-              <InputLabel htmlFor="service_types">Service Types</InputLabel>
+              <InputLabel
+                className={
+                  isSubmitted && formData.service_types === ""
+                    ? "input-error"
+                    : ""
+                }
+                htmlFor="service_types"
+              >
+                Service Types
+              </InputLabel>
               <input
                 name="service_types"
                 value={formData.service_types}
                 onChange={handleInputChange}
-                required
               />
-              <InputLabel htmlFor="day_shift">Day Shift</InputLabel>
+              <InputLabel
+                className={
+                  isSubmitted && formData.day_shift === "" ? "input-error" : ""
+                }
+                htmlFor="day_shift"
+              >
+                Day Shift
+              </InputLabel>
               <input
                 name="day_shift"
                 value={formData.day_shift}
                 onChange={handleInputChange}
-                required
               />
-              <InputLabel htmlFor="night_shift">Night Shift</InputLabel>
+              <InputLabel
+                className={
+                  isSubmitted && formData.night_shift === ""
+                    ? "input-error"
+                    : ""
+                }
+                htmlFor="night_shift"
+              >
+                Night Shift
+              </InputLabel>
               <input
                 name="night_shift"
                 value={formData.night_shift}
                 onChange={handleInputChange}
-                required
               />
-              <div
-                style={{
-                  border: "1px solid black",
-                  padding: 10,
-                  marginTop: 20,
-                }}
-              >
-                <Grid>
-                  <InputLabel htmlFor="wind">Wind</InputLabel>
+              <Grid>
+                <div
+                  style={{
+                    border: "1px solid black",
+                    borderRadius: "0vw",
+                    padding: 10,
+                    marginTop: 20,
+                    width: "90%",
+                    maxWidth: "30em",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <InputLabel
+                    className={
+                      isSubmitted && formData.wind !== "" ? "input-error" : ""
+                    }
+                    htmlFor="wind"
+                  >
+                    Wind
+                  </InputLabel>
                   <input
                     name="wind"
                     value={filesData?.wind}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
-                    required
+                    style={{
+                      width: "100%",
+                      marginBottom: "10px",
+                      boxSizing: "border-box",
+                    }}
                   />
-                  
-                  <InputLabel htmlFor="wave">Wave</InputLabel>
+                  <InputLabel
+                    className={
+                      isSubmitted && formData.wave !== "" ? "input-error" : ""
+                    }
+                    htmlFor="wave"
+                  >
+                    Wave
+                  </InputLabel>
                   <input
                     name="wave"
                     value={filesData?.wave}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
-                    required
+                    style={{
+                      width: "100%",
+                      marginBottom: "10px",
+                      boxSizing: "border-box",
+                    }}
                   />
-                  <InputLabel htmlFor="current">Current</InputLabel>
+                  <InputLabel
+                    className={
+                      isSubmitted && formData.current !== ""
+                        ? "input-error"
+                        : ""
+                    }
+                    htmlFor="current"
+                  >
+                    Current
+                  </InputLabel>
                   <input
                     name="current"
                     value={filesData?.current}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
-                    required
+                    style={{
+                      width: "100%",
+                      marginBottom: "10px",
+                      boxSizing: "border-box",
+                    }}
                   />
-                  <InputLabel htmlFor="satpic">Satpic</InputLabel>
+                  <InputLabel
+                    className={
+                      isSubmitted && formData.satpic !== "" ? "input-error" : ""
+                    }
+                    htmlFor="satpic"
+                  >
+                    Satpic
+                  </InputLabel>
                   <input
                     name="satpic"
                     value={filesData?.satpic}
                     onChange={handleInputChange}
-                    style={{width:'90%'}}
-                    required
+                    style={{
+                      width: "100%",
+                      marginBottom: "10px",
+                      boxSizing: "border-box",
+                    }}
                   />
-                </Grid>
-              </div>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
-
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>
         </form>
         <div style={{ height: "100px" }}></div>
       </div>
+      <div ref={popup} className="popup">
+        <div className="popup-div">
+          <div className="popup-content">
+            <div className="animated-content">
+              <div className="success-icon">
+                <img src={userImg} alt="Success Icon" />
+              </div>
+              <span style={{ color: "red" }}>Username already exists</span>
+            </div>
+            <Button onClick={disablePopup}>Close</Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
 export default AddNewUserComponent;

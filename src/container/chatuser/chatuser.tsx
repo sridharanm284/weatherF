@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/_index.scss";
 import store from "../../store";
@@ -7,6 +8,8 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import BasicModal from "../../components/modal";
 import useWebSocket from "react-use-websocket";
+import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 interface ChatMessage {
   id: number;
@@ -17,6 +20,24 @@ interface ChatMessage {
   message: string;
   token: string;
 }
+
+interface ImageModalProps {
+  imageUrl: string;
+  onClose: () => void;
+}
+
+const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" style={{display:'flex'}}>
+      <img src={`${process.env.REACT_APP_BACKEND_IP}uploads/`+imageUrl} alt="Preview"/>
+      <CloseIcon
+                  style={{ color: "white", cursor: "pointer", paddingLeft: '20px' }}
+                  fontSize="medium"
+      />
+      </div>
+  </div>);
+};
 
 const ChatAppClient: React.FC = () => {
   const [message, setMessage] = useState<ChatMessage[]>([]);
@@ -33,14 +54,13 @@ const ChatAppClient: React.FC = () => {
   const [open, setOpen] = useState(windowWidth.current > 1000 ? true : false);
 
   const [socketOpened, setSocketOpened] = useState(false);
-  const socketUrl = `ws://localhost:8000/ws/chat/${localStorage.getItem(
+  const socketUrl = `ws://${process.env.REACT_APP_WEBSOCKET_IP}/ws/chat/${localStorage.getItem(
     "user_id"
   )}/`;
   const {
     sendJsonMessage,
   } = useWebSocket(socketUrl, {
     onOpen: () => {
-      console.log("WS Opened");
       setSocketOpened(true);
       sendJsonMessage({
         mode: "createchat",
@@ -150,7 +170,6 @@ const ChatAppClient: React.FC = () => {
   const saveFile = async (event: any) => {
     if (event.target.files && event.target.files.length > 0) {
       const filesArray = Array.from(event.target.files) as File[];
-      console.log(filesArray);
       setSelectedFile(filesArray);
       filesArray.forEach((file: any) => {
         const reader = new FileReader();
@@ -162,34 +181,31 @@ const ChatAppClient: React.FC = () => {
       setShowFileModal(true);
     }
   };
-
   const sendData = async (e: any) => {
     e.preventDefault();
     if (text !== "" || selectedFile.length > 0) {
       const l = selectedFile;
-      if (l && l.length != 0) {
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Basic YWRtaW46YWRtaW4=");
-        var formdata = new FormData();
-        formdata.append("id", chatRoom);
-        formdata.append("message", text);
-        formdata.append("user", "user");
+      if (l && l.length !== 0) {
+        const formData = new FormData();
+        formData.append("id", chatRoom);
+        formData.append("message", text);
+        formData.append("user", "user");
         l.forEach((sx: any) => {
-          formdata.append("file", sx, `${sx.name}`);
+          formData.append("file", sx, `${sx.name}`);
         });
         setSelectedFile([]);
         setText("");
-        var requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: formdata,
+        const config = {
+          headers: {
+            'Authorization': 'Basic YWRtaW46YWRtaW4='
+          }
         };
         try {
-          let res = await fetch(
-            "http://127.0.0.1:8000/api/sendmessage/",
-            requestOptions
+          const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_IP}api/sendmessage/`,
+            formData,
+            config
           );
-          console.log("Executed");
           sendJsonMessage({
             mode: "latest",
             user_id: localStorage.getItem("user_id"),
@@ -198,12 +214,11 @@ const ChatAppClient: React.FC = () => {
             send_by: "user",
             select: "false",
           });
-        } catch {
-          console.log("Error");
+        } catch (error) {
+          console.log("Error:", error);
           return;
         }
       } else {
-        console.log("Executing");
         sendJsonMessage({
           mode: "sendmessage",
           chat_id: chatRoom,
@@ -225,6 +240,16 @@ const ChatAppClient: React.FC = () => {
     } else {
       alert("Message Cannot be null");
     }
+  }
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [imagePreview, setImagePreview] = useState('');
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -257,7 +282,7 @@ const ChatAppClient: React.FC = () => {
                   const formatter = new Intl.DateTimeFormat('en-US', {
                     hour: '2-digit',
                     minute: '2-digit',
-                    hour12: true,
+                    hour12: false, // Use 24-hour format
                   });
                   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
                   const currentTime = new Date(data.date_time);
@@ -299,14 +324,12 @@ const ChatAppClient: React.FC = () => {
                                 data.imgfile ? (
                                   <h1>Hello</h1>
                                 ) : (
-                                  // <img src={`data:image/jpeg;base64,${data.imgfile}`} alt="Received Image" />
+                                  
                                   // eslint-disable-next-line jsx-a11y/alt-text
-                                  <img
-                                    src={
-                                      "http://localhost:8000/uploads/" +
-                                      data.file
-                                    }
-                                  />
+                                  <>
+                                  <img src={`${process.env.REACT_APP_BACKEND_IP}uploads/`+data.file} alt="Picture" onClick={() => {setModalIsOpen(true); setImagePreview(data.file)}}/>
+                                  {modalIsOpen && <ImageModal imageUrl={imagePreview} onClose={closeModal} />}
+                                  </>
                                 )
                               ) : (
                                 <a

@@ -3,12 +3,12 @@ import Box from "@mui/material/Box";
 import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { useState, useRef, useEffect } from "react";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+//import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import WeatherLoader from "../../components/loader";
 import "./styles/_index.scss";
-import Grid from '@mui/material/Grid';
+import axios from "axios";
 
-const drawerWidth = 240;
+//const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -28,11 +28,12 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
     marginLeft: 0,
   }),
 }));
-
+/*
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
-}
+}*/
 
+/*
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
@@ -48,7 +49,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-}));
+}));*/
 
 export default function Weather() {
   // Reference value for current Browser Window Width
@@ -75,31 +76,30 @@ export default function Weather() {
   }, [data]);
 
   useEffect(() => {
-    const getData = async () => {
-      await setLoading(true);
-      await fetch("http://127.0.0.1:8000/api/weather/", {
-        method: "POST",
-        body: JSON.stringify({ forecast_id: localStorage.getItem("fid") }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: "Basic " + btoa("admin:admin"),
-        },
-        cache: "no-cache",
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setCriteriaDatas(data.criteria_datas);
-          setCriteriaDetailDatas(data.criteria_detail_datas);
-          setTableDatas(data.datas);
-        })
-        .catch((error) => {
-          console.log("Cannot Fetch Table Datas");
-        });
-      await setLoading(false);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_IP}api/weather/`,
+          { forecast_id: localStorage.getItem('fid') },
+          {
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Basic ' + btoa('admin:admin'),
+            },
+          }
+        );
+        const data = response.data;
+        setCriteriaDatas(data.criteria_datas || []);
+        setCriteriaDetailDatas(data.criteria_detail_datas || []);
+        setTableDatas(data.datas || []);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching table data:', error);
+        setLoading(false);
+      }
     };
-    getData();
+    fetchData();
   }, []);
 
   function dateFormat(date: Date) {
@@ -123,28 +123,48 @@ export default function Weather() {
   }
 
   function getColor(data: number, selectvalue: number) {
-    var criteria: any = {};
+    let criteria: any = {};
+    let fieldId2: any = {};
+    let fieldId62: any = {};
+    let operatorId: number | undefined;
     criteriaDetailDatas.forEach((c_data: any) => {
       if (parseInt(c_data.forecast_osf_criteria_id) === selectvalue) {
         criteria = c_data;
+        if (c_data.field_id === 2) {
+          fieldId2 = c_data;
+        } else if (c_data.field_id === 62) {
+          fieldId62 = c_data;
+        }
+        operatorId = c_data.comparison_operator_id;
       }
     });
+    let isAndOperator = operatorId === 2;
+    let isField2Green = data <= fieldId2.margin_value;
+    let isField2Yellow = data > fieldId2.margin_value && data <= criteria.value;
+    //let isField2Red = data > criteria.value;
+    let isField62Green = data <= fieldId62.margin_value;
+    let isField62Yellow = data > fieldId62.margin_value && data <= criteria.value;
+    //let isField62Red = data > criteria.value;
     if (
-      (data >= criteria.value && data <= criteria.margin_value) ||
-      (data <= criteria.value && data >= criteria.margin_value)
+      (isField2Green && isField62Green && isAndOperator) ||
+      isField2Green ||
+      (isField62Green && !isAndOperator)
+    ) {
+      return "green_overview";
+    } else if (
+      (isField2Yellow && isField62Yellow && isAndOperator) ||
+      isField2Yellow ||
+      (isField62Yellow && !isAndOperator)
     ) {
       return "yellow_overview";
-    } else if (data > criteria.value && data > criteria.margin_value) {
+    } else {
       return "red_overview";
-    } else if (data < criteria.value && data < criteria.margin_value) {
-      return "green_overview";
     }
   }
 
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
       <Box className="fug-container bg-default flex sidenav-full">
-        
         <div className="content-wrap dashboard">
           {!loading ? (
             criteriaDatas?.length > 0 ? (
@@ -154,7 +174,7 @@ export default function Weather() {
                 style={{
                   overflow: "auto",
                   display: "flex",
-                  paddingBlock: "5px",
+                  paddingBlock: "10px",
                   flexDirection: "column",
                   justifyContent: "center",
                   gap: "35px",
@@ -208,34 +228,32 @@ export default function Weather() {
                     </>
                   ))}
                 </div>
-                <Grid container>
-    <Grid item xs={12} md={6} lg={5}>
-      
-      <div className={"main-content"}>
-        
-      </div>
-    </Grid>
-    <Grid item xs={12} md={6} lg={6}>
-      <div className={"legend_div"}>
-        <span className={"legend_heading"}>Status</span>
-        <div className={"lengend_details_div"}>
-          <div className={"legend_inner_div"}>
-            <span style={{ width: "2.5em" }} className={["high_legend"].join(" ")}></span>
-            <span className={"legend_content"}>Above the limit</span>
-          </div>
-          <div className={"legend_inner_div"}>
-            <span style={{ width: "2.5em" }} className={["normal_legend"].join(" ")}></span>
-            <span className={"legend_content"}>Marginal</span>
-          </div>
-          <div className={"legend_inner_div"}>
-            <span style={{ width: "2.5em" }} className={["low_legend"].join(" ")}></span>
-            <span className={"legend_content"}>Below the limit</span>
-          </div>
-        </div>
-      </div>
-    </Grid>
-  </Grid>
-
+                <div className={"legend_div"}>
+                  <span className={"legend_heading"}>Status</span>
+                  <div className={"lengend_details_div"}>
+                    <div className={"legend_inner_div"}>
+                      <span
+                        style={{ width: "2.5em" }}
+                        className={["high_legend"].join(" ")}
+                      ></span>
+                      <span className={"legend_content"}>Above the limit</span>
+                    </div>
+                    <div className={"legend_inner_div"}>
+                      <span
+                        style={{ width: "2.5em" }}
+                        className={["normal_legend"].join(" ")}
+                      ></span>
+                      <span className={"legend_content"}>Marginal</span>
+                    </div>
+                    <div className={"legend_inner_div"}>
+                      <span
+                        style={{ width: "2.5em" }}
+                        className={["low_legend"].join(" ")}
+                      ></span>
+                      <span className={"legend_content"}>Below the limit</span>
+                    </div>
+                  </div>
+                </div>
               </Main>
             ) : loading === false ? (
               <div

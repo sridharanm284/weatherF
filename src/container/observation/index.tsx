@@ -7,15 +7,19 @@ import { styled } from "@mui/material/styles";
 import { useState, useRef, useEffect } from "react";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import successIcon from "../../assets/vectos/icons8-tick.gif";
+import loading from "../../assets/vectos/icons8-tick.gif";
+import failIcon from "../../assets/vectos/icons8-fail.gif";
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Input from "@mui/material/Input";
-const drawerWidth = 0;
+import axios from "axios";
 
+// space between Navigation and Table Content
+const drawerWidth = 0;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  padding: '10px 10px 10px 10px',
+  padding: theme.spacing(3),
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -29,11 +33,9 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
     marginLeft: 0,
   }),
 }));
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
@@ -50,7 +52,6 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-
 export default function Observation() {
   const [fields, setFields] = useState([
     {
@@ -108,122 +109,95 @@ export default function Observation() {
       placeholder: "",
     },
   ]);
-
+  // Reference value for current Browser Window Width
   const windowWidth = useRef(window.innerWidth);
   const popup = useRef<HTMLDivElement>(null);
-  const failurePopup = useRef<HTMLDivElement>(null);
-
+  // Sets Track about the SideNav Bar Open/Close State
   const [open, setOpen] = useState(windowWidth.current > 1000 ? true : false);
   const data = useSelector((state: any) => state?.app);
   const [rendered, setRendered] = useState(false);
-
+  const [Icon, setIcon] = useState("loading");
   useEffect(() => {
     store.dispatch({
       type: "TOGGLE_MENU",
       payload: windowWidth.current > 1000 ? true : false,
     });
   }, []);
-
   useEffect(() => {
     setOpen(data.toggle);
   }, [data]);
-
   useEffect(() => {
     if (rendered) return;
-    fetch(
-      `http://localhost:8000/api/getplaceholder/${localStorage.getItem("fid")}`
-    )
-      .then((response) => response.json())
-      .then((response_data) => {
-        const fields_inner: any = [];
-        fields.map((data: any) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${
+          process.env.REACT_APP_BACKEND_IP
+        }api/getplaceholder/${localStorage.getItem("fid")}`);
+        const response_data = response.data;
+        const fields_inner = fields.map((data) => {
           try {
             data.placeholder = response_data[data.id].output_unit_name;
-          } catch {}
-          fields_inner.push(data);
+          } catch (error) {
+            console.error('Error updating placeholder:', error);
+          }
+          return data;
         });
         setFields(fields_inner);
-      });
-    setRendered(true);
-  }, [fields, rendered]);
-  
+        setRendered(true);
+      } catch (error) {
+        console.error('Error fetching placeholder data:', error);
+      }
+    };
+    fetchData();
+  }, [rendered, fields]);
 
-  function formSubmission(event: any) {
+  async function formSubmission(event: any) {
+    const popupdiv = popup.current;
+    if (popupdiv) {
+      popupdiv.style.display = 'block';
+    }
     event.preventDefault();
     const elements = event.currentTarget.elements;
-  
-    const popupdiv = popup.current;
-    const failurePopupDiv = failurePopup.current;
-  
-    fetch("http://127.0.0.1:8000/api/observation/", {
-      method: "POST",
-      body: JSON.stringify({
-        date_time: elements.date_time.value,
-        wind_direction: elements.a_10mwinddir.value,
-        wind_speed: elements.a_10mwindspeed.value,
-        combined: elements.sigwaveheight.value,
-        swell_ht: elements.swell1height.value,
-        swell_period: elements.swell1period.value,
-        swell_direction: elements.swell1direction.value,
-        vis: elements.vis.value,
-        present: elements.present.value,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: "Basic " + btoa("admin:admin"),
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Show success popup immediately
-          if (popupdiv) {
-            popupdiv.style.display = "block";
-          }
-        } else {
-          // Show failure popup immediately
-          if (failurePopupDiv) {
-            failurePopupDiv.style.display = "block";
-            setTimeout(() => {
-              disableFailurePopup();
-            }, 2000); // Add a delay before hiding the failure popup if needed
-          }
+    const data = {
+      date_time: elements.date_time.value,
+      wind_direction: elements.a_10mwinddir.value,
+      wind_speed: elements.a_10mwindspeed.value,
+      combined: elements.sigwaveheight.value,
+      swell_ht: elements.swell1height.value,
+      swell_period: elements.swell1period.value,
+      swell_direction: elements.swell1direction.value,
+      vis: elements.vis.value,
+      present: elements.present.value,
+    };
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_IP}api/observation/`,
+        data,
+        {
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: "Basic " + btoa("admin:admin"),
+          },
         }
-        return response.json();
-      })
-      .catch((error) => {
-        console.log("Cannot Submit the Form");
-      })
-      .finally(() => {
-        // Hide success popup after 2 seconds (adjust the delay as needed)
-        if (popupdiv) {
-          setTimeout(() => {
-            disablePopup();
-          }, 2000);
-        }
-  
-        for (const element in elements) {
-          try {
-            elements[element].value = "";
-          } catch (e) {}
-        }
-      });
+      );
+      //console.log("Dates", response);
+      setIcon("success");
+    } catch (error) {
+      setIcon("fail");
+      //console.log("Cannot Submit the Form", error);
+    }
+    for (const element in elements) {
+      try {
+        elements[element].value = "";
+      } catch (e) {}
+    }
   }
-  
-
   function disablePopup() {
     const popupdiv = popup.current;
     if (popupdiv) {
       popupdiv.style.display = "none";
     }
   }
-
-  function disableFailurePopup() {
-    const failurePopupDiv = failurePopup.current;
-    if (failurePopupDiv) {
-      failurePopupDiv.style.display = "none";
-    }
-  }
-
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
       <Box className="fug-container bg-default flex sidenav-full">
@@ -239,14 +213,14 @@ export default function Observation() {
                     spacing={1}
                   >
                     <span className="field-name">{field.name}</span>
-                    <Input
+                    <TextField
                       className="field-input"
                       id={field.id}
                       type={field.type}
                       placeholder={field.placeholder}
                       required
                       fullWidth
-                     // variant="outlined"
+                      variant="outlined"
                     />
                   </Stack>
                 ))}
@@ -266,24 +240,26 @@ export default function Observation() {
                 <div className="popup-content">
                   <div className="animated-content">
                     <div className="success-icon">
-                      <img src={successIcon} alt="Success Icon" />
+                      <img
+                        src={
+                          Icon === "success"
+                            ? successIcon
+                            : Icon === "fail"
+                            ? failIcon
+                            : loading
+                        }
+                        alt="Success Icon"
+                      />
                     </div>
-                    <span>Observation Form Submitted</span>
+                    <span>
+                      {Icon === "success"
+                        ? "Observation Form Submitted"
+                        : Icon === "fail"
+                        ? "Observation Form Not Submitted"
+                        : ""}
+                    </span>
                   </div>
                   <Button onClick={disablePopup}>Close</Button>
-                </div>
-              </div>
-            </div>
-            <div ref={failurePopup} className="popup failure-popup">
-              <div className="popup-div">
-                <div className="popup-content">
-                  <div className="animated-content">
-                    <div className="failure-icon">
-                      {/* <img src={failureIcon} alt="Failure Icon" /> */}
-                    </div>
-                    <span>Failed to Submit Observation Form</span>
-                  </div>
-                  <Button onClick={disableFailurePopup}>Close</Button>
                 </div>
               </div>
             </div>
@@ -292,6 +268,4 @@ export default function Observation() {
       </Box>
     </div>
   );
-}
-
-
+}  

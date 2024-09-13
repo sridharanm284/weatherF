@@ -1,0 +1,309 @@
+@import "./../../styles/variables";
+
+.loader-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  width: 100%;
+  height: 80vh;
+  backdrop-filter: blur(100px);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.container-section {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  .forecast-div {
+    color: white;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    .forcast-header {
+      color: aliceblue;
+      margin: 5px;
+    }
+  }
+}
+.titleBox {
+  margin-top: -20px;
+  background-color: #add8e6;
+  padding: 0vh;
+  border: 0.2px solid black;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.margin-tableBox {
+  margin-top: 20px;
+}
+.title {
+  width: 50%;
+  margin: 0 auto;
+  transform: translateY(-1vh);
+}
+.title {
+  padding: 1vh;
+  border: 0.4px solid black;
+  background-color: #bedef0;
+  font-size: 1.2vw !important;
+  width: 50vw;
+}
+.description p {
+  font-size: 0.8vw !important;
+}
+
+// .map {
+//   padding-top: 1vh;
+//   padding-bottom: 5vh;
+//   margin: 1vh;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: white;
+//   border: 0.2px solid black;
+//   padding: 10px;
+//   width: 105vh;
+//   height: 120vh;
+//   margin-left: auto;
+//   margin-right: auto;
+//   position:relative;
+// }
+
+// .map {
+//   padding-top: 1vh;
+//   padding-bottom: 5vh;
+//   margin: 1vh;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: white;
+//   border: 0.2px solid black;
+//   padding: 10px;
+//   width: calc(70vw);
+//   height: calc(70vh);
+//   margin-left: auto;
+//   margin-right: auto;
+  
+//   @media (min-width: 992px) {
+//    width: calc(70vh);
+//    height: calc(70vh);
+//   }
+//    }
+
+.map {
+  padding-top: 1vh;
+  padding-bottom: 5vh;
+  margin: 1vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  $width-14-inch: 14in;
+  $height-14-inch: 10.5in;
+  $width-24-inch: 24in;
+  $height-24-inch: 18in;
+  // Media query for 14-inch screen
+  @media (min-width: #{$width-14-inch}) {
+   .element {
+    border: 0.2px solid black;
+    //background-color: white;
+     width: $width-14-inch;
+     height: $height-14-inch;
+   }
+  }
+  // Media query for 24-inch screen
+  @media (min-width: #{$width-24-inch}) {
+   .element {
+     border: 0.2px solid black;
+    //background-color: white;
+     width: $width-24-inch;
+     height: $height-24-inch;
+   }
+  }
+}
+
+map-image{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+}
+.bar {
+  margin: 2vh;
+  background-color: #292929;
+  padding: 1vh;
+  color: white;
+  margin-left: 20vw;
+}
+
+.table,
+.sqtd,
+.sqth {
+  border: 0.1px solid black !important;
+}
+.sqth {
+  padding: 5px;
+  background-color: #242466;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 0px solid black;
+  text-align: center !important;
+  color: white;
+}
+.sqtd {
+  text-align: center;
+}
+.sqtr {
+  border: 0.4px solid black;
+  background-color: white;
+}
+#pin-overlay {
+  position: absolute !important;
+}
+.sqtr:nth-child(even) {
+  border: 0.4px solid black;
+  background-color: #73ccff;
+}
+.button {
+  margin: 1vh 0 1vh 0;
+  display: flex;
+  justify-content: space-around;
+}
+#gif,
+#file {
+  padding: 10px;
+  background-color: #73ccff;
+  border: 0px;
+  box-shadow: none;
+  border: 1px solid black;
+}
+.imag-align {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 5px;
+}
+.tableBox {
+  margin-top: 10px;
+  background-color: #add8e6;
+  padding: 0vh;
+  border: 0.2px solid black;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tableBox {
+  font-size: 1vw;
+ }
+ @media (min-width: 768px) {
+  .tableBox {
+    font-size: initial;
+    width: 70vh;
+  }
+ }
+.loader-div1 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+.close-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+   }
+   .control-button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+     }
+     .control-button:focus {
+    outline: none;
+     }
+     .control-button:hover .play-icon,
+     .control-button:hover .rewind-icon,
+     .control-button:hover .forward-icon {
+    transform: scale(1.2);
+     }
+    .play-icon,
+    .rewind-icon,
+    .forward-icon {
+     display: none;
+    }
+    
+    .fa-play {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     font-size: 24px;
+     color: black;
+    }
+    .fa-backward {
+     position: absolute;
+     top: 50%;
+     left: 20px;
+     transform: translateY(-50%);
+     font-size: 18px;
+     color: black;
+    }
+    .fa-forward {
+     position: absolute;
+     top: 50%;
+     right: 20px;
+     transform: translateY(-50%);
+     font-size: 18px;
+     color: black;
+    }    
+   .play-icon,
+   .rewind-icon,
+   .forward-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 0;
+  height: 0;
+   }
+   .play-icon {
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 18px solid black;
+   }
+   .rewind-icon {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 14px solid black;
+  border-left: 4px solid transparent;
+   }
+   .forward-icon {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 14px solid black;
+  border-right: 4px solid transparent;
+   }

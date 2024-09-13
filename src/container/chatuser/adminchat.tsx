@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/_index.scss";
 import store from "../../store";
@@ -5,13 +6,15 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import Logo from "../../assets/logoMain.jpg";
+import Logo from "../../assets/logoMain.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useSelector } from "react-redux";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import BasicModal from "../../components/modal";
-import useWebSocket from 'react-use-websocket';
+import useWebSocket from "react-use-websocket";
+import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 interface ChatMessage {
   id: number;
@@ -47,16 +50,22 @@ interface ImageModalProps {
 const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content">
-        <img src={"http://localhost:8000/uploads/"+imageUrl} alt="Preview" style={{ width: '500%', height: '500%', objectFit: 'contain' }} />
+      <div className="modal-content" style={{ display: "flex" }}>
+        <img
+          src={`${process.env.REACT_APP_BACKEND_IP}uploads/` + imageUrl}
+          alt="Preview"
+        />
+        <CloseIcon
+          style={{ color: "white", cursor: "pointer", paddingLeft: "20px" }}
+          fontSize="medium"
+        />
       </div>
     </div>
   );
 };
 const ChatAdmin: React.FC = () => {
-  const [singleClickTimeout, setSingleClickTimeout] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const [singleClickTimeout, setSingleClickTimeout] =
+    useState<NodeJS.Timeout | null>(null);
   const [message, setMessage] = useState<ChatMessage[]>([]);
   const [text, setText] = useState("");
   const [currentChat, setCurrentChat] = useState("");
@@ -79,8 +88,17 @@ const ChatAdmin: React.FC = () => {
   const [showFilemodal, setShowFileModal] = useState(false);
   const [lastClickTime, setLastClickTime] = useState(0);
 
-  const [socketOpened, setSocketOpened] = useState(false)
-  const socketUrl = `ws://localhost:8000/ws/chat/${localStorage.getItem("user_id")}/`;
+  const [socketOpened, setSocketOpened] = useState(false);
+  const socketUrl = `ws://${process.env.REACT_APP_WEBSOCKET_IP}/ws/chat/${localStorage.getItem("user_id")}/`;
+
+  useEffect(() => {
+    if (message.length > 0) {
+      msgRef &&
+        msgRef.current &&
+        msgRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [message]);
+
   const {
     sendMessage,
     sendJsonMessage,
@@ -90,64 +108,82 @@ const ChatAdmin: React.FC = () => {
     getWebSocket,
   } = useWebSocket(socketUrl, {
     onOpen: () => {
-      console.log('WS Opened'); 
-      setSocketOpened(true); 
-      setToogleChats(true); 
-      sendJsonMessage({mode: 'listchats', token: localStorage.getItem("token"), user_type: 'admin'});},
-      shouldReconnect: (closeEvent) => true,
-      onMessage: (event) =>  processWebSocketMessages(event)
+      setSocketOpened(true);
+      setToogleChats(true);
+      sendJsonMessage({
+        mode: "listchats",
+        token: localStorage.getItem("token"),
+        user_type: "admin",
+      });
+    },
+    shouldReconnect: (closeEvent) => true,
+    onMessage: (event) => processWebSocketMessages(event),
   });
-  
-  
-useEffect(() => {
-  if (activeChat) {
-    getMessages();
-  }
-}, [activeChat]);
 
+  useEffect(() => {
+    if (activeChat) {
+      getMessages();
+    }
+  }, [activeChat]);
 
-const handleUserChatClick = (data:any) => {
-  if (data.chat_id === activeChat) {
+  const handleUserChatClick = (data: any) => {
+    if (data.chat_id === activeChat) {
+    } else {
+      setActiveChat(data.chat_id);
+      setCurrentChat(data.user_id.toString());
+      data.unread_admin = "0";
+    }
+  };
 
-  } else {
-    
-    setActiveChat(data.chat_id);
-    setCurrentChat(data.user_id.toString());
-    data.unread_admin = '0';
-  }
-};
-
-
-  
   const getList = () => {
     setLoading(true);
-    sendJsonMessage({mode:"listchats", token: localStorage.getItem("token"), user_type:"admin"})
-  }
+    sendJsonMessage({
+      mode: "listchats",
+      token: localStorage.getItem("token"),
+      user_type: "admin",
+    });
+  };
 
   const getMessages = () => {
     setLoading(true);
     if (currentChat === "") return;
-    sendJsonMessage({mode: 'createchat', user_id: currentChat, select:"true", user_type: 'admin', send_by:"admin"})
-    if(msgRef.current) {
+    sendJsonMessage({
+      mode: "createchat",
+      user_id: currentChat,
+      select: "true",
+      user_type: "admin",
+      send_by: "admin",
+    });
+    if (msgRef.current) {
       msgRef?.current.scrollTo({
         top: msgRef?.current.scrollHeight,
-        behavior:"instant"
-      });  
+        behavior: "smooth",
+      });
     }
   };
 
   const newMessages = () => {
     setLoading(true);
     if (currentChat === "") return;
-    sendJsonMessage({mode: 'latest', user_id: currentChat, select:"true", user_type: 'admin', send_by:"admin"})
+    sendJsonMessage({
+      mode: "latest",
+      user_id: currentChat,
+      select: "true",
+      user_type: "admin",
+      send_by: "admin",
+    });
     msgRef &&
       msgRef.current &&
       msgRef?.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const sidebar = () => {
-    sendJsonMessage({mode:"sidbar", user_id: localStorage.getItem("user_id"), user_type: "admin"})
-  }
+    sendJsonMessage({
+      mode: "sidbar",
+      user_id: localStorage.getItem("user_id"),
+      user_type: "admin",
+    });
+  };
 
   const drawerWidth = 240;
 
@@ -156,51 +192,57 @@ const handleUserChatClick = (data:any) => {
   }
 
   function processWebSocketMessages(event: any) {
-    let data = JSON.parse(event.data)
-    if (data.mode === 'createchat' && currentChat != '') {
-      console.log(data);
-      if(data.user_type != 'user' || data.user_type == 'admin'){
+    let data = JSON.parse(event.data);
+    if (data.mode === "createchat" && currentChat != "") {
+      if (data.user_type != "user" || data.user_type == "admin") {
         setMessage(data.chats);
-        setChatRoom(data.rooms.chat_id)
+        setChatRoom(data.rooms.chat_id);
         setUserData(data.userdata);
         setLoading(false);
-        sendJsonMessage({mode: 'readmessages', chat_id: data.rooms.chat_id, user_type: 'admin'})
-        msgRef && msgRef.current &&  msgRef?.current.scrollIntoView({ behavior: "smooth" });
-      } 
-    }
-
-    else if (data.mode === 'latest' && (data.send_by == 'admin' || (data.userdata).id == currentChat)) {
-      console.log(currentChat)
-      if((data.userdata).id){
-        var chats = [ ...message, data.chats]
+        sendJsonMessage({
+          mode: "readmessages",
+          chat_id: data.rooms.chat_id,
+          user_type: "admin",
+        });
+        msgRef &&
+          msgRef.current &&
+          msgRef?.current.scrollIntoView({ behavior: "smooth" });
+      }
+    } else if (
+      data.mode === "latest" &&
+      (data.send_by == "admin" || data.userdata.id == currentChat)
+    ) {
+      if (data.userdata.id) {
+        var chats = [...message, data.chats];
         setMessage(data.chats);
-        // setChatRoom(data.rooms.chat_id)
-        // setUserData(data.userdata);
         setLoading(false);
-        sendJsonMessage({mode: 'readmessages', chat_id: data.rooms.chat_id, user_type: 'admin'})
-        msgRef && msgRef.current &&  msgRef?.current.scrollIntoView({ behavior: "smooth" });
-      } 
-    }
-
-    else if (data.mode === "latest" && data.send_by == "admin") {
+        sendJsonMessage({
+          mode: "readmessages",
+          chat_id: data.rooms.chat_id,
+          user_type: "admin",
+        });
+        msgRef &&
+          msgRef.current &&
+          msgRef?.current.scrollIntoView({ behavior: "smooth" });
+      }
+    } else if (data.mode === "latest" && data.send_by == "admin") {
       getList();
-      newMessages()
-    }
-
-    else if(data.mode === "latest" && data.send_by == "user" && data.user_id == currentChat) {
       newMessages();
-    }
-
-    else if(data.mode === "latest") {
+    } else if (
+      data.mode === "latest" &&
+      data.send_by == "user" &&
+      data.user_id == currentChat
+    ) {
+      newMessages();
+    } else if (data.mode === "latest") {
       getList();
-    }
-    else if (data.mode === 'receivemsg') {
+    } else if (data.mode === "receivemsg") {
       setMessage([...message, data.chats[0]]);
-    } else if (data.mode === 'listchats') {
+    } else if (data.mode === "listchats") {
       setRooms(data.rooms);
     }
   }
- 
+
   const windowWidth = useRef<number>(window.innerWidth);
 
   const [open, setOpen] = useState<boolean>(
@@ -226,44 +268,57 @@ const handleUserChatClick = (data:any) => {
     e.preventDefault();
     if (text !== "" || selectedFile.length > 0) {
       const l = selectedFile;
-      if(l && l.length != 0){
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Basic YWRtaW46YWRtaW4=");
+      if (l && l.length !== 0) {
+        var myHeaders = {
+          Authorization: "Basic YWRtaW46YWRtaW4=",
+        };
         var formdata = new FormData();
         formdata.append("id", chatRoom);
-        formdata.append("message",text);
-        formdata.append("user","admin");
+        formdata.append("message", text);
+        formdata.append("user", "admin");
         l.forEach((sx: any) => {
-          formdata.append(
-            'file',
-            sx,
-            `${sx.name}`
-          )
+          formdata.append("file", sx, `${sx.name}`);
         });
-        setSelectedFile([])
-        setText("")
+        setSelectedFile([]);
+        setText("");
         var requestOptions = {
           method: "POST",
           headers: myHeaders,
-          body: formdata,
+          data: formdata,
+          url: `${process.env.REACT_APP_BACKEND_IP}api/sendmessage/`,
         };
         try {
-          let res = await fetch(
-            "http://127.0.0.1:8000/api/sendmessage/",
-            requestOptions
-          );
-          sendJsonMessage({mode: 'latest', user_id: currentChat, user_type: 'admin', token: localStorage.getItem("token"),send_by:'admin',select:'false'})
-          
+          let res = await axios(requestOptions);
+          sendJsonMessage({
+            mode: "latest",
+            user_id: currentChat,
+            user_type: "admin",
+            token: localStorage.getItem("token"),
+            send_by: "admin",
+            select: "false",
+          });
+        } catch (error) {
+          //console.log("Error");
+          return;
         }
-        catch {
-          console.log("Error")
-          return
-        }
-      }
-      else {
-        sendJsonMessage({mode: 'sendmessage', chat_id: chatRoom, message: text, user_type: 'admin', user:localStorage.getItem("user_name"), user_id: localStorage.getItem("user_id"), send_by: 'admin', file: l})
+      } else {
+        sendJsonMessage({
+          mode: "sendmessage",
+          chat_id: chatRoom,
+          message: text,
+          user_type: "admin",
+          user: localStorage.getItem("user_name"),
+          user_id: localStorage.getItem("user_id"),
+          send_by: "admin",
+          file: l,
+        });
         setText("");
-        sendJsonMessage({mode:"readmessages", chat_id: chatRoom, user_type: 'admin', send_by: 'admin'});
+        sendJsonMessage({
+          mode: "readmessages",
+          chat_id: chatRoom,
+          user_type: "admin",
+          send_by: "admin",
+        });
         setSelectedFile([]);
         setShowFileModal(false);
         setFileUrl([]);
@@ -272,7 +327,7 @@ const handleUserChatClick = (data:any) => {
       alert("Message Cannot be null");
     }
   };
-
+ 
   const handleFileSelect = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -288,7 +343,7 @@ const handleUserChatClick = (data:any) => {
   };
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [imagePreview, setImagePreview] = useState('');
+  const [imagePreview, setImagePreview] = useState("");
   const openModal = () => {
     setModalIsOpen(true);
   };
@@ -320,7 +375,7 @@ const handleUserChatClick = (data:any) => {
               />
               <div style={{ position: "relative" }} className="top_container">
                 {!isMobile ? (
-                  <div style={{ padding: 20 }} className="rooms">
+                  <div className="rooms">
                     <div className="admin_chat_message_head">
                       <div
                         style={{
@@ -376,18 +431,19 @@ const handleUserChatClick = (data:any) => {
                       }}
                     >
                       {rooms
-  ?.filter((data) => {
-    if (searchUsers === "") return true;
-    return data.user_name.includes(searchUsers);
-  })
-  ?.map((data) =>
-    data.user_id.toString() === localStorage.getItem("user_id") ? null : (
-      <div
-        onClick={() => handleUserChatClick(data)}
-        className={`button_chat ${
-          data.chat_id === activeChat ? "active_chat" : ""
-        }`}
-      >
+                        ?.filter((data) => {
+                          if (searchUsers === "") return true;
+                          return data.user_name.includes(searchUsers);
+                        })
+                        ?.map((data) =>
+                          data.user_id.toString() ===
+                          localStorage.getItem("user_id") ? null : (
+                            <div
+                              onClick={() => handleUserChatClick(data)}
+                              className={`button_chat ${
+                                data.chat_id === activeChat ? "active_chat" : ""
+                              }`}
+                            >
                               <div className="button_chat_userprofile">
                                 {data?.user_name.slice(0, 1)}
                               </div>
@@ -399,9 +455,9 @@ const handleUserChatClick = (data:any) => {
                                   {data?.operation}
                                 </div>
                               </div>
-                              {((+data.unread_admin) !== 0) &&
+                              {+data.unread_admin !== 0 && (
                                 <div className="badge">{data.unread_admin}</div>
-                              }
+                              )}
                             </div>
                           )
                         )}
@@ -452,18 +508,19 @@ const handleUserChatClick = (data:any) => {
                       />
                     </div>
                     {rooms
-  ?.filter((data) => {
-    if (searchUsers === "") return true;
-    return data.user_name.includes(searchUsers);
-  })
-  ?.map((data) =>
-    data.user_id.toString() === localStorage.getItem("user_id") ? null : (
-      <div
-        onClick={() => handleUserChatClick(data)}
-        className={`button_chat ${
-          data.chat_id === activeChat ? "active_chat" : ""
-        }`}
-      >
+                      ?.filter((data) => {
+                        if (searchUsers === "") return true;
+                        return data.user_name.includes(searchUsers);
+                      })
+                      ?.map((data) =>
+                        data.user_id.toString() ===
+                        localStorage.getItem("user_id") ? null : (
+                          <div
+                            onClick={() => handleUserChatClick(data)}
+                            className={`button_chat ${
+                              data.chat_id === activeChat ? "active_chat" : ""
+                            }`}
+                          >
                             <div className="button_chat_userprofile">
                               {data?.user_name?.slice(0, 1)}
                             </div>
@@ -475,9 +532,9 @@ const handleUserChatClick = (data:any) => {
                                 {data?.operation}
                               </div>
                             </div>
-                            {((+data.unread_admin) !== 0) &&
+                            {+data.unread_admin !== 0 && (
                               <div className="badge">{data.unread_admin}</div>
-                            }
+                            )}
                           </div>
                         )
                       )}
@@ -504,6 +561,7 @@ const handleUserChatClick = (data:any) => {
                             flexDirection: "row",
                             gap: 10,
                             alignItems: "center",
+                            paddingTop: "40px"
                           }}
                         >
                           {isMobile && (
@@ -526,12 +584,9 @@ const handleUserChatClick = (data:any) => {
                     >
                       {message.length > 0 ? (
                         message?.map((data, idx) => {
-                          const formatter = new Intl.DateTimeFormat('en-US', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true, 
-                          });
-                          const d1:any = new Date(data.date_time);
+                          const userTimeZone =
+                            Intl.DateTimeFormat().resolvedOptions().timeZone;
+                          const currentTime = new Date(data.date_time);
                           const isImage =
                             /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(
                               data.file
@@ -549,7 +604,9 @@ const handleUserChatClick = (data:any) => {
                                 <div
                                   style={{ alignItems: "flex-end" }}
                                   className={`message_${
-                                    data.user_type === "admin" ? "admin" : "user"
+                                    data.user_type === "admin"
+                                      ? "admin"
+                                      : "user"
                                   } ${
                                     data.imgfile !== null
                                       ? isImage
@@ -565,12 +622,18 @@ const handleUserChatClick = (data:any) => {
                                       gap: 20,
                                       alignItems: "",
                                     }}
-                                    className={data.file ? "" : "message_content"}
+                                    className={
+                                      data.file ? "" : "message_content"
+                                    }
                                   >
                                     {data.imgfile ? (
                                       isImage ? (
                                         data.imgfile ? (
-                                          <img src={`data:image/jpeg;base64,${data.imgfile}`} alt="Received Image" />
+                                          // eslint-disable-next-line jsx-a11y/img-redundant-alt
+                                          <img
+                                            src={`data:image/jpeg;base64,${data.imgfile}`}
+                                            alt="Received Image"
+                                          />
                                         ) : null
                                       ) : (
                                         <a
@@ -596,10 +659,16 @@ const handleUserChatClick = (data:any) => {
                                   </div>
                                   <div
                                     className={`time_${
-                                      data.user_type === "admin" ? "admina" : "usera"
+                                      data.user_type === "admin"
+                                        ? "admina"
+                                        : "usera"
                                     }`}
                                   >
-                                    {formatter.format(d1)}
+                                    {currentTime.toLocaleTimeString([], {
+                                      timeZone: userTimeZone,
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    })}
                                   </div>
                                 </div>
                               </div>
@@ -628,9 +697,7 @@ const handleUserChatClick = (data:any) => {
                       )}
                     </div>
                     <div ref={msgRef}>&nbsp;</div>
-                    {message.length > 0 ? 
-                    
-                    (
+                    {message.length > 0 ? (
                       <form onSubmit={sendData} className="inputcontainer">
                         <input
                           type="file"
@@ -648,15 +715,12 @@ const handleUserChatClick = (data:any) => {
                           value={text}
                           placeholder="Enter Your Message"
                         />
-
                         {/* The send function. */}
                         <button className="button" onClick={sendData}>
                           <SendIcon />
                         </button>
                       </form>
-                    ) 
-                    
-                    : null}
+                    ) : null}
                   </div>
                 ) : (
                   !isMobile && (
@@ -678,6 +742,7 @@ const handleUserChatClick = (data:any) => {
                               flexDirection: "row",
                               gap: 10,
                               alignItems: "center",
+                              paddingTop: "40px",
                             }}
                           >
                             {isMobile && (
@@ -700,12 +765,9 @@ const handleUserChatClick = (data:any) => {
                       >
                         {message.length > 0 ? (
                           message?.map((data, idx) => {
-                            const formatter = new Intl.DateTimeFormat('en-US', {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                              hour12: true, 
-                            });
-                            const d1:any = new Date(data.date_time);
+                            const userTimeZone =
+                              Intl.DateTimeFormat().resolvedOptions().timeZone;
+                            const currentTime = new Date(data.date_time);
                             const isImage =
                               /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(
                                 data.file
@@ -716,14 +778,18 @@ const handleUserChatClick = (data:any) => {
                               <div
                                 key={idx}
                                 className={`chat_container_${
-                                  data.user_type === "admin" ? "admina" : "usera"
+                                  data.user_type === "admin"
+                                    ? "admina"
+                                    : "usera"
                                 }`}
                               >
                                 <div className="message_conatiner">
                                   <div
                                     style={{ alignItems: "flex-end" }}
                                     className={`message_${
-                                      data.user_type === "admin" ? "admin" : "user"
+                                      data.user_type === "admin"
+                                        ? "admin"
+                                        : "user"
                                     } ${
                                       data.imgfile !== null
                                         ? isImage
@@ -739,17 +805,35 @@ const handleUserChatClick = (data:any) => {
                                         gap: 20,
                                         alignItems: "",
                                       }}
-                                      className={data.file ? "" : "message_content"}
+                                      className={
+                                        data.file ? "" : "message_content"
+                                      }
                                     >
                                       {data.file ? (
                                         isImage ? (
                                           data.imgfile ? (
                                             <h1>Hello</h1>
-                                            // <img src={data.imgfile} />
-                                          ) : <>
-                                          <img src={"http://localhost:8000/uploads/"+data.file} alt="Picture" onClick={() => {setModalIsOpen(true); setImagePreview(data.file)}}/>
-                                          {modalIsOpen && <ImageModal imageUrl={imagePreview} onClose={closeModal} />}
-                                          </>
+                                          ) : (
+                                            <>
+                                              <img
+                                                src={
+                                                  `${process.env.REACT_APP_BACKEND_IP}uploads/` +
+                                                  data.file
+                                                }
+                                                alt="Picture"
+                                                onClick={() => {
+                                                  setModalIsOpen(true);
+                                                  setImagePreview(data.file);
+                                                }}
+                                              />
+                                              {modalIsOpen && (
+                                                <ImageModal
+                                                  imageUrl={imagePreview}
+                                                  onClose={closeModal}
+                                                />
+                                              )}
+                                            </>
+                                          )
                                         ) : (
                                           <a
                                             target="_bank"
@@ -780,7 +864,11 @@ const handleUserChatClick = (data:any) => {
                                           : "usera"
                                       }`}
                                     >
-                                      {formatter.format(d1)}
+                                      {currentTime.toLocaleTimeString([], {
+                                        timeZone: userTimeZone,
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                      })}
                                     </div>
                                   </div>
                                 </div>
@@ -809,8 +897,7 @@ const handleUserChatClick = (data:any) => {
                         )}
                         <div ref={msgRef}>&nbsp;</div>
                       </div>
-                      {
-                        currentChat !== '' ?
+                      {currentChat !== "" ? (
                         <form onSubmit={sendData} className="inputcontainer">
                           <input
                             type="file"
@@ -832,8 +919,8 @@ const handleUserChatClick = (data:any) => {
                           <button className="button" onClick={sendData}>
                             <SendIcon />
                           </button>
-                        </form> : null
-                      }
+                        </form>
+                      ) : null}
                     </div>
                   )
                 )}
@@ -845,5 +932,4 @@ const handleUserChatClick = (data:any) => {
     </div>
   );
 };
-
 export default ChatAdmin;
