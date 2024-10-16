@@ -78,6 +78,7 @@ const EditUserComponent = () => {
       console.error("Error:", error);
     }
   };
+  
   useEffect(() => {
     getClientNames();
   }, []);
@@ -260,70 +261,71 @@ const EditUserComponent = () => {
               xs={6}
             >
               <React.Fragment>
-                <InputLabel>Client</InputLabel>
-                {selectedClientName ? (
-                  <Autocomplete
-                    id="free-solo-demo"
-                    size="small"
-                    freeSolo
-                    disableClearable
-                    options={clientNames.map((option) => ({
-                      label: option.client_name,
-                      value: option.client_id.toString(),
-                    }))}
-                    getOptionLabel={(option: any) => option.label}
-                    ref={clientRef}
-                    onChange={(
-                      e,
-                      newValue: any | { label: string; value: string } | null
-                    ) => {
-                      getClientData(newValue.value);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        ref={clientRef}
-                        style={{ width: "20vw" }}
-                        type="search"
-                        onChange={(event) => {
-                          if (event.currentTarget.value === "") {
-                            const new_obj: any = {};
-                            Object.keys(formData).forEach(
-                              (key) => (new_obj[key] = "")
-                            );
-                            setFormData(new_obj);
-                            const new_files_obj: any = {};
-                            Object.keys(filesData).forEach(
-                              (key) => (new_files_obj[key] = "")
-                            );
-                            setFilesData(new_files_obj);
-                          }
-                        }}
-                        {...params}
-                        label="Client Name"
-                        required
-                      />
-                    )}
-                  />
-                ) : (
-                  <input
-                    required
-                    value={formData.client}
-                    onClick={() => {
-                      setSelectedClientName(true);
-                      clientRef.current && clientRef.current.focus();
-                      const new_obj: any = {};
-                      Object.keys(formData).forEach(
-                        (key) => (new_obj[key] = "")
-                      );
-                      setFormData(new_obj);
-                      const new_files_obj: any = {};
-                      Object.keys(filesData).forEach(
-                        (key) => (new_files_obj[key] = "")
-                      );
-                      setFilesData(new_files_obj);
-                    }}
-                  />
-                )}
+              <InputLabel>Client</InputLabel>
+{selectedClientName ? (
+  <Autocomplete
+    id="free-solo-demo"
+    size="small"
+    freeSolo
+    disableClearable
+    options={clientNames.map((option) => ({
+      label: option.client_name,
+      value: option.client_id.toString(),
+    }))}
+    getOptionLabel={(option: any) => option.label}
+    ref={clientRef}
+    onChange={(
+      e,
+      newValue: any | { label: string; value: string } | null
+    ) => {
+      getClientData(newValue.value);
+    }}
+    renderInput={(params) => (
+      <TextField
+        ref={clientRef}
+        style={{ width: "20vw" }}
+        type="search"
+        onChange={(event) => {
+          if (event.currentTarget.value === "") {
+            const new_obj: any = {};
+            Object.keys(formData).forEach((key) => (new_obj[key] = ""));
+            setFormData(new_obj);
+            const new_files_obj: any = {};
+            Object.keys(filesData).forEach(
+              (key) => (new_files_obj[key] = "")
+            );
+            setFilesData(new_files_obj);
+          }
+        }}
+        {...params}
+        label="Client Name"
+        required
+        InputProps={{
+          ...params.InputProps,
+          readOnly: true, // Disables editing
+        }}
+      />
+    )}
+  />
+) : (
+  <input
+    required
+    value={formData.client}
+    onClick={() => {
+      setSelectedClientName(true);
+      clientRef.current && clientRef.current.focus();
+      const new_obj: any = {};
+      Object.keys(formData).forEach((key) => (new_obj[key] = ""));
+      setFormData(new_obj);
+      const new_files_obj: any = {};
+      Object.keys(filesData).forEach(
+        (key) => (new_files_obj[key] = "")
+      );
+      setFilesData(new_files_obj);
+    }}
+  />
+)}
+
                 <InputLabel>Project Location</InputLabel>
                 {selectedForecast_id ? (
                   <Autocomplete

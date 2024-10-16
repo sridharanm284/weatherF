@@ -1,156 +1,80 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import axios from 'axios';
-import L from 'leaflet';
-import './MapComponents.scss';
+import React, { useEffect, useRef, useState } from 'react';
+import mapboxgl, { Map } from 'mapbox-gl'; // Import Mapbox types
 
-interface TimestampedLayerProps {
-  timestamp: string;
-  previousTimestamp: string | null;
-  layerType: 'temperature' | 'pressure' | 'precipitation' | 'wind';
-}
-
-const TimestampedLayer: React.FC<TimestampedLayerProps> = ({ timestamp, previousTimestamp, layerType }) => {
-  const map = useMap();
-  const currentLayerRef = useRef<L.ImageOverlay | null>(null);
-  const previousLayerRef = useRef<L.ImageOverlay | null>(null);
-
-  useEffect(() => {
-    const imageLayerUrl = `http://localhost:8000/converter/${layerType}-layer/?timestamp=${timestamp}`;
-    const prevImageLayerUrl = previousTimestamp
-      ? `http://localhost:8000/converter/${layerType}-layer/?timestamp=${previousTimestamp}`
-      : null;
-
-    const bounds: L.LatLngBoundsExpression = [
-      [90, -180],
-      [-90, 180],
-    ];
-
-    const newImageLayer = L.imageOverlay(imageLayerUrl, bounds, {
-      opacity: 0.7,
-      zIndex: 2,
-      interactive: false,
-    });
-
-    newImageLayer.addTo(map);
-    currentLayerRef.current = newImageLayer;
-
-    if (previousLayerRef.current) {
-      map.removeLayer(previousLayerRef.current);
-    }
-
-    previousLayerRef.current = newImageLayer;
-
-    return () => {
-      if (currentLayerRef.current) {
-        map.removeLayer(currentLayerRef.current);
-      }
-    };
-  }, [timestamp, previousTimestamp, map, layerType]);
-
-  return null;
-};
+mapboxgl.accessToken = 'pk.eyJ1IjoiZHNkYXNhIiwiYSI6ImNtMG03NHN1bzAzc3cya3NkbW9maWI0c20ifQ.ZQ2RyZ2Kg_QW5IS1v3RA-A';
 
 const MapComponent: React.FC = () => {
-  const [timestamps, setTimestamps] = useState<string[]>([]);
-  const [currentTimestampIndex, setCurrentTimestampIndex] = useState<number>(0);
-  const [progress, setProgress] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const previousTimestampRef = useRef<string | null>(null);
-  const [layerType, setLayerType] = useState<'temperature' | 'pressure' | 'precipitation' | 'wind'>('temperature');
+  const mapContainer = useRef<HTMLDivElement | null>(null);
+  const [map, setMap] = useState<Map | null>(null); // Set the type for the map as Map | null
+  const [layer, setLayer] = useState<string>('temperature');
+  const [timestamp, setTimestamp] = useState<string | null>(null);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/converter/timestamps')
-      .then((response) => {
-        setTimestamps(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching timestamps', error);
+    if (mapContainer.current && !map) {
+      const mapInstance = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [0, 0],
+        zoom: 2,
       });
-  }, []);
+
+      mapInstance.on('load', () => {
+        setMap(mapInstance); // Correct type here
+      });
+    }
+  }, [map]);
+
+  const changeLayer = (newLayer: string, newTimestamp: string) => {
+    if (map) { // Ensure map is not null
+      // Remove the old layer if it exists
+      if (map.getLayer(layer)) {
+        map.removeLayer(layer);
+      }
+      // Add the new layer
+      map.addLayer({
+        id: newLayer,
+        type: 'raster',
+        source: {
+          type: 'raster',
+          tiles: [
+            `https:/localhost:8000/converter/api/${newLayer}/{z}/{x}/{y}?timestamp=${newTimestamp}`
+          ],
+        },
+      });
+      setLayer(newLayer);
+      setTimestamp(newTimestamp); // Set the new timestamp
+    }
+  };
+
+  const updateTimestamp = (newTimestamp: string) => {
+    if (map) { // Ensure map is not null
+      setTimestamp(newTimestamp); // Update timestamp
+    }
+  };
 
   useEffect(() => {
-    if (timestamps.length > 0 && isPlaying) {
-      const interval = setInterval(() => {
-        setCurrentTimestampIndex((prevIndex) => {
-          const nextIndex = (prevIndex + 1) % timestamps.length;
-          setProgress(((nextIndex + 1) / timestamps.length) * 100);
-          previousTimestampRef.current = timestamps[prevIndex];
-          return nextIndex;
-        });
-      }, 1000);
-
-      return () => clearInterval(interval);
+    let interval: NodeJS.Timeout;
+    if (map) {
+      interval = setInterval(() => {
+        const newTimestamp = Date.now().toString();
+        updateTimestamp(newTimestamp);
+      }, 60000); // Update every minute
     }
-  }, [timestamps, isPlaying]);
-
-  const formatDate = (timestamp: string) => {
-    const date = new Date(parseInt(timestamp) * 1000);
-    return date.toLocaleString();
-  };
-
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
+    return () => clearInterval(interval); // Clean up the interval
+  }, [map]);
 
   return (
-    <div className="map-container" style={{ height: '60vh', width: '60vw', top: '2vh', left: '2vh' }}>
-      <MapContainer
-        center={[51.505, -0.09]}
-        zoom={1}
-        minZoom={2}
-        maxBounds={[
-          [-90, -180],
-          [90, 180],
-        ]}
-        worldCopyJump={true}
-        style={{ height: '100%', width: '100%' }}
-      >
-        {/* Use MapTiler's backdrop map */}
-        <TileLayer
-          url="https://api.maptiler.com/maps/backdrop/256/{z}/{x}/{y}.png?key=SNlf3fFMC5k0oRAGSavO"
-          attribution='&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a>'
-          zIndex={1}
-         
-        />
-
-        {timestamps.length > 0 && (
-          <TimestampedLayer
-            timestamp={timestamps[currentTimestampIndex]}
-            previousTimestamp={previousTimestampRef.current}
-            layerType={layerType}
-          />
-        )}
-      </MapContainer>
-
-      <div className="progress-overlay">
-        <div className="timestamp">
-          {timestamps.length > 0 ? formatDate(timestamps[currentTimestampIndex]) : 'Loading...'}
-        </div>
-        <div className="progress-bar">
-          <div className="progress" style={{ width: `${progress}%` }}></div>
-        </div>
-        <button className="play-pause-btn" onClick={togglePlayPause}>
-          {isPlaying ? 'Pause' : 'Play'}
+    <div>
+      <div ref={mapContainer} style={{ width: '100%', height: '500px' }} />
+      <div>
+        <button onClick={() => changeLayer('temperature', timestamp || '')}>
+          Temperature Layer
+        </button>
+        <button onClick={() => changeLayer('precipitation', timestamp || '')}>
+          Precipitation Layer
         </button>
       </div>
-
-      <div className="layer-switcher">
-        <button onClick={() => setLayerType('temperature')} className={layerType === 'temperature' ? 'active' : ''}>
-          Temperature
-        </button>
-        <button onClick={() => setLayerType('pressure')} className={layerType === 'pressure' ? 'active' : ''}>
-          Pressure
-        </button>
-        <button onClick={() => setLayerType('precipitation')} className={layerType === 'precipitation' ? 'active' : ''}>
-          Precipitation
-        </button>
-        <button onClick={() => setLayerType('wind')} className={layerType === 'wind' ? 'active' : ''}>
-          wind
-        </button>
-      </div>
+      <div>Timestamp: {timestamp}</div>
     </div>
   );
 };

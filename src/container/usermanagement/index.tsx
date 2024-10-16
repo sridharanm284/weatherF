@@ -65,17 +65,49 @@ const UserManagement: React.FC = () => {
 
   const getUsersData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_IP}api/user/get/`, {
-        headers: {
-          'Content-Type': 'application/json',
+      // Hardcoded user data
+      const data = [
+        {
+          id: 26,
+          name: "chok",
+          password: "chok",
+          user_type: "user",
+          client: "CARIGALI HESS OPERATING COMPANY SDN BHD",
+          operation: "CHOC-CKP-24-8460",
+          email_address: "mdjasimcse07@gmail.com",
+          telephone: "6540560",
+          contract_no: "C44310",
+          region: "Gulf of Thailand",
+          vessel: "CKP LOCATION",
+          lat: "7.16",
+          lon: "103.09",
+          site_route: "Singapore",
+          start_date: "2020-01-16T00:00:00",
+          end_date: "",
+          expected_date: "2025-01-16T00:00",
+          metsys_name: "metsys",
+          service_types: "service",
+          day_shift: "day",
+          night_shift: "night",
+          last_bill_update: "",
+          wind: "\\\\sgsingwfsproc1\\METSYS\\PRODUCTION\\PUBLIC\\CHOC-01-Wind.gif",
+          wave: "\\\\sgsingwfsproc1\\METSYS\\PRODUCTION\\PUBLIC\\CHOC-02-Wave.gif",
+          current: "",
+          satpic: "\\\\sgsingwfsproc1\\METSYS\\PRODUCTION\\PUBLIC\\CHOC-Satpic.jpg",
+          client_id: "189",
+          forecast_id: 2011,
         },
-      });
-      const data = response.data;
-      setUsers(data);
+      ];
+  
+      // Set the hardcoded data to the users state
+      // setUsers(data);
     } catch (error) {
       console.error('Error fetching users data:', error);
     }
   };
+  
+
+
   useEffect(() => {
     getUsersData();
   }, []);
@@ -84,20 +116,30 @@ const UserManagement: React.FC = () => {
     const l = localStorage.getItem("sideNav");
     setSn(l);
   }, []);
-  const handleDelete = async (id:any) => {
+  const hardcodedUsers = [
+    {
+      client_id: 189,
+      client_name: "CARIGALI HESS OPERATING COMPANY",
+    },
+  ];
+  
+  const handleDelete = async (id: any) => {
     if (window.confirm('Are you sure you want to delete this User?')) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BACKEND_IP}api/user/get/${id}/`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        await getUsersData();
+        // Simulate deletion by filtering out the user with the given id from the hardcoded data
+        const updatedUsers = hardcodedUsers.filter((user) => user.client_id !== id);
+  
+        console.log('Updated users after deletion:', updatedUsers);
+        // You can call a function like getUsersData() here to update the UI with the new data
+        // For now, simulating that data has been re-fetched after deletion
+        // await getUsersData();
+  
       } catch (error) {
         console.error('Error deleting user:', error);
       }
     }
   };
+  
 
   useEffect(() => {
     store.dispatch({

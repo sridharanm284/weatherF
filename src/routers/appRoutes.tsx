@@ -13,6 +13,16 @@ import ViewUserComponent from '../container/usermanagement/viewuser';
 import Typhoon from "../container/typhoon";
 import Squall from "../container/squall";
 import Map from "../container/map/mapbpx";
+import OperationsA from "../container/login/operations/operations";
+
+const handleOpen = () => {
+  console.log("Opening");
+};
+
+const handleClose = () => {
+  console.log("Closing");
+};
+
 
 
 export const Roles = {
@@ -28,6 +38,17 @@ const appRoutes = [
     isNavMenu: false,
     permission: [],
   },
+  {
+    name: "operations",
+    path: "/operations",
+    protected: false,
+    isNavMenu: false,
+    permission: [],
+    render: (props: any) => (
+      <OperationsA open={true} close={handleClose} isAdmin={true} {...props} />
+    ), // Pass boolean for open, and function for close
+  },
+
   {
     name: "map",
     path: "/map",
@@ -118,6 +139,10 @@ export const router = [
   {
     path: "/auth",
     component: <AuthPage />,
+  },
+  {
+    path: "/operations",
+    component: <OperationsA open={true} close={handleClose} isAdmin={true} />, // Use boolean for open and function for close
   },
   {
     path: "/forecast",

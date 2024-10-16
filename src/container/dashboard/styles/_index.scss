@@ -133,3 +133,41 @@ html, body {
 .blink-text-red {
   animation: blink-red 0.5s linear infinite;
 }
+
+.card-container {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+
+  .card-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .card-content {
+    padding: 20px;
+    margin-top: 40px; // Adjust if necessary to prevent overlap with button
+  }
+}
+
+
+
+
+
+

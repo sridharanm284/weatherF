@@ -8,7 +8,7 @@ import quickOverview from "./../../assets/quick-overview.png";
 import weatherWindow from "./../../assets/weather-window.png";
 import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
 import "./style.scss";
-import MapComponent from "../MapComponent";
+import Map from "../MapComponent"
 import axios from "axios";
 
 interface CardData {
@@ -415,7 +415,7 @@ const CardPlan: React.FC = () => {
   return (
     <div className="container">
       <div className="map-container">
-        <MapComponent />
+        <Map />
       </div>
       <div className="cards-container">
         <Grid container direction="row" wrap="nowrap" spacing={8} className="cards-grid">

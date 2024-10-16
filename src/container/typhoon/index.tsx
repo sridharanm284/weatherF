@@ -19,9 +19,16 @@ import cyclone_3_g from "./../../assets/vectos/cyclone_3_g.png";
 import cyclone_4_g from "./../../assets/vectos/cyclone_4_g.png";
 import cyclone_5_g from "./../../assets/vectos/cyclone_5_g.png";
 import axios from "axios";
+import { CircularProgress, Button } from '@mui/material';
+import cyclone_0_new from "../../assets/vectos/cyclone_0_R.gif";
+import cyclone_1_new from "../../assets/vectos/cyclone_1_R.gif";
+import cyclone_2_new from "../../assets/vectos/cyclone_2_R.gif";
+import cyclone_3_new from "../../assets/vectos/cyclone_3_R.gif";
+import cyclone_4_new from "../../assets/vectos/cyclone_4_R.gif";
+import cyclone_5_new from "../../assets/vectos/cyclone_5_R.gif";
 
 mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHNkYXNhIiwiYSI6ImNsbDF5dTlrNTBhYTUzanFvbmVtOGp6aWMifQ.Qz5I6EJY4PZbXXvmfXKhFQ";
+  "pk.eyJ1IjoiZHNkYXNhIiwiYSI6ImNtMG03NHN1bzAzc3cya3NkbW9maWI0c20ifQ.ZQ2RyZ2Kg_QW5IS1v3RA-A";
 
 const drawerWidth = 0;
 
@@ -68,6 +75,15 @@ const typhon_icon_g: any = {
   5: cyclone_5_g,
 };
 
+const typhon_icon_new: any = {
+  0: cyclone_0_new,
+  1: cyclone_1_new,
+  2: cyclone_2_new,
+  3: cyclone_3_new,
+  4: cyclone_4_new,
+  5: cyclone_5_new,
+};
+
 interface ITyphonCoords {
   latlng: [number, number];
   info: string;
@@ -83,7 +99,7 @@ export default function TyphoonComponent() {
   const [sn, setSn] = useState(localStorage.getItem("sideNav"));
   const windowWidth = useRef(window.innerWidth);
   const [open, setOpen] = useState(windowWidth.current > 1000 ? true : false);
-  const [loading, setLoading] = useState<any>(true);
+  const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const l = localStorage.getItem("sideNav");
@@ -101,17 +117,52 @@ export default function TyphoonComponent() {
     setOpen(data.toggle);
   }, [data]);
 
+  const downloadPDFs = async (stormName: any) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [stormName]: true }));
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/converter/api/download-pdfs/",
+        { storm_name: stormName },
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          responseType: 'blob',
+        }
+      );
+
+      if (response.status === 200 && response.data) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `TC_BULLETIN_${stormName}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } else {
+        alert(`No PDF file found for ${stormName}`);
+      }
+    } catch (error) {
+      console.error("Error downloading PDFs:", error);
+      alert(`Failed to download PDF for ${stormName}. No PDF available.`);
+    } finally {
+      setLoading((prevLoading:any) => ({ ...prevLoading, [stormName]: false }));
+    }
+  };
+
+
+
   const [btncolor, setBtnColor] = useState<any>({ background: "white" });
   const popupbar = useRef(null);
   const [fetchedDatas, setFetchedDatas] = useState<any>(Object());
   const [stormDatas, setStormDatas] = useState<any>([]);
   const [trackDatas, setTrackDatas] = useState<any>([]);
   const [mapHovers, setMapHovers] = useState<any>([]);
-  const [userGeoCords, setuserGeoCords] = useState<IUserGeoCoords>({
-    lat: "1.290270",
-    lng: "103.851959",
-  });
-  const [TyphonCoords, setTyphonCoords] = useState<any>([]);
+  const [userGeoCords, setuserGeoCords] = useState<any>([]);
+    const [TyphonCoords, setTyphonCoords] = useState<any>([]);
+    const [warningData, setWarningData] = useState({});
+
 
   function calculateDistance(lat1: any, lon1: any, lat2: any, lon2: any) {
     const R = 6373.0; // approximate radius of Earth in kilometers
@@ -178,51 +229,55 @@ export default function TyphoonComponent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response_storm = await axios.get(
-          `${process.env.REACT_APP_BACKEND_IP}api/stormdatas/`
-        );
-        if (!response_storm.data) {
-          throw new Error("Failed to fetch storm data");
-        }
-        const data_storm = response_storm.data;
+        // Hardcoded storm data
+        const data_storm = {"track_datas":
+           [{"storm_track_id": 395,"storm_name": "20W KRATHON","storm_description": null,"status_id": 8,"created_by": 25,"created_on": "2024-09-27","updated_by": 20,"updated_on": "2024-09-29","last_accessed_on": "2024-09-29T01:11:36.436272"}],
+           "storm_datas": [[{"storm_path_data_id": 37063,"storm_path_id": 4868,"id_index": 3,"lat": 23.799999999999997,"lon": 120.07999999999996,
+            "date_utc": "2024-10-09T00:00:00","time_utc": "2024-10-09T00:00:00","heading": 250.78541286531643,"speed_kts": 0.0,"max_wind_speed": 15.0,"max_gust": 20.0,"central_pressure": 1005.0,"output_unit_id": 24,"kts_34_ne": 0.0,"kts_34_se": 0.0,"kts_34_sw": 0.0,"kts_34_nw": 0.0,"kts_50_ne": 0.0,"kts_50_se": 0.0,"kts_50_sw": 0.0,"kts_50_nw": 0.0,"kts_64_ne": 0.0,"kts_64_se": 0.0,"kts_64_sw": 0.0,"kts_64_nw": 0.0,"kts_80_ne": 0.0,"kts_80_se": 0.0,"kts_80_sw": 0.0,"kts_80_nw": 0.0,"created_by": 23,"created_on": "2024-10-04T05:37:19.813146","updated_by": 23,"updated_on": "2024-10-03T21:40:10.438067","distance_in_miles": 51.24457269778782,"storm_category_id": 59,"last_accessed_on": "2024-10-03T21:40:10.391662"},{"storm_path_data_id": 37062,"storm_path_id": 4868,"id_index": 2,
+              "lat": 23.65,"lon": 120.7,"date_utc": "2024-10-09T12:00:00","time_utc": "2024-10-09T12:00:00","heading": 284.8031267298152,"speed_kts": 2.94,"max_wind_speed": 20.0,"max_gust": 30.0,"central_pressure": 1004.0,"output_unit_id": 24,"kts_34_ne": 0.0,"kts_34_se": 0.0,"kts_34_sw": 0.0,"kts_34_nw": 0.0,"kts_50_ne": 0.0,"kts_50_se": 0.0,"kts_50_sw": 0.0,"kts_50_nw": 0.0,"kts_64_ne": 0.0,"kts_64_se": 0.0,"kts_64_sw": 0.0,"kts_64_nw": 0.0,"kts_80_ne": 0.0,"kts_80_se": 0.0,"kts_80_sw": 0.0,"kts_80_nw": 0.0,"created_by": 23,"created_on": "2024-10-04T05:37:19.813146","updated_by": 23,"updated_on": "2024-10-03T21:40:10.438067","distance_in_miles": 35.24900502638032,"storm_category_id": 59,"last_accessed_on": "2024-10-03T21:40:10.391662"},{"storm_path_data_id": 37064,"storm_path_id": 4868,"id_index": 1,
+                "lat": -23.3,"lon": 120.9,"date_utc": "2024-10-09T00:00:00","time_utc": "2024-10-09T00:00:00","heading": 332.33950213166827,"speed_kts": 1.98,"max_wind_speed": 25.0,"max_gust": 35.0,"central_pressure": 1002.0,"output_unit_id": 24,"kts_34_ne": 0.0,"kts_34_se": 0.0,"kts_34_sw": 0.0,"kts_34_nw": 0.0,"kts_50_ne": 0.0,"kts_50_se": 0.0,"kts_50_sw": 0.0,"kts_50_nw": 0.0,"kts_64_ne": 0.0,"kts_64_se": 0.0,"kts_64_sw": 0.0,"kts_64_nw": 0.0,"kts_80_ne": 0.0,"kts_80_se": 0.0,"kts_80_sw": 0.0,"kts_80_nw": 0.0,"created_by": 23,"created_on": "2024-10-04T05:37:19.813146","updated_by": 23,"updated_on": "2024-10-03T21:40:10.438067","distance_in_miles": 23.725674930661338,"storm_category_id": 59,"last_accessed_on": "2024-10-03T21:40:10.391662"}]],"map_hovers": {"storm_395": 
+                  {"lat": 23.799999999999997,"lon": 120.07999999999996}}}
+        // Setting the state with hardcoded data
         setStormDatas(data_storm.storm_datas || []);
-        setTrackDatas(data_storm.track_datas || []);
-        setMapHovers(data_storm.map_hovers || []);
-        setTyphonCoords(
-          (data_storm.storm_datas || []).map((datas: any) =>
-            datas.map((data: any) => {
-              const utcDate = new Date(data.date_utc + "Z");
-              const day = utcDate.getUTCDate().toString().padStart(2, "0");
-              const time = `${utcDate
-                .getUTCHours()
-                .toString()
-                .padStart(2, "0")}:${utcDate
-                .getUTCMinutes()
-                .toString()
-                .padStart(2, "0")}`;
-              const formattedDate = `${day}/${time}`;
-              return {
-                ...data,
-                latlng: [data.lon, data.lat],
-                info:
-                  data.date_utc === undefined
-                    ? "-"
-                    : `Time UTC: ${formattedDate}`,
-              };
-            })
-          )
-        );
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setStormDatas([]);
-        setTrackDatas([]);
-        setMapHovers([]);
-        setTyphonCoords([]);
-      }
-    };
-    fetchData();
-  }, [setStormDatas, setTrackDatas]);
+      setTrackDatas(data_storm.track_datas || []);
+      setMapHovers(data_storm.map_hovers || []);
 
+      setTyphonCoords(
+        (data_storm.storm_datas || []).map((datas: any) =>
+          datas.map((data: any) => {
+            const utcDate = new Date(data.date_utc + "Z");
+            const day = utcDate.getUTCDate().toString().padStart(2, "0");
+            const time = `${utcDate.getUTCHours().toString().padStart(2, "0")}:${utcDate.getUTCMinutes().toString().padStart(2, "0")}`;
+            const formattedDate = `${day}/${time}`;
+            
+            const rotation = data.lat >= 0 ? "rotate(-360deg)" : "rotate(360deg)";
+
+            const markerElement = document.createElement('img');
+            markerElement.src = 
+            markerElement.style.height = "30px";
+            markerElement.style.transform = rotation; 
+            markerElement.className = "rotate-animation";
+
+            return {
+              ...data,
+              latlng: [data.lon, data.lat],
+              info: data.date_utc === undefined ? "-" : `Time UTC: ${formattedDate}`,
+              markerElement 
+            };
+          })
+        )
+      );
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setStormDatas([]);
+      setTrackDatas([]);
+      setMapHovers([]);
+      setTyphonCoords([]);
+    }
+  };
+  fetchData();
+}, [setStormDatas, setTrackDatas]);
+  
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
 
@@ -313,104 +368,89 @@ export default function TyphoonComponent() {
     })
   );
 
- 
-  /* useEffect(() => {
-    const renderMap = async () => {
-      if (map.current) return; // If map is already initialized, exit
-      if (mapContainer.current) {
-        let latlong: any = {};
-        try {
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_IP}api/cyclone/${localStorage.getItem("fid")}/`
-          );
-          const data = await response.json();
-          ////console.log(data);
-          setuserGeoCords(
-            Object({
-              lat: data.model_data.lat.toString(),
-              lng: data.model_data.long.toString(),
-            })
-          );
-          setFetchedDatas(data);
-          latlong = data.model_data;
-        } catch {
-          latlong = Object({
-            lat: "1.290270",
-            long: "103.851959",
-          });
-        }
-
-        map.current = new mapboxgl.Map({
-          container: mapContainer.current,
-          style: "mapbox://styles/mapbox/streets-v11", // flat Map
-          center: [latlong.long, latlong.lat],
-          zoom: zoom,
-          minZoom: 1.0,
-        });
-
-        map.current.on("load", function () {
-          setIsStyleLoaded(true);
-        });
-        map.current.addControl(
-          new mapboxgl.NavigationControl({ showCompass: false }),
-          "top-right"
-        );
-        map.current.addControl(new mapboxgl.FullscreenControl());
-      }
-    };
-    renderMap();
-  }, [userGeoCords]);*/
-
   useEffect(() => {
     const renderMap = async () => {
       if (!mapContainer.current) return;
       try {
-        const response = await axios.get(
-          `${
-            process.env.REACT_APP_BACKEND_IP
-          }api/cyclone/${localStorage.getItem("fid")}/`
-        );
-        const data = response.data;
-        if (!data.model_data || !data.model_data.lat || !data.model_data.long) {
-          throw new Error("Cyclone data is incomplete or missing coordinates.");
-        }
-        setuserGeoCords({
-          lat: data.model_data.lat.toString(),
-          lng: data.model_data.long.toString(),
+        const data = {
+             "project_location": {
+                 "latitude": 5.15,
+                 "longitude": 112.93
+             },
+             "cyclone_data": {
+                 "forecast_cyclone_id": 3358,
+                 "forecast_id": 8499,
+                 "report_template_id": 87,
+                 "warning_radius1_hour": 12,
+                 "warning_radius1_frequency": 1000.0,
+                 "warning_radius2_hour": 6,
+                 "warning_radius2_frequency": 600.0,
+                 "warning_radius3_hour": 3,
+                 "warning_radius3_frequency": 300.0,
+                 "warning_radius4_hour": null,
+                 "warning_radius4_frequency": null,
+                 "wind_criteria1": 35.0,
+                 "wind_criteria2": 47.0,
+                 "wind_criteria3": 60.0,
+                 "wave_criteria1": 5.0,
+                 "wave_criteria2": 7.0,
+                 "wave_criteria3": 9.0,
+                 "created_by": 22,
+                 "created_on": "2024-09-04T12:47:21.794409",
+                 "updated_by": 20,
+                 "updated_on": "2024-09-20T04:33:27.129567",
+                 "include_time_to_on_set": true,
+                 "warning_radius": null,
+                 "warning_radius_unit_id": 24,
+                 "reference_time": "2022-12-02T14:08:55.208923",
+                 "subject": "Tropical Cyclone Warning {storm_name} for HMC-AEGIR-25-11078 Ref 230994",
+                 "file_prefix": "TC BULLETIN_{storm_name}-HMC-AEGIR-25-11078 Ref 230994 {yyyy}-{MM}-{dd} {HH}{mm}",
+                 "auto_generate_warnings": false,
+                 "last_accessed_on": "2024-09-20T04:33:27.325890"
+             }
+          }
+        
+        
+          setuserGeoCords({
+          lat: data.project_location.latitude.toString(),
+          lng: data.project_location.longitude.toString(),
         });
         setFetchedDatas(data);
+        setWarningData(data.cyclone_data);
+
         map.current = new mapboxgl.Map({
           container: mapContainer.current,
           style: "mapbox://styles/mapbox/streets-v11",
-          center: [
-            parseFloat(data.model_data.long),
-            parseFloat(data.model_data.lat),
-          ],
+          center: [data.project_location.longitude, data.project_location.latitude],  
           zoom: zoom,
           minZoom: 1.0,
         });
-        map.current.on("load", () => {
+
+        map.current.on('style.load', () => {
           setIsStyleLoaded(true);
         });
+  
         map.current.addControl(
           new mapboxgl.NavigationControl({ showCompass: false }),
           "top-right"
         );
         map.current.addControl(new mapboxgl.FullscreenControl());
       } catch (error) {
-        console.error("Error fetching or rendering map:", error);
+        console.error("Error rendering map:", error);
+  
         setuserGeoCords({ lat: "1.290270", lng: "103.851959" });
         setFetchedDatas(null);
       }
     };
+  
     renderMap();
   }, []);
-
+  
   // render map
   useEffect(() => {
     if (isStyleLoaded) {
       if (map.current) {
-        const currentMap = map.current; // Access the current map
+        const currentMap = map.current; 
         currentMap.on("move", () => {
           setuserGeoCords({
             lng: parseFloat(currentMap.getCenter().lng.toFixed(4)).toString(),
@@ -427,40 +467,47 @@ export default function TyphoonComponent() {
             parseFloat(userGeoCords.lat),
           ])
           .addTo(map.current);
+    
+        let project = localStorage.getItem("project");
+      
+        let trimmedProject = project ? (project.match(/^[^\d]+/)?.[0].trim() || '') : '';
+      
         const popup = new mapboxgl.Popup({
           offset: 35,
           closeButton: false,
           closeOnClick: false,
         })
-          .setHTML(`<b>${localStorage.getItem("project")}</b>`)
+          .setHTML(`<b>${trimmedProject}</b>`)
           .setLngLat([
             parseFloat(userGeoCords.lng),
             parseFloat(userGeoCords.lat),
           ])
           .addTo(map.current);
-
+      
         const popupContainer = (popup as any)._content;
         if (popupContainer) {
           popupContainer.style.backgroundColor = "rgba(0, 0, 0, 0)";
-          popupContainer.style.boxShadow = "none";
-          popupContainer.style.border = "1px solid #000";
-          popupContainer.style.color = "#0000FF";
+          // popupContainer.style.boxShadow = "none";
+          // popupContainer.style.border = "1px solid #000";
+          // popupContainer.style.color = "#0000FF";
         }
       }
+      
       if (userGeoCords.lng !== undefined && userGeoCords.lat !== undefined) {
         const userCenter = turf.point([
           parseFloat(userGeoCords.lng),
           parseFloat(userGeoCords.lat),
         ]);
+
+
         userCircleRadius.forEach((radius, rIndex) => {
           if (map.current && fetchedDatas && fetchedDatas.cyclone_data) {
             const cycloneData = fetchedDatas.cyclone_data[radius];
             if (cycloneData !== undefined) {
-              // Calculate the semi-major and semi-minor axes with different values
-              const semiMajorAxis = cycloneData + 300; // North-South distance (adjust as needed)
-              const semiMinorAxis = cycloneData + 150; // East-West distance
-
-              // Calculate the ellipse vertices
+             
+              const semiMajorAxis = cycloneData + 300; 
+              const semiMinorAxis = cycloneData + 150; 
+      
               const ellipseVertices = turf.ellipse(
                 userCenter,
                 semiMajorAxis,
@@ -470,51 +517,114 @@ export default function TyphoonComponent() {
                   steps: 64,
                 }
               );
-
-              map.current.addSource(`ellipseData-${rIndex}`, {
+        
+              const sourceId = `ellipseData-${rIndex}`;
+              const fillLayerId = `ellipse-fill-${rIndex}`;
+              const strokeLayerId = `ellipse-stroke-${rIndex}`;
+              const labelLayerId = `ellipse-label-${rIndex}`;
+        
+              map.current.addSource(sourceId, {
                 type: "geojson",
                 data: ellipseVertices,
               });
+        
               map.current.addLayer({
-                id: `ellipse-fill-${rIndex}`,
+                id: fillLayerId,
                 type: "fill",
-                source: `ellipseData-${rIndex}`,
+                source: sourceId,
                 paint: {
                   "fill-color": userCircleColors[radius],
                   "fill-opacity": 0.2,
                 },
               });
+        
               map.current.addLayer({
-                id: `ellipse-stroke-${rIndex}`,
+                id: strokeLayerId,
                 type: "line",
-                source: `ellipseData-${rIndex}`,
+                source: sourceId,
                 paint: {
                   "line-color": userCircleColors[radius],
                   "line-width": 2,
                 },
               });
+        
+              
+              const labelCoordinates = ellipseVertices.geometry.coordinates[0][32]; 
+        
+              const labelGeoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+                type: "FeatureCollection",
+                features: [
+                  {
+                    type: "Feature",
+                    geometry: {
+                      type: "Point",
+                      coordinates: labelCoordinates as [number, number], 
+                    },
+                    properties: {
+                      label: cycloneData.toString(),
+                    },
+                  },
+                ],
+              };
+              
+              map.current.addSource(`labelData-${rIndex}`, {
+                type: "geojson",
+                data: labelGeoJson, 
+              });
+              
+        
+              map.current.addLayer({
+                id: `labelLayer-${rIndex}`,
+                type: "symbol",
+                source: `labelData-${rIndex}`,
+                layout: {
+                  "text-field": "{label}", 
+                  "text-size": [
+                    "interpolate", 
+                    ["linear"],
+                    ["zoom"],
+                    5, 
+                    10, 
+                    10, 
+                    24, 
+                  ],
+                  "text-offset": [0, 2.5], 
+                  "text-anchor": "bottom", 
+                  "text-justify": "center", 
+                },
+                paint: {
+                  "text-color": "#000000", 
+                },
+              });
+              
             }
           }
         });
       }
+        
+
       stormDatas.map((datas: any) =>
         datas.map((data: any) => {
           if (map.current && data.storm_category_id === 54) {
             const marker = new mapboxgl.Marker()
               .setLngLat([parseFloat(data.lon), parseFloat(data.lat)])
               .addTo(map.current);
+            let project = localStorage.getItem("project");
+ 
+            let trimmedProject = project ? (project.match(/^[^\d]+/)?.[0].trim() || '') : '';
+      
             new mapboxgl.Popup({
               offset: 35,
               closeButton: false,
               closeOnClick: false,
             })
-              .setHTML(`<b>${localStorage.getItem("project")}</b>`)
+              .setHTML(`<b>${trimmedProject}</b>`) 
               .setLngLat([parseFloat(data.lon), parseFloat(data.lat)])
               .addTo(map.current);
           }
         })
       );
-
+      
       TyphonCoords.map((main_datas: any, main_index: number) => {
         const labelGeoJSON = {
           type: "FeatureCollection",
@@ -542,9 +652,21 @@ export default function TyphoonComponent() {
               "text-offset": [0, 2],
               "text-anchor": "right",
               "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+              "text-size": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                5, 
+                5,
+                10,
+                15,
+                15, 
+                20,
+              ],
             },
           });
         }
+        
 
         const lineGeoJSON = {
           type: "Feature",
@@ -583,6 +705,7 @@ export default function TyphoonComponent() {
             parseFloat(item.latlng[1]),
             parseFloat(item.latlng[0])
           );
+        
           const cyclone_range_icon = returnCycloneRange(
             item.speed_kts !== undefined && item.distance !== undefined
               ? 0
@@ -590,14 +713,21 @@ export default function TyphoonComponent() {
               ? item.max_wind_speed
               : item.speed_kts
           );
+        
+          const latValue = parseFloat(item.latlng[1]);
+      
+          const iconSet = latValue >= 0 ? typhon_icon_new : typhon_icon;
+      
           markerElement.src =
-            new Date(item.date_utc).toLocaleDateString() ===
-              new Date().toLocaleDateString() ||
+            new Date(item.date_utc).toLocaleDateString() === new Date().toLocaleDateString() ||
             new Date(item.date_utc) >= new Date()
-              ? typhon_icon[cyclone_range_icon]
-              : typhon_icon_g[cyclone_range_icon];
+              ? iconSet[cyclone_range_icon]  
+              : typhon_icon_g[cyclone_range_icon];  
+        
           markerElement.style.height = "30px";
-          markerElement.className = "rotate-animation";
+        
+          
+          
 
           if (map.current) {
             const tableHeader = [
@@ -615,68 +745,69 @@ export default function TyphoonComponent() {
             ];
 
             const tableHTML = `
-            <div id = "demo">
-            <div class="popup-table">
-            <table>
-            <thead>
-            <tr>${tableHeader
-              .map((head) => `<td><strong>${head}</strong></td>`)
-              .join("")}</tr>
-            </thead>
-            <tbody>
-                            ${main_datas
-                              .map((typhoon: any, index: number) => {
-                                const distanceToUser = calculateDistance(
-                                  parseFloat(userGeoCords.lat),
-                                  parseFloat(userGeoCords.lng),
-                                  parseFloat(typhoon.latlng[1]),
-                                  parseFloat(typhoon.latlng[0])
-                                ).toFixed(0);
-                                // tableHTML.id = "demo"
-                                const correspondingTyphoon = main_datas[index];
-                                const utcDate = new Date(
-                                  correspondingTyphoon.date_utc + "Z"
-                                );
-                                const day = utcDate
-                                  .getUTCDate()
-                                  .toString()
-                                  .padStart(2, "0");
-                                const time = `${utcDate
-                                  .getUTCHours()
-                                  .toString()
-                                  .padStart(2, "0")}:${utcDate
-                                  .getUTCMinutes()
-                                  .toString()
-                                  .padStart(2, "0")}`;
-                                const formattedDate = `${day}/${time}`;
+         <div id="demo">
+  <div class="popup-table right-popup">
+    <table>
+      <thead>
+        <tr>
+          ${tableHeader
+            .map((head) => `<td><strong>${head}</strong></td>`)
+            .join("")}
+        </tr>
+      </thead>
+      <tbody>
+        ${main_datas
+          .map((typhoon: any, index: number) => {
+            const distanceToUser = calculateDistance(
+              parseFloat(userGeoCords.lat),
+              parseFloat(userGeoCords.lng),
+              parseFloat(typhoon.latlng[1]),
+              parseFloat(typhoon.latlng[0])
+            ).toFixed(0);
 
-                                return `
+            const correspondingTyphoon = main_datas[index];
+            const utcDate = new Date(correspondingTyphoon.date_utc + "Z");
+            const day = utcDate
+              .getUTCDate()
+              .toString()
+              .padStart(2, "0");
+            const time = `${utcDate
+              .getUTCHours()
+              .toString()
+              .padStart(2, "0")}:${utcDate
+              .getUTCMinutes()
+              .toString()
+              .padStart(2, "0")}`;
+            const formattedDate = `${day}/${time}`;
+
+            return `
               <tr>
-              <td>${index + 1}</td>
-              <td>${formattedDate}</td>
-              <td>${Math.trunc(correspondingTyphoon.lat * 10) / 10}N ${
-                                  Math.trunc(correspondingTyphoon.lon * 10) / 10
-                                }E</td>
-              <td>${distanceToUser}</td>
-              <td>${correspondingTyphoon.speed_kts.toFixed(0)}</td>
-              <td>${correspondingTyphoon.central_pressure}</td>
-              <td>${correspondingTyphoon.max_wind_speed}</td>
-              <td>${correspondingTyphoon.kts_34_ne}</td>
-              <td>${correspondingTyphoon.kts_50_ne}</td>
-              <td>${correspondingTyphoon.kts_64_ne}</td>
-              <td>${correspondingTyphoon.kts_80_ne}</td>
-                </tr>`;
-                              })
-                              .join("")}
-</tbody>
-</table>
-<div>
+                <td>${index + 1}</td>
+                <td>${formattedDate}</td>
+                <td>${Math.trunc(correspondingTyphoon.lat * 10) / 10}N ${
+              Math.trunc(correspondingTyphoon.lon * 10) / 10
+            }E</td>
+                <td>${distanceToUser}</td>
+                <td>${correspondingTyphoon.speed_kts.toFixed(0)}</td>
+                <td>${correspondingTyphoon.central_pressure}</td>
+                <td>${correspondingTyphoon.max_wind_speed}</td>
+                <td>${correspondingTyphoon.kts_34_ne}</td>
+                <td>${correspondingTyphoon.kts_50_ne}</td>
+                <td>${correspondingTyphoon.kts_64_ne}</td>
+                <td>${correspondingTyphoon.kts_80_ne}</td>
+              </tr>`;
+          })
+          .join("")}
+      </tbody>
+    </table>
+  </div>
 </div>`;
 
+
             const popup = new mapboxgl.Popup({
-              offset: 125,
+              offset: 25,
               maxWidth: "fit-content",
-              anchor: "bottom-right",
+              anchor: "bottom-left",
               className: "popup-main-table",
             }).setHTML(tableHTML);
 
@@ -783,7 +914,6 @@ export default function TyphoonComponent() {
       width: "20px",
     });
   }
-
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
       <div className="sidebar">
@@ -846,10 +976,11 @@ export default function TyphoonComponent() {
         </div>
       </div>
       <div ref={popupbar} className="bottom-bar-popup">
-        {trackDatas.map(
-          (data: any) =>
-            mapHovers[`storm_${data.storm_track_id}`] !== undefined &&
-            mapHovers[`storm_${data.storm_track_id}`].lon !== undefined && (
+      {trackDatas.map(
+        (data: any) =>
+          mapHovers[`storm_${data.storm_track_id}`] !== undefined &&
+          mapHovers[`storm_${data.storm_track_id}`].lon !== undefined && (
+            <span key={data.storm_track_id} className="bottom-bar-box">
               <span
                 onClick={() => {
                   if (map.current === null) return;
@@ -858,13 +989,22 @@ export default function TyphoonComponent() {
                     mapHovers[`storm_${data.storm_track_id}`].lat,
                   ]);
                 }}
-                className="bottom-bar-box"
               >
                 {data.storm_name}
               </span>
-            )
-        )}
-      </div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => downloadPDFs(data.storm_name)}
+                disabled={loading[data.storm_name]}
+                startIcon={loading[data.storm_name] && <CircularProgress size={20} />}
+              >
+                {loading[data.storm_name] ? 'Downloading...' : 'Download PDF'}
+              </Button>
+            </span>
+          )
+      )}
+    </div>
       <div ref={mapContainer} className="map-container" />
     </div>
   );

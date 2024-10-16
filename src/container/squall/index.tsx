@@ -619,18 +619,24 @@ const Squall = () => {
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_IP}api/getvideo/${SquallMap}`,
-          { responseType: "blob" }
-        );
-        const url = URL.createObjectURL(response.data);
-        setVideoUrl(url);
+        const fid = localStorage.getItem('fid'); 
+        if (fid) {
+          const response = await axios.get(
+            `${process.env.REACT_APP_BACKEND_IP}api/getvideo/${fid}/${SquallMap}/`, 
+            { responseType: "blob" }
+          );
+          const url = URL.createObjectURL(response.data);
+          setVideoUrl(url);
+        } else {
+          console.error('fid not found in local storage');
+        }
       } catch (error) {
         console.error(error);
       }
     };
     fetchVideo();
-  }, [SquallMap, setVideoUrl]);
+  }, [setVideoUrl]);
+  
 
   useEffect(() => {
     setLoading(false);
@@ -646,7 +652,7 @@ const Squall = () => {
 
   function render() {
     if (!jsonData || !Array.isArray(jsonData)) return null;
-    
+  
     return jsonData.map((elem: any, index: number) => {
       if (elem[`Date/Time Forecast`] === "") {
         return null;
@@ -661,17 +667,36 @@ const Squall = () => {
           </tr>
         );
       } else {
-        const positionLat = isNaN(parseFloat(elem[`Position lat`])) ? elem[`Position lat`] : parseFloat(elem[`Position lat`]).toFixed(2);
-        const positionLon = isNaN(parseFloat(elem[`Position lon`])) ? elem[`Position lon`] : parseFloat(elem[`Position lon`]).toFixed(2);
-        const timeToSite = isNaN(parseFloat(elem[`Time to Site (hr)`])) ? elem[`Time to Site (hr)`] : parseFloat(elem[`Time to Site (hr)`]).toFixed(2);
-        const distanceToSite = isNaN(parseFloat(elem[`Distance to Site (nm)`])) ? elem[`Distance to Site (nm)`] : parseFloat(elem[`Distance to Site (nm)`]).toFixed(2);
+  
+        const formattedDateTime = elem[`Date/Time Forecast`]
+          .slice(0, 3) + 
+          elem[`Date/Time Forecast`].slice(10, 16); 
+    
+        const positionLat = isNaN(parseFloat(elem[`Position lat`]))
+          ? elem[`Position lat`]
+          : parseFloat(elem[`Position lat`]).toFixed(1) + " N"; 
+        const positionLon = isNaN(parseFloat(elem[`Position lon`]))
+          ? elem[`Position lon`]
+          : parseFloat(elem[`Position lon`]).toFixed(1) + " E"; 
+        const timeToSiteInHours = parseFloat(elem[`Time to Site (hr)`]);
+        let timeToSite;
+        if (isNaN(timeToSiteInHours)) {
+          timeToSite = elem[`Time to Site (hr)`];
+        } else {
+          const hours = Math.floor(timeToSiteInHours);
+          const minutes = Math.round((timeToSiteInHours - hours) * 60);
+          timeToSite = hours > 0 
+            ? `${hours}hr ${minutes}min`
+            : `${minutes}min`;
+        }
+
+        const distanceToSite = isNaN(parseFloat(elem[`Distance to Site (nm)`]))
+          ? elem[`Distance to Site (nm)`]
+          : Math.round(parseFloat(elem[`Distance to Site (nm)`])) + "NM";
   
         return (
           <tr key={index} className="sqtr">
-            <td className="sqtd">
-              {elem[`Date/Time Forecast`].slice(0, 3) +
-                elem[`Date/Time Forecast`].slice(10)}
-            </td>
+            <td className="sqtd">{formattedDateTime}</td>
             <td className="sqtd">{positionLat}</td>
             <td className="sqtd">{positionLon}</td>
             <td className="sqtd">{timeToSite}</td>
@@ -681,6 +706,7 @@ const Squall = () => {
       }
     });
   }
+  
   
 
   // useEffect(() => {

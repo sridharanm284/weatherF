@@ -116,7 +116,7 @@ const SideNavMenu = (props: any) => {
   return (
     <div className="sidenav">
       <img
-        alt={"Logo"}
+        alt={"lo"}
         style={{ borderRadius: "10px", marginInline: "10px", marginTop: 40 }}
         src={logoMain}
       />

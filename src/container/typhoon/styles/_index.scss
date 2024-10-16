@@ -138,3 +138,14 @@
   color: white;
   background-color: #1c1d28;
 }
+
+.marker-label {
+  background-color: white; /* Change this to your desired background color */
+  padding: 5px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: black; /* Change text color if needed */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
+}
+
+
