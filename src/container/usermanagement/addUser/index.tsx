@@ -464,7 +464,7 @@ const AddNewUserComponent = () => {
                           {...params}
                           value={formData.operation}
                           label="Project No"
-                          style={{ width: "22vw" }}
+                          style={{ width: "20vw" }}
                           required
                         />
                       )}

@@ -58,14 +58,14 @@ const MapComponent: React.FC = () => {
       interval = setInterval(() => {
         const newTimestamp = Date.now().toString();
         updateTimestamp(newTimestamp);
-      }, 60000); // Update every minute
+      }, 60000); 
     }
-    return () => clearInterval(interval); // Clean up the interval
+    return () => clearInterval(interval); 
   }, [map]);
 
   return (
     <div>
-      <div ref={mapContainer} style={{ width: '100%', height: '500px' }} />
+      <div ref={mapContainer} style={{ width: '50%', height: '400px' }} />
       <div>
         <button onClick={() => changeLayer('temperature', timestamp || '')}>
           Temperature Layer

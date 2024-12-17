@@ -17,8 +17,10 @@ import FlashOnIcon from "@mui/icons-material/FlashOn";
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import SendIcon from "@mui/icons-material/Send";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import logoMain from "./../../assets/logoMain.png";
+import logoMain from "./../../assets/background.jpeg";
 import useWebSocket from "react-use-websocket";
+import charts from "../../../src/container/charts/charts";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 interface ChatMessage {
   id: number;
@@ -195,6 +197,29 @@ const SideNavMenu = (props: any) => {
           </Link>
         </MenuItem>
         <MenuItem
+      className={location.pathname === "/charts" ? "custom_active" : ""}
+      style={{
+        borderRadius: "5px",
+        padding: "8px",
+      }}
+    >
+      <Link
+        to={"/charts"}
+        state={{ title: "Charts" }}
+        style={{
+          display: "flex",
+          textDecoration: "none",
+          color: "inherit",
+          width: "100%",
+        }}
+      >
+        <ListItemIcon>
+          <BarChartIcon style={{ color: "white" }} fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>Charts</ListItemText>
+      </Link>
+    </MenuItem>
+        <MenuItem
           className={location.pathname === "/typhoon" ? "custom_active" : ""}
         >
           <Link
@@ -230,81 +255,88 @@ const SideNavMenu = (props: any) => {
             <ListItemText>Submit Observation</ListItemText>
           </Link>
         </MenuItem>
-        <MenuItem
-          className={
-            location.pathname === "/observation" ? "custom_active" : ""
-          }
-        >
-          <Link
-            to={"/map"}
-            state={{ title: "map" }}
-            style={{ display: "flex" }}
-          >
-            <ListItemIcon>
-              <SendIcon style={{ color: "white" }} fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Mapbox</ListItemText>
-          </Link>
-        </MenuItem>
+        
         {localStorage.getItem("type") === "user" ? (
-          <MenuItem>
-            <Link
-              to={"/chat"}
-              state={{ title: "Submit Observation" }}
-              style={{ display: "flex" }}
-            >
-              <ListItemIcon>
-                <ConnectWithoutContactIcon
-                  style={{ color: "white" }}
-                  fontSize="small"
-                />
-              </ListItemIcon>
-              <Badge
-                badgeContent={countUser}
-                onClick={() => setcountUser(0)}
-                color="info"
-              >
-                <ListItemText>Contact Duty Forecaster</ListItemText>
-              </Badge>
-            </Link>
-          </MenuItem>
-        ) : (
-          <MenuItem>
-            <Link
-              to={"/adminchat"}
-              state={{ title: "Submit Observation" }}
-              style={{ display: "flex" }}
-            >
-              <ListItemIcon>
-                <ConnectWithoutContactIcon
-                  style={{ color: "white" }}
-                  fontSize="small"
-                />
-              </ListItemIcon>
-              <Badge badgeContent={countAdmin} color="info">
-                <ListItemText>Contact Duty Forecaster</ListItemText>
-              </Badge>
-            </Link>
-          </MenuItem>
+           <MenuItem
+           style={{
+             backgroundColor: location.pathname === "/chat" ? "#1976d2" : "inherit", 
+             color: location.pathname === "/chat" ? "white" : "inherit", 
+             borderRadius: "5px", 
+           }}
+         >
+           <Link
+             to={"/chat"}
+             state={{ title: "Chat" }}
+             style={{
+               display: "flex",
+               textDecoration: "none",
+               color: "inherit", 
+               width: "100%",
+             }}
+           >
+             <ListItemIcon>
+               <ConnectWithoutContactIcon
+                 style={{ color: "white" }}
+                 fontSize="small"
+               />
+             </ListItemIcon>
+             <Badge
+               badgeContent={countUser}
+               onClick={() => setcountUser(0)}
+               color="info"
+             >
+               <ListItemText>Contact Duty Forecaster</ListItemText>
+             </Badge>
+           </Link>
+         </MenuItem>
+       ) : (
+         <MenuItem
+           style={{
+             backgroundColor: location.pathname === "/adminchat" ? "#1976d2" : "inherit", 
+             color: location.pathname === "/adminchat" ? "white" : "inherit",
+             borderRadius: "5px",
+           }}
+         >
+           <Link
+             to={"/adminchat"}
+             state={{ title: "Chat" }}
+             style={{
+               display: "flex",
+               textDecoration: "none",
+               color: "inherit",
+               width: "100%",
+             }}
+           >
+             <ListItemIcon>
+               <ConnectWithoutContactIcon
+                 style={{ color: "white" }}
+                 fontSize="small"
+               />
+             </ListItemIcon>
+             <Badge badgeContent={countAdmin} color="info">
+               <ListItemText>Contact Duty Forecaster</ListItemText>
+             </Badge>
+           </Link>
+         </MenuItem>
         )}
 
         {localStorage.getItem("type") === "admin" ? (
-          <MenuItem>
-            <Link
-              to={"/usermanagement"}
-              state={{ title: "Submit Observation" }}
-              style={{ display: "flex" }}
-            >
-              <ListItemIcon>
-                <SupervisorAccountIcon
-                  style={{ color: "white" }}
-                  fontSize="small"
-                />
-              </ListItemIcon>
-              <ListItemText>User Management</ListItemText>
-            </Link>
-          </MenuItem>
-        ) : null}
+        <MenuItem
+  className={location.pathname === "/usermanagement" ? "custom_active" : ""}
+>
+  <Link
+    to={"/usermanagement"}
+    state={{ title: "Usermanagement" }}
+    style={{ display: "flex", alignItems: "center" }} 
+  >
+    <SupervisorAccountIcon style={{ marginRight: "8px" }}> 
+      <StormIcon style={{ color: "white" }} fontSize="small" />
+    </SupervisorAccountIcon>
+    <ListItemText>User Management</ListItemText>
+  </Link>
+</MenuItem>
+
+         ) : null} 
       </MenuList>
     </div>
   );

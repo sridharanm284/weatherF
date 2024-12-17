@@ -12,8 +12,9 @@ import EditUserComponent from "../container/usermanagement/edituser";
 import ViewUserComponent from '../container/usermanagement/viewuser';
 import Typhoon from "../container/typhoon";
 import Squall from "../container/squall";
-import Map from "../container/map/mapbpx";
-import OperationsA from "../container/login/operations/operations";
+import Operations from "../container/login/operations/operations";
+import Charts from "../container/charts/charts"
+import { Component } from "react";
 
 const handleOpen = () => {
   console.log("Opening");
@@ -41,22 +42,14 @@ const appRoutes = [
   {
     name: "operations",
     path: "/operations",
+    Component: Operations,
     protected: false,
     isNavMenu: false,
     permission: [],
-    render: (props: any) => (
-      <OperationsA open={true} close={handleClose} isAdmin={true} {...props} />
-    ), // Pass boolean for open, and function for close
+
   },
 
-  {
-    name: "map",
-    path: "/map",
-    component: Map,
-    protected: true,
-    isNavMenu: true,
-    permission: [],
-  },
+
   {
     name: "Dashboard",
     path: "/dashboard",
@@ -106,6 +99,14 @@ const appRoutes = [
     permission: [],
   },
   {
+    name: "charts",
+    path: "/charts",
+    component: Charts,
+    protected: true,
+    isNavMenu: true,
+    permission: [],
+  },
+  {
     name: "login",
     path: "/login",
     protected: false,
@@ -128,10 +129,7 @@ export const router = [
     path: "/",
     component: <Dashboard />,
   },
-  // {
-  //   path: "/map",
-  //   component: <Map />,
-  // },
+ 
   {
     path: "/dashboard",
     component: <Dashboard />,
@@ -142,7 +140,7 @@ export const router = [
   },
   {
     path: "/operations",
-    component: <OperationsA open={true} close={handleClose} isAdmin={true} />, // Use boolean for open and function for close
+    component: <Operations open={true} close={handleClose} isAdmin={true} />, 
   },
   {
     path: "/forecast",
@@ -203,5 +201,9 @@ export const router = [
   {
     path: "/squall",
     component: <Squall />,
+  },
+  {
+    path: "/charts",
+    component: <Charts />
   },
 ];

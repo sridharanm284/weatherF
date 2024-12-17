@@ -23,6 +23,8 @@ import "./style.scss";
 import { EmailOutlined } from "@mui/icons-material";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
+import PlayArrow from "@mui/icons-material/PlayArrow";
+
 
 const Header = (props: any) => {
   const mystyle = {
@@ -328,11 +330,12 @@ const Header = (props: any) => {
         <div className="topbar">
           <div className="topbar-hold fixed">
             <div className="flex flex-space-between flex-middle h-100">
-              <div className="flex">
-                <IconButton onClick={handleToggle}>
-                  <MenuIcon style={{ color: "white" }} />
-                </IconButton>
-              </div>
+            <div className="flex">
+  <IconButton onClick={handleToggle}>
+    <PlayArrow style={{ color: "white" }} />
+  </IconButton>
+</div>
+
               <div className="flex flex-middle" style={{ marginRight: "2em" }}>
                 <Box
                   sx={{ flexGrow: 0 }}

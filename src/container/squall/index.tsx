@@ -17,8 +17,7 @@ import {
   faForward,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { Bearing, Posdist, NewPosLat, NewPosLon } from './calculations'; 
-
+ 
 const drawerWidth = 0;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -67,7 +66,7 @@ interface GifModalProps {
   onClose: () => void;
   SquallMap: any;
 }
-
+ 
 const ImageModal: React.FC<ImageModalProps> = ({ onClose, VideoUrl }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const handlePlayPause = () => {
@@ -139,19 +138,20 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, VideoUrl }) => {
           &times;
         </button>
         <video
-          ref={videoRef}
-          src={VideoUrl}
-          style={{
-            maxWidth: "100%",
-            maxHeight: "60vh",
-            width: "auto",
-            display: "block",
-            margin: "0 auto",
-          }}
-        >
-          Your browser does not support the video tag.
-        </video>
-        <div
+ ref={videoRef}
+ src={VideoUrl}
+ controls
+ style={{
+   maxWidth: "100%",
+   maxHeight: "60vh",
+   width: "auto",
+   display: "block",
+   margin: "0 auto",
+ }}
+> 
+ Your browser does not support the video tag.
+</video>
+        {/* <div
           className="controls-container"
           style={{
             marginTop: "20px",
@@ -173,7 +173,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, VideoUrl }) => {
           <button className="control-button" onClick={() => handleSeek(5)}>
             <FontAwesomeIcon icon={faForward} />
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -217,12 +217,12 @@ const Squall = () => {
   const [PrevLon, setPrevLon] = useState(0);
   const [CurLat, setCurLat] = useState(0);
   const [CurLon, setCurLon] = useState(0);
-  // const [pinx, setPinX] = useState<any>();
-  // const [piny, setPinY] = useState<any>();
-  // const [pinPx, setPinPx] = useState<any>();
-  // const [pinPy, setPinPy] = useState<any>();
-  // const [pinCx, setPinCx] = useState<any>();
-  // const [pinCy, setPinCy] = useState<any>();
+  const [pinx, setPinX] = useState<any>();
+  const [piny, setPinY] = useState<any>();
+  const [pinPx, setPinPx] = useState<any>();
+  const [pinPy, setPinPy] = useState<any>();
+  const [pinCx, setPinCx] = useState<any>();
+  const [pinCy, setPinCy] = useState<any>();
   const [init, setInit] = useState<any>();
   const [storm, setStorm] = useState<any>();
   const [intensity, setIntensity] = useState<any>();
@@ -230,378 +230,60 @@ const Squall = () => {
   const mapWidth = 600; // Replace with your map width
   const mapHeight = 600; // Replace with your map height
   const [loading, setLoading] = useState(true);
-  // const [pinDiff, setPinDiff] = useState<any>();
+  const [pinDiff, setPinDiff] = useState<any>();
   const [svgVisible, setSvgVisible] = useState(false);
-  // const [imageLoaded, setImageLoaded] = useState(false);
-
-
-
-  const [pinX, setPinX] = useState(0);
-  const [pinY, setPinY] = useState(0);
-  const [pinCx, setPinCx] = useState(0);
-  const [pinCy, setPinCy] = useState(0);
-  const [pinPx, setPinPx] = useState(0);
-  const [pinPy, setPinPy] = useState(0);
-  const [pinDiff, setPinDiff] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
-
-
-
-  useEffect(() => {
-    const fetchData = () => {
-      try {
-        const data = [
-          {
-              "Forecast ID (from Metsys)": "6587",
-              "Client's Name": "SOC",
-              "Site/Vessel name": "OWF HL2",
-              "Client's lat": "23.998",
-              "Client's lon": "119.86",
-              "Squall Header": "Severe Weather Warning for OWF HL2 issued at 30 Jul 2024 16:29 UTC+8",
-              "Squall Advisory": "Latest satellite imagery shows convective activities over land moves westward to affect your site. There is a MODERATE to HIGH risk of squalls around 20-35 knots in/near heavy thunderstorms with risk of lightning and rough seas temporarily higher than forecast over the next 3-5 hours. ",
-              "Previous Sat lat": "23.9",
-              "Previous Sat lon": "120.3",
-              "Previous Sat Time (UTC)": "30/07/2024 07:40:00",
-              "Latest Sat lat": "24",
-              "Latest Sat lon": "120",
-              "Latest Sat Time (UTC)": "30/07/2024 08:20:00",
-              "SatImgSection": "section-157",
-              "Initial Heading": "290.099639669428",
-              "Storm Speed": "26.2653769693281",
-              "Squall Intensity": "20-35 kn",
-              "Forecaster": "",
-              "Date/Time Forecast": "30/07/2024 16:28:59",
-              "Position lat": "24.0224705819027",
-              "Position lon": "119.93270950743",
-              "Time to Site (hr)": "-8.56741602809106",
-              "Distance to Site (nm)": "3.76255145326213"
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "30/07/2024 16:52:59",
-              "Position lat": "24.0825399216395",
-              "Position lon": "119.75259256362",
-              "Time to Site (hr)": "0",
-              "Distance to Site (nm)": "0"
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "30/07/2024 21:52:59",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "ALL CLEAR",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          },
-          {
-              "Forecast ID (from Metsys)": "",
-              "Client's Name": "",
-              "Site/Vessel name": "",
-              "Client's lat": "",
-              "Client's lon": "",
-              "Squall Header": "",
-              "Squall Advisory": "",
-              "Previous Sat lat": "",
-              "Previous Sat lon": "",
-              "Previous Sat Time (UTC)": "",
-              "Latest Sat lat": "",
-              "Latest Sat lon": "",
-              "Latest Sat Time (UTC)": "",
-              "SatImgSection": "",
-              "Initial Heading": "",
-              "Storm Speed": "",
-              "Squall Intensity": "",
-              "Forecaster": "",
-              "Date/Time Forecast": "",
-              "Position lat": "",
-              "Position lon": "",
-              "Time to Site (hr)": "",
-              "Distance to Site (nm)": ""
-          }
-      ];
-        setJsonData(data);
-
-        const firstRecord = data[0];
-        setTitle(firstRecord["Squall Header"]);
-        setDesc(firstRecord["Squall Advisory"]);
-        setSquallMap(firstRecord["SatImgSection"]);
-        setUserLat(parseFloat(firstRecord["Client's lat"]));
-        setUserLon(parseFloat(firstRecord["Client's lon"]));
-        setCurLat(parseFloat(firstRecord["Previous Sat lat"]));
-        setCurLon(parseFloat(firstRecord["Previous Sat lon"]));
-        setPrevLat(parseFloat(firstRecord["Latest Sat lat"]));
-        setPrevLon(parseFloat(firstRecord["Latest Sat lon"]));
-        setInit(parseFloat(firstRecord["Initial Heading"]));
-        setStorm(parseFloat(firstRecord["Storm Speed"]));
-        setIntensity(firstRecord["Squall Intensity"]);
-        setFc(firstRecord["Forecaster"]);
-      } catch (error) {
  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_IP}api/getcsv/${localStorage.fid}`
+        );
+        if (response.status === 404) {
+          setTitle("No squall warnings are currently active");
+        } else {
+          const csvText = response.data;
+          setJsonData(csvText);
+          setTitle(csvText[0]["Squall Header"]);
+          setDesc(csvText[0]["Squall Advisory"]);
+          setSquallMap(csvText[0]["SatImgSection"]);
+          setUserLat(csvText[0]["Client's lat"]);
+          setUserLon(csvText[0]["Client's lon"]);
+          setCurLat(csvText[0]["Previous Sat lat"]);
+          setCurLon(csvText[0]["Previous Sat lon"]);
+          setPrevLat(csvText[0]["Latest Sat lat"]);
+          setPrevLon(csvText[0]["Latest Sat lon"]);
+          setInit(csvText[0]["Initial Heading"]);
+          setStorm(csvText[0]["Storm Speed"]);
+          setIntensity(csvText[0]["Squall Intensity"]);
+          setFc(csvText[0]["Forecaster"]);
+        }
+      } catch (error: any) {
+        setError(error.message || "An error occurred while fetching data");
       }
     };
-
     fetchData();
   }, []);
-
-
+ 
   useEffect(() => {
-    console.log('pinX:', pinX, 'pinY:', pinY);
-    console.log('pinCx:', pinCx, 'pinCy:', pinCy);
-    console.log('pinPx:', pinPx, 'pinPy:', pinPy);
-  }, [pinX, pinY, pinCx, pinCy, pinPx, pinPy]);
-  
-
-  // useEffect(() => {
-  //   var index = section.indexOf(SquallMap);
-  //   var north = degree[index * 4 + 0];
-  //   var south = degree[index * 4 + 1];
-  //   var west = degree[index * 4 + 2];
-  //   var east = degree[index * 4 + 3];
-  //   let latRange = north - south;
-  //   let lonRange = west - east;
-  //   let pixel_x = 600;
-  //   let pixel_y = 600;
-  //   setPinX((prev: any) => ((userLon - west) / 10) * pixel_x);
-  //   setPinY((prev: any) => ((north - userLat) / 10) * pixel_y);
-  //   setPinCx((prev: any) => ((CurLon - west) / 10) * pixel_x);
-  //   setPinCy((prev: any) => ((north - CurLat) / 10) * pixel_y);
-  //   setPinPx((prev: any) => ((PrevLon - west) / 10) * pixel_x);
-  //   setPinPy((prev: any) => ((north - PrevLat) / 10) * pixel_y);
-  // }, [CurLat, CurLon, PrevLat, PrevLon, SquallMap, userLat, userLon]);
-
+    var index = section.indexOf(SquallMap);
+    var north = degree[index * 4 + 0];
+    var south = degree[index * 4 + 1];
+    var west = degree[index * 4 + 2];
+    var east = degree[index * 4 + 3];
+    let latRange = north - south;
+    let lonRange = west - east;
+    let pixel_x = 600;
+    let pixel_y = 600;
+    setPinX((prev: any) => ((userLon - west) / 10) * pixel_x);
+    setPinY((prev: any) => ((north - userLat) / 10) * pixel_y);
+    setPinCx((prev: any) => ((CurLon - west) / 10) * pixel_x);
+    setPinCy((prev: any) => ((north - CurLat) / 10) * pixel_y);
+    setPinPx((prev: any) => ((PrevLon - west) / 10) * pixel_x);
+    setPinPy((prev: any) => ((north - PrevLat) / 10) * pixel_y);
+  }, [CurLat, CurLon, PrevLat, PrevLon, SquallMap, userLat, userLon]);
+ 
   const closeModalVideo = () => {
     setFile(false);
   };
@@ -615,69 +297,65 @@ const Squall = () => {
     });
   }, []);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
-
+ 
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const fid = localStorage.getItem('fid'); 
-        if (fid) {
+        const fid = localStorage.getItem('fid');
+        if (fid && SquallMap) {  
           const response = await axios.get(
-            `${process.env.REACT_APP_BACKEND_IP}api/getvideo/${fid}/${SquallMap}/`, 
+            `${process.env.REACT_APP_BACKEND_IP}api/getvideo/${fid}/${SquallMap}/`,
             { responseType: "blob" }
           );
           const url = URL.createObjectURL(response.data);
           setVideoUrl(url);
         } else {
-          console.error('fid not found in local storage');
+          console.error('Either fid or SquallMap is not available');
         }
       } catch (error) {
         console.error(error);
       }
     };
     fetchVideo();
-  }, [setVideoUrl]);
-  
-
+   }, [SquallMap, setVideoUrl]);
+ 
   useEffect(() => {
     setLoading(false);
     setTimeout(() => {
       setLoading(false);
     }, 5000);
   });
-
+ 
   useEffect(() => {
     setOpen(data.toggle);
   }, [data]);
   useEffect(() => {}, [CurLat, CurLon, PrevLat, PrevLon, userLat, userLon]);
-
+ 
   function render() {
     if (!jsonData || !Array.isArray(jsonData)) return null;
-  
     return jsonData.map((elem: any, index: number) => {
       if (elem[`Date/Time Forecast`] === "") {
         return null;
       } else if (elem[`Position lat`] === "ALL CLEAR") {
         return (
-          <tr key={index} className="sqtr">
-            <td className="sqtd">No Squall</td>
-            <td className="sqtd">-</td>
-            <td className="sqtd">-</td>
-            <td className="sqtd">-</td>
-            <td className="sqtd">-</td>
-          </tr>
+ <tr key={index} className="sqtr">
+ <td className="sqtd">No Squall</td>
+ <td className="sqtd">-</td>
+ <td className="sqtd">-</td>
+ <td className="sqtd">-</td>
+ <td className="sqtd">-</td>
+ </tr>
         );
       } else {
-  
         const formattedDateTime = elem[`Date/Time Forecast`]
-          .slice(0, 3) + 
-          elem[`Date/Time Forecast`].slice(10, 16); 
-    
+          .slice(0, 3) +
+          elem[`Date/Time Forecast`].slice(10, 16);
         const positionLat = isNaN(parseFloat(elem[`Position lat`]))
           ? elem[`Position lat`]
-          : parseFloat(elem[`Position lat`]).toFixed(1) + " N"; 
+          : parseFloat(elem[`Position lat`]).toFixed(1) + " N";
         const positionLon = isNaN(parseFloat(elem[`Position lon`]))
           ? elem[`Position lon`]
-          : parseFloat(elem[`Position lon`]).toFixed(1) + " E"; 
+          : parseFloat(elem[`Position lon`]).toFixed(1) + " E";
         const timeToSiteInHours = parseFloat(elem[`Time to Site (hr)`]);
         let timeToSite;
         if (isNaN(timeToSiteInHours)) {
@@ -685,44 +363,40 @@ const Squall = () => {
         } else {
           const hours = Math.floor(timeToSiteInHours);
           const minutes = Math.round((timeToSiteInHours - hours) * 60);
-          timeToSite = hours > 0 
+          timeToSite = hours > 0
             ? `${hours}hr ${minutes}min`
             : `${minutes}min`;
         }
-
         const distanceToSite = isNaN(parseFloat(elem[`Distance to Site (nm)`]))
           ? elem[`Distance to Site (nm)`]
           : Math.round(parseFloat(elem[`Distance to Site (nm)`])) + "NM";
-  
         return (
-          <tr key={index} className="sqtr">
-            <td className="sqtd">{formattedDateTime}</td>
-            <td className="sqtd">{positionLat}</td>
-            <td className="sqtd">{positionLon}</td>
-            <td className="sqtd">{timeToSite}</td>
-            <td className="sqtd">{distanceToSite}</td>
-          </tr>
+ <tr key={index} className="sqtr">
+ <td className="sqtd">{formattedDateTime}</td>
+ <td className="sqtd">{positionLat}</td>
+ <td className="sqtd">{positionLon}</td>
+ <td className="sqtd">{timeToSite}</td>
+ <td className="sqtd">{distanceToSite}</td>
+ </tr>
         );
       }
     });
   }
-  
-  
-
-  // useEffect(() => {
-  //   let slope = (pinCy - pinPy) / (pinCx - pinPx);
-  //   let y = pinPy + slope * (pinx - pinPx);
-  //   setPinDiff(y);
-  // }, [pinPy, pinCy, pinx, piny, pinPx, pinCx]);
-
+ 
+  useEffect(() => {
+    let slope = (pinCy - pinPy) / (pinCx - pinPx);
+    let y = pinPy + slope * (pinx - pinPx);
+    setPinDiff(y);
+  }, [pinPy, pinCy, pinx, piny, pinPx, pinCx]);
+ 
   const handleImageLoad = () => {
     setSvgVisible(true);
   };
-
+ 
   const handleImageLoad1 = () => {
     setImageLoaded(true);
   };
-
+ 
   useEffect(() => {
     if (SquallMap) {
       axios
@@ -741,42 +415,7 @@ const Squall = () => {
         });
     }
   }, [SquallMap]);
-
-
-  useEffect(() => {
-    const index = section.indexOf(SquallMap);
-    const north = degree[index * 4 + 0];
-    const south = degree[index * 4 + 1];
-    const west = degree[index * 4 + 2];
-    const east = degree[index * 4 + 3];
-    
-    const latRange = north - south;
-    const lonRange = west - east;
-    const pixel_x = 600;
-    const pixel_y = 600;
-
-    // Calculate pin positions using your existing logic
-    setPinX(((userLon - west) / lonRange) * pixel_x);
-    setPinY(((north - userLat) / latRange) * pixel_y);
-    setPinCx(((CurLon - west) / lonRange) * pixel_x);
-    setPinCy(((north - CurLat) / latRange) * pixel_y);
-    setPinPx(((PrevLon - west) / lonRange) * pixel_x);
-    setPinPy(((north - PrevLat) / latRange) * pixel_y);
-  }, [CurLat, CurLon, PrevLat, PrevLon, SquallMap, userLat, userLon]);
-
-  useEffect(() => {
-    // Calculate bearing and update pinDiff
-    const bearing = Bearing(CurLat, CurLon, PrevLat, PrevLon);
-    const distance = Posdist(CurLat, CurLon, PrevLat, PrevLon);
-    const newLat = NewPosLat(CurLat, CurLon, bearing, distance);
-    const newLon = NewPosLon(CurLat, CurLon, bearing, distance);
-
-    let slope = (pinCy - pinPy) / (pinCx - pinPx);
-    let y = pinPy + slope * (pinX - pinPx);
-    setPinDiff(y);
-  }, [pinPy, pinCy, pinX, pinY, pinPx, pinCx, CurLat, CurLon, PrevLat, PrevLon]);
-
-
+ 
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
       <Box className="fug-container bg-default flex sidenav-full">
@@ -803,128 +442,132 @@ const Squall = () => {
                       <p>{desc}</p>
                     </div>
                   </div>
-
+ 
                   <div className="map" style={{ overflowX: "auto" }}>
-      <div
-        style={{
-          position: "relative",
-          width: mapWidth,
-          height: mapHeight,
-        }}
-      >
-        <img
-          src={`${process.env.REACT_APP_BACKEND_IP}converter/getimg/section-144`}
-          alt="World Map"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            visibility: svgVisible ? "visible" : "hidden",
-          }}
-          onLoad={() => {
-            handleImageLoad();
-          }}
-        />
-        {imageLoaded && (
-          <>
-            <div
-              style={{
-                position: "absolute",
-                left: pinX,
-                top: pinY,
-                width: 10,
-                height: 10,
-                backgroundColor: "red",
-                borderRadius: "50%",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                border: "2px solid red",
-                left: pinX - 35,
-                top: pinY - 35,
-                width: 80,
-                height: 80,
-                backgroundColor: "transparent",
-                borderRadius: "50%",
-              }}
-            />
-            {svgVisible && (
-              <svg
-                style={{ position: "absolute", left: "2px" }}
-                width={mapWidth}
-                height={mapHeight}
-              >
-                <defs>
-                  <marker
-                    id="arrowhead"
-                    markerWidth="10"
-                    markerHeight="10"
-                    refX=""
-                    refY="3"
-                    orient="auto"
-                  >
-                    <path d="M0,0 L0,6 L9,3 z" fill="red" />
-                  </marker>
-                  <marker
-                    id="arrowheadPrev"
-                    markerWidth="10"
-                    markerHeight="10"
-                    refX="8"
-                    refY="3"
-                    orient="auto"
-                  >
-                    <path d="M0,0 L0,6 L9,3 z" fill="white" />
-                  </marker>
-                </defs>
-                {/* Red line */}
-                <path
-                  d={`M${pinCx},${pinCy + 5} L${pinX + 5},${pinY + 5}`}
-                  fill="none"
-                  stroke="red"
-                  strokeWidth="1.5"
-                  markerEnd="url(#arrowhead)"
-                />
-                {/* White line */}
-                <path
-                  d={`M${pinCx},${pinCy + 5} L${pinPx},${pinPy + 5}`}
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  markerEnd="url(#arrowheadPrev)"
-                />
-              </svg>
-            )}
-          </>
-        )}
-        <div
-          style={{
-            position: "absolute",
-            left: pinPx,
-            top: pinPy,
-            width: 10,
-            height: 10,
-            backgroundColor: "white",
-            borderRadius: "50%",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            left: pinCx,
-            top: pinCy,
-            width: 10,
-            height: 10,
-            backgroundColor: "white",
-            borderRadius: "50%",
-          }}
-        />
-      </div>
-    </div>
-
+                    <div
+                      style={{
+                        position: "relative",
+                        width: mapWidth,
+                        height: mapHeight,
+                      }}
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_BACKEND_IP}api/getimg/${SquallMap}`}
+                        alt="World Map"
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          visibility: svgVisible ? "visible" : "hidden",
+                        }}
+                        onLoad={() => {
+                          handleImageLoad();
+                          handleImageLoad1();
+                        }}
+                      />
+                      {imageLoaded && (
+                        <>
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: pinx,
+                              top: piny,
+                              width: 10,
+                              height: 10,
+                              backgroundColor: "red",
+                              borderRadius: "50%",
+                            }}
+                          />
+                          <div
+                            style={{
+                              position: "absolute",
+                              border: "2px solid red",
+                              left: pinx - 35,
+                              top: piny - 35,
+                              width: 80,
+                              height: 80,
+                              backgroundColor: "transparent",
+                              borderRadius: "50%",
+                            }}
+                          />
+                          {svgVisible && (
+                            <svg
+                              style={{ position: "absolute", left: "2px" }}
+                              width={mapWidth}
+                              height={mapHeight}
+                            >
+                              <defs>
+                                <marker
+                                  id="arrowhead"
+                                  markerWidth="10"
+                                  markerHeight="10"
+                                  refX=""
+                                  refY="3"
+                                  orient="auto"
+                                >
+                                  <path d="M0,0 L0,6 L9,3 z" fill="red" />
+                                </marker>
+                                <marker
+                                  id="arrowheadPrev"
+                                  markerWidth="10"
+                                  markerHeight="10"
+                                  refX="8"
+                                  refY="3"
+                                  orient="auto"
+                                >
+                                  <path d="M0,0 L0,6 L9,3 z" fill="white" />
+                                </marker>
+                              </defs>
+                              {/* Red line */}
+                              <path
+                                d={`M${pinCx},${pinCy + 5} L${pinx + 5},${
+                                  piny + 5
+                                }`}
+                                fill="none"
+                                stroke="red"
+                                strokeWidth="1.5"
+                                markerEnd="url(#arrowhead)"
+                              />
+                              {/* White line */}
+                              <path
+                                d={`M${pinCx},${pinCy + 5} L${pinPx},${
+                                  pinPy + 5
+                                }`}
+                                fill="none"
+                                stroke="white"
+                                strokeWidth="1.5"
+                                markerEnd="url(#arrowheadPrev)"
+                              />
+                            </svg>
+                          )}
+                        </>
+                      )}
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: pinPx,
+                          top: pinPy,
+                          width: 10,
+                          height: 10,
+                          backgroundColor: "white",
+                          borderRadius: "50%",
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: pinCx,
+                          top: pinCy,
+                          width: 10,
+                          height: 10,
+                          backgroundColor: "white",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    </div>
+                  </div>
                   <div className="tableBox  margin-tableBox">
                     <table className="table">
                       <thead className="tableheader">
@@ -975,16 +618,10 @@ const Squall = () => {
                   </div>
                   <div className="button">
                     <button
-                      id="gif"
-                      onClick={() => setGif((prev: boolean) => !prev)}
-                    >
-                      Squall GIF File
-                    </button>
-                    <button
                       id="file"
                       onClick={() => setFile((prev: boolean) => !prev)}
                     >
-                      Squall MP4 File
+                      MP4 animation (large)
                     </button>
                   </div>
                   {file && (

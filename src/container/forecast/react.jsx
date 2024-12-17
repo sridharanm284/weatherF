@@ -1242,11 +1242,13 @@ const ForeCast = () => {
     }
   }, [timestraping, TableDatas]);
 
+
   function getColor(data: number) {
     let criteria: any = {};
     let fieldId2: any = {};
     let fieldId62: any = {};
     let operatorId: number | undefined;
+  
     criteriaDetailDatas.forEach((c_data: any) => {
       if (c_data.forecast_osf_criteria_id === parseInt(SelectValue)) {
         criteria = c_data;
@@ -1258,30 +1260,37 @@ const ForeCast = () => {
         operatorId = c_data.comparison_operator_id;
       }
     });
+  
     let isAndOperator = operatorId === 2;
+  
+    // Logic for fieldId2
     let isField2Green = data <= fieldId2.margin_value;
-    let isField2Yellow = data > fieldId2.margin_value && data <= criteria.value;
-    let isField2Red = data > criteria.value;
+    let isField2Yellow = data > fieldId2.margin_value && data <= fieldId2.value;
+    let isField2Red = data > fieldId2.value;
+  
+    // Logic for fieldId62
     let isField62Green = data <= fieldId62.margin_value;
-    let isField62Yellow =
-      data > fieldId62.margin_value && data <= criteria.value;
-    let isField62Red = data > criteria.value;
+    let isField62Yellow = data > fieldId62.margin_value && data <= fieldId62.value;
+    let isField62Red = data > fieldId62.value;
+  
     if (
       (isField2Green && isField62Green && isAndOperator) ||
       isField2Green ||
       (isField62Green && !isAndOperator)
     ) {
-      return "green_overview";
+      return "green_overview"; 
     } else if (
       (isField2Yellow && isField62Yellow && isAndOperator) ||
       isField2Yellow ||
       (isField62Yellow && !isAndOperator)
     ) {
-      return "yellow_overview";
+      return "yellow_overview"; 
     } else {
-      return "red_overview";
+      return "red_overview"; 
     }
   }
+  
+
   function analysetheData(arg: string, text: string, mode: string) {
 
     let table: any = { ...tableColorDatas };
@@ -1816,73 +1825,71 @@ const ForeCast = () => {
         }
       }
       // Windwaves
-      first = false;
-      for (let data in datas[data_array]) {
-        let cellData = datas[data_array][data];
-        if (data === "windseaheight" || data === "windseaperiod") {
-          // eslint-disable-next-line no-lone-blocks
-          {
-            dict_temp.push(
-              <td
+   for (let data in datas[data_array]) {
+  let cellData = datas[data_array][data];
+  if (data === "windseaheight" || data === "windseaperiod") {
+    {
+      dict_temp.push(
+        <td
+          style={{
+            borderLeft: `${""}`,
+            textAlign: "center",
+          }}
+          key={Math.random()}
+        >
+          {cellData === null || cellData === undefined ? (
+            "-"
+          ) : typeof cellData === "string" && cellData.length === 16 ? (
+            <div style={{ display: "flex", gap: "8px" }}>
+              <div
                 style={{
-                  borderLeft: `${""}`,
+                  width: "100%",
+                  height: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  borderRadius: "3px",
+                }}
+                className={overViewColor[incr]}
+              >
+                {cellData.slice(10)}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div
+                style={{
+                  width: "100%",
+                  height: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  borderRadius: "3px",
                   textAlign: "center",
                 }}
-                key={Math.random()}
               >
-                {cellData === null || cellData === undefined ? (
-                  "-"
-                ) : typeof cellData === "string" && cellData.length === 16 ? (
-                  <div style={{ display: "flex", gap: "8px" }}>
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "20px",
-                        display: "flex",
-                        justifyContent: "center",
-                        borderRadius: "3px",
-                      }}
-                      className={overViewColor[incr]}
-                    >
-                      {cellData.slice(10)}
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "20px",
-                        display: "flex",
-                        justifyContent: "center",
-                        borderRadius: "3px",
-                        textAlign: "center",
-                      }}
-                    >
-                      <p
-                        className={`${
-                          tableColorDatas[
-                            "color_" + data + "_" + total_index
-                          ] === undefined
-                            ? "-"
-                            : tableColorDatas[
-                                "color_" + data + "_" + total_index
-                              ]
-                        }`}
-                      >
-                        {Number(cellData) % 1 === 0
-                          ? cellData
-                          : Number(cellData).toFixed(1)}
-                      </p>
-                    </div>
-                  </>
-                )}
-                {(first = false)}
-              </td>
-            );
-          }
-        }
-      }
+                <p
+                  className={`${
+                    tableColorDatas[
+                      "color_" + data + "_" + total_index
+                    ] === undefined
+                      ? "-"
+                      : tableColorDatas[
+                          "color_" + data + "_" + total_index
+                        ]
+                  }`}
+                >
+                  {Number(cellData) % 1 === 0
+                    ? cellData
+                    : Math.round(Number(cellData) * 10) / 10}
+                </p>
+              </div>
+            </>
+          )}
+          {(first = false)}
+        </td>
+      );
+    }
+  }
+}
 
       // Swell 1
       first = true;

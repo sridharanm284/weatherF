@@ -274,38 +274,40 @@ const EditUserComponent = () => {
     }))}
     getOptionLabel={(option: any) => option.label}
     ref={clientRef}
-    onChange={(
-      e,
-      newValue: any | { label: string; value: string } | null
-    ) => {
-      getClientData(newValue.value);
-    }}
+    value={
+      clientNames.find(
+        (option) => option.client_id.toString() === formData.client
+      )
+        ? {
+            label: clientNames.find(
+              (option) => option.client_id.toString() === formData.client
+            )!.client_name,
+            value: formData.client,
+          }
+        : { label: formData.client, value: "" }
+    }
     renderInput={(params) => (
       <TextField
-        ref={clientRef}
-        style={{ width: "20vw" }}
-        type="search"
-        onChange={(event) => {
-          if (event.currentTarget.value === "") {
-            const new_obj: any = {};
-            Object.keys(formData).forEach((key) => (new_obj[key] = ""));
-            setFormData(new_obj);
-            const new_files_obj: any = {};
-            Object.keys(filesData).forEach(
-              (key) => (new_files_obj[key] = "")
-            );
-            setFilesData(new_files_obj);
-          }
-        }}
         {...params}
+        style={{ width: "20vw" }}
         label="Client Name"
         required
         InputProps={{
           ...params.InputProps,
-          readOnly: true, // Disables editing
+          readOnly: true, 
+          inputProps: {
+            ...params.inputProps,
+            readOnly: true, 
+          },
         }}
       />
     )}
+    onChange={(
+      e,
+      newValue: any | { label: string; value: string } | null
+    ) => {
+      
+    }}
   />
 ) : (
   <input
@@ -318,13 +320,13 @@ const EditUserComponent = () => {
       Object.keys(formData).forEach((key) => (new_obj[key] = ""));
       setFormData(new_obj);
       const new_files_obj: any = {};
-      Object.keys(filesData).forEach(
-        (key) => (new_files_obj[key] = "")
-      );
+      Object.keys(filesData).forEach((key) => (new_files_obj[key] = ""));
       setFilesData(new_files_obj);
     }}
+    readOnly
   />
 )}
+
 
                 <InputLabel>Project Location</InputLabel>
                 {selectedForecast_id ? (

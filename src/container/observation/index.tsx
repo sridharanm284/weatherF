@@ -132,7 +132,7 @@ export default function Observation() {
       try {
         const response = await axios.get(`${
           process.env.REACT_APP_BACKEND_IP
-        }api/getplaceholder/${localStorage.getItem("fid")}`);
+        }converter/getplaceholder/${localStorage.getItem("fid")}`);
         const response_data = response.data;
         const fields_inner = fields.map((data) => {
           try {
@@ -171,7 +171,7 @@ export default function Observation() {
     };
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_IP}api/observation/`,
+        `${process.env.REACT_APP_BACKEND_IP}converter/observation/`,
         data,
         {
           headers: {
