@@ -177,7 +177,9 @@ background-color: #242466;
   border-bottom: 0px solid black;
   text-align: center !important;
   color: white;
+  font-weight: normal; 
 }
+
 .sqtd {
   text-align: center;
 }
@@ -319,3 +321,13 @@ background-color: #242466;
   border-left: 14px solid black;
   border-right: 4px solid transparent;
    }
+
+
+   .noData {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem; 
+    color: #333; 
+    margin-top: 20px; 
+  }
+  

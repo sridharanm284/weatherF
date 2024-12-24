@@ -7,15 +7,7 @@ import Grid from "@mui/material/Grid";
 import store from "../../store";
 import "./_index.scss";
 import CloseIcon from "@mui/icons-material/Close";
-import section from "./section";
-import degree from "./degree";
 import WeatherLoader from "../../components/loader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlay,
-  faBackward,
-  faForward,
-} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
  
 const drawerWidth = 0;
@@ -151,29 +143,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ onClose, VideoUrl }) => {
 > 
  Your browser does not support the video tag.
 </video>
-        {/* <div
-          className="controls-container"
-          style={{
-            marginTop: "20px",
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: "#f0f0f0",
-            padding: "10px",
-            borderRadius: "5px",
-          }}
-        >
-          <button className="control-button" onClick={handlePlayPause}>
-            <FontAwesomeIcon icon={faPlay} />
-          </button>
-          <div style={{ width: "10px" }}></div>
-          <button className="control-button" onClick={() => handleSeek(-5)}>
-            <FontAwesomeIcon icon={faBackward} />
-          </button>
-          <div style={{ width: "10px" }}></div>
-          <button className="control-button" onClick={() => handleSeek(5)}>
-            <FontAwesomeIcon icon={faForward} />
-          </button>
-        </div> */}
+      
       </div>
     </div>
   );
@@ -217,12 +187,7 @@ const Squall = () => {
   const [PrevLon, setPrevLon] = useState(0);
   const [CurLat, setCurLat] = useState(0);
   const [CurLon, setCurLon] = useState(0);
-  const [pinx, setPinX] = useState<any>();
-  const [piny, setPinY] = useState<any>();
-  const [pinPx, setPinPx] = useState<any>();
-  const [pinPy, setPinPy] = useState<any>();
-  const [pinCx, setPinCx] = useState<any>();
-  const [pinCy, setPinCy] = useState<any>();
+ 
   const [init, setInit] = useState<any>();
   const [storm, setStorm] = useState<any>();
   const [intensity, setIntensity] = useState<any>();
@@ -233,6 +198,9 @@ const Squall = () => {
   const [pinDiff, setPinDiff] = useState<any>();
   const [svgVisible, setSvgVisible] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+   const [apiUrl, setApiUrl] = useState<string | null>(null);
+   const [imageData, setImageData] = useState<string | null>(null);
+
  
   useEffect(() => {
     const fetchData = async () => {
@@ -265,24 +233,37 @@ const Squall = () => {
     };
     fetchData();
   }, []);
- 
+
   useEffect(() => {
-    var index = section.indexOf(SquallMap);
-    var north = degree[index * 4 + 0];
-    var south = degree[index * 4 + 1];
-    var west = degree[index * 4 + 2];
-    var east = degree[index * 4 + 3];
-    let latRange = north - south;
-    let lonRange = west - east;
-    let pixel_x = 600;
-    let pixel_y = 600;
-    setPinX((prev: any) => ((userLon - west) / 10) * pixel_x);
-    setPinY((prev: any) => ((north - userLat) / 10) * pixel_y);
-    setPinCx((prev: any) => ((CurLon - west) / 10) * pixel_x);
-    setPinCy((prev: any) => ((north - CurLat) / 10) * pixel_y);
-    setPinPx((prev: any) => ((PrevLon - west) / 10) * pixel_x);
-    setPinPy((prev: any) => ((north - PrevLat) / 10) * pixel_y);
-  }, [CurLat, CurLon, PrevLat, PrevLon, SquallMap, userLat, userLon]);
+    const fetchCroppedImage = async () => {
+
+      const projectName = 'PT MIFA BERSAUDARA-OFFSHORE POINT';
+  
+      try {
+
+        const response = await fetch('http://127.0.0.1:8000/converter/api/crop_pdf/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({ project_name: projectName }).toString(),
+        });
+  
+        if (response.ok) {
+          const blob = await response.blob();
+          const imageUrl = URL.createObjectURL(blob);
+          setImageData(imageUrl);
+        } else {
+          console.error(`Error fetching cropped image: ${response.status}`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchCroppedImage();
+  }, []);
+  
  
   const closeModalVideo = () => {
     setFile(false);
@@ -383,19 +364,7 @@ const Squall = () => {
     });
   }
  
-  useEffect(() => {
-    let slope = (pinCy - pinPy) / (pinCx - pinPx);
-    let y = pinPy + slope * (pinx - pinPx);
-    setPinDiff(y);
-  }, [pinPy, pinCy, pinx, piny, pinPx, pinCx]);
- 
-  const handleImageLoad = () => {
-    setSvgVisible(true);
-  };
- 
-  const handleImageLoad1 = () => {
-    setImageLoaded(true);
-  };
+
  
   useEffect(() => {
     if (SquallMap) {
@@ -415,7 +384,7 @@ const Squall = () => {
         });
     }
   }, [SquallMap]);
- 
+
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
       <Box className="fug-container bg-default flex sidenav-full">
@@ -436,194 +405,101 @@ const Squall = () => {
             >
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <div className="titleBox">
-                    <div className="title">{title}</div>
-                    <div className="description">
-                      <p>{desc}</p>
-                    </div>
-                  </div>
+                {(title || desc) ? (
+  <div className="titleBox">
+    {title && <div className="title">{title}</div>}
+    {desc && (
+      <div className="description">
+        <p>{desc}</p>
+      </div>
+    )}
+  </div>
+) : (
+  <div className="noData">There are currently no severe warnings active for this location</div>
+)}
+
  
-                  <div className="map" style={{ overflowX: "auto" }}>
-                    <div
-                      style={{
-                        position: "relative",
-                        width: mapWidth,
-                        height: mapHeight,
-                      }}
-                    >
-                      <img
-                        src={`${process.env.REACT_APP_BACKEND_IP}api/getimg/${SquallMap}`}
-                        alt="World Map"
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "100%",
-                          height: "100%",
-                          visibility: svgVisible ? "visible" : "hidden",
-                        }}
-                        onLoad={() => {
-                          handleImageLoad();
-                          handleImageLoad1();
-                        }}
-                      />
-                      {imageLoaded && (
-                        <>
-                          <div
-                            style={{
-                              position: "absolute",
-                              left: pinx,
-                              top: piny,
-                              width: 10,
-                              height: 10,
-                              backgroundColor: "red",
-                              borderRadius: "50%",
-                            }}
-                          />
-                          <div
-                            style={{
-                              position: "absolute",
-                              border: "2px solid red",
-                              left: pinx - 35,
-                              top: piny - 35,
-                              width: 80,
-                              height: 80,
-                              backgroundColor: "transparent",
-                              borderRadius: "50%",
-                            }}
-                          />
-                          {svgVisible && (
-                            <svg
-                              style={{ position: "absolute", left: "2px" }}
-                              width={mapWidth}
-                              height={mapHeight}
-                            >
-                              <defs>
-                                <marker
-                                  id="arrowhead"
-                                  markerWidth="10"
-                                  markerHeight="10"
-                                  refX=""
-                                  refY="3"
-                                  orient="auto"
-                                >
-                                  <path d="M0,0 L0,6 L9,3 z" fill="red" />
-                                </marker>
-                                <marker
-                                  id="arrowheadPrev"
-                                  markerWidth="10"
-                                  markerHeight="10"
-                                  refX="8"
-                                  refY="3"
-                                  orient="auto"
-                                >
-                                  <path d="M0,0 L0,6 L9,3 z" fill="white" />
-                                </marker>
-                              </defs>
-                              {/* Red line */}
-                              <path
-                                d={`M${pinCx},${pinCy + 5} L${pinx + 5},${
-                                  piny + 5
-                                }`}
-                                fill="none"
-                                stroke="red"
-                                strokeWidth="1.5"
-                                markerEnd="url(#arrowhead)"
-                              />
-                              {/* White line */}
-                              <path
-                                d={`M${pinCx},${pinCy + 5} L${pinPx},${
-                                  pinPy + 5
-                                }`}
-                                fill="none"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                markerEnd="url(#arrowheadPrev)"
-                              />
-                            </svg>
-                          )}
-                        </>
-                      )}
-                      <div
-                        style={{
-                          position: "absolute",
-                          left: pinPx,
-                          top: pinPy,
-                          width: 10,
-                          height: 10,
-                          backgroundColor: "white",
-                          borderRadius: "50%",
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          left: pinCx,
-                          top: pinCy,
-                          width: 10,
-                          height: 10,
-                          backgroundColor: "white",
-                          borderRadius: "50%",
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="tableBox  margin-tableBox">
-                    <table className="table">
-                      <thead className="tableheader">
-                        <tr className="sqtr">
-                          <th className="sqth">INITIAL HEADING</th>
-                          <th className="sqth">STORM SPEED</th>
-                          <th className="sqth">SQUALL INTENSITY</th>
-                          <th className="sqth">FORECASTER</th>
-                        </tr>
-                      </thead>
-                      <tbody className="tablebody">
-                        <tr className="sqtr">
-                          <td className="sqtd">
-                            {init ? Math.floor(init) : "-"}
-                          </td>
-                          <td className="sqtd">
-                            {storm ? Math.floor(storm) : "-"}
-                          </td>
-                          <td className="sqtd">
-                            {intensity ? intensity : "-"}
-                          </td>
-                          <td className="sqtd">{fc ? fc : "-"}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="tableBox margin-tableBox">
-                    <table className="table">
-                      <thead className="tableheader">
-                        <tr className="sqtr">
-                          <th className="sqth">Date/Time</th>
-                          <th className="sqth" colSpan={2}>
-                            Position
-                          </th>
-                          <th className="sqth">Time to</th>
-                          <th className="sqth">Distance to</th>
-                        </tr>
-                        <tr className="sqtr">
-                          <th className="sqth">UTC+8</th>
-                          <th className="sqth">LAT.</th>
-                          <th className="sqth">LONG.</th>
-                          <th className="sqth">Plant area</th>
-                          <th className="sqth">Plant area</th>
-                        </tr>
-                      </thead>
-                      <tbody className="tablebody">{render()}</tbody>
-                    </table>
-                  </div>
-                  <div className="button">
-                    <button
-                      id="file"
-                      onClick={() => setFile((prev: boolean) => !prev)}
-                    >
-                      MP4 animation (large)
-                    </button>
-                  </div>
+<div className="map" style={{ overflowX: 'auto' }}>
+      {imageData ? (
+        <img
+          src={imageData}
+          alt="Cropped PDF"
+          style={{ maxWidth: '50%', height: '50%' }}
+        />
+      ) : (
+        <p></p>
+      )}
+    </div>
+                  {(init || storm || intensity || fc) && (
+  <div className="tableBox margin-tableBox">
+    <table className="table">
+      <thead className="tableheader">
+        <tr className="sqtr">
+          <th className="sqth">INITIAL HEADING</th>
+          <th className="sqth">STORM SPEED</th>
+          <th className="sqth">SQUALL INTENSITY</th>
+          <th className="sqth">FORECASTER</th>
+        </tr>
+      </thead>
+      <tbody className="tablebody">
+        <tr className="sqtr">
+          <td className="sqtd">{init ? Math.floor(init) : "-"}</td>
+          <td className="sqtd">{storm ? Math.floor(storm) : "-"}</td>
+          <td className="sqtd">{intensity ? intensity : "-"}</td>
+          <td className="sqtd">{fc ? fc : "-"}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+)}
+
+{(localStorage.getItem("project") && render()) ? (
+  <div className="tableBox margin-tableBox">
+    <table className="table">
+      <thead className="tableheader">
+        <tr className="sqtr">
+          <th className="sqth">Date/Time</th>
+          <th className="sqth" colSpan={2}>Position</th>
+          <th className="sqth">Time to</th>
+          <th className="sqth">Distance to</th>
+        </tr>
+        <tr className="sqtr">
+          <th className="sqth">UTC+8</th>
+          <th className="sqth">LAT.</th>
+          <th className="sqth">LONG.</th>
+          <th className="sqth">
+  {(() => {
+    const project = localStorage.getItem("project");
+    return project
+      ? project.split("-").slice(0, 2).join("-")
+      : "No project";
+  })()}
+</th>
+
+<th className="sqth">
+  {(() => {
+    const project = localStorage.getItem("project");
+    return project
+      ? project.split("-").slice(0, 2).join("-")
+      : "No project";
+  })()}
+</th>
+
+        </tr>
+      </thead>
+      <tbody className="tablebody">{render()}</tbody>
+    </table>
+  </div>
+) : null}
+
+<div className="button">
+  {data && data.length > 0 && (
+    <button id="file" onClick={() => setFile((prev: boolean) => !prev)}>
+      MP4 animation (large)
+    </button>
+  )}
+</div>
+
                   {file && (
                     <ImageModal onClose={closeModalVideo} VideoUrl={videoUrl} />
                   )}

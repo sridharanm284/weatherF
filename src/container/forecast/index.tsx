@@ -1452,8 +1452,8 @@ const ForeCast = () => {
           const fetchData = async () => {
             try {
           
-              const hardcodedData = {"headers": [{"name": "datetimeutc","caption": "Time"},{"name": "a_10mwinddir","caption": "10m Wind Dir","field_id": 1,"output_unit_name": "[Cardinals]"},{"name": "a_10mwindspeed","caption": "10m Wind Speed","field_id": 2,"output_unit_name": "[kts]"},{"name": "a_10mgust","caption": "10m Gust","field_id": 3,"output_unit_name": "[kts]"},{"name": "a_50mwindspeed","caption": "50m Wind Speed","field_id": 5,"output_unit_name": "[kts]"},{"name": "windseaheight","caption": "Wind Wave Height","field_id": 47,"output_unit_name": "[m]"},{"name": "swell1direction","caption": "Swell 1 Dir","field_id": 51,"output_unit_name": "[Cardinals]"},{"name": "swell1height","caption": "Swell 1 Height","field_id": 50,"output_unit_name": "[m]"},{"name": "swell1period","caption": "Swell 1 Period","field_id": 52,"output_unit_name": "[s]"},{"name": "swell2direction","caption": "Swell 2 Dir","field_id": 54,"output_unit_name": "[Cardinals]"},{"name": "swell2height","caption": "Swell 2 Height","field_id": 53,"output_unit_name": "[m]"},{"name": "swell2period","caption": "Swell 2 Period","field_id": 55,"output_unit_name": "[s]"},{"name": "sigwaveheight","caption": "Sig Wave Height","field_id": 62,"output_unit_name": "[m]"},{"name": "maxwave","caption": "Max Wave","field_id": 61,"output_unit_name": "[m]"}],"datas": [[{"datetimeutc": "12/15/2024 07:00","a_10mwinddir": 80.82,"a_10mwindspeed": 22.97,"a_10mgust": 29.9,"a_50mwindspeed": 32.2,"windseaheight": 2.69,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.72,"maxwave": 4.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/15/2024 10:00","a_10mwinddir": 61.08,"a_10mwindspeed": 25.05,"a_10mgust": 32.6,"a_50mwindspeed": 35.1,"windseaheight": 3.0,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.03,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/15/2024 13:00","a_10mwinddir": 52.18,"a_10mwindspeed": 26.65,"a_10mgust": 34.6,"a_50mwindspeed": 37.3,"windseaheight": 3.0,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.03,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/15/2024 16:00","a_10mwinddir": 48.77,"a_10mwindspeed": 27.9,"a_10mgust": 36.3,"a_50mwindspeed": 39.1,"windseaheight": 3.0,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.03,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/15/2024 19:00","a_10mwinddir": 47.68,"a_10mwindspeed": 29.88,"a_10mgust": 38.8,"a_50mwindspeed": 41.8,"windseaheight": 3.0,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.03,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/15/2024 22:00","a_10mwinddir": 46.53,"a_10mwindspeed": 28.8,"a_10mgust": 37.4,"a_50mwindspeed": 40.3,"windseaheight": 3.01,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.04,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/16/2024 01:00","a_10mwinddir": 44.63,"a_10mwindspeed": 26.64,"a_10mgust": 34.6,"a_50mwindspeed": 37.3,"windseaheight": 3.0,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.03,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/16/2024 04:00","a_10mwinddir": 44.21,"a_10mwindspeed": 26.97,"a_10mgust": 35.1,"a_50mwindspeed": 37.8,"windseaheight": 2.94,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.97,"maxwave": 5.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/16/2024 07:00","a_10mwinddir": 44.02,"a_10mwindspeed": 27.14,"a_10mgust": 35.3,"a_50mwindspeed": 38.0,"windseaheight": 2.85,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.88,"maxwave": 4.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/16/2024 10:00","a_10mwinddir": 42.25,"a_10mwindspeed": 28.17,"a_10mgust": 36.6,"a_50mwindspeed": 39.4,"windseaheight": 2.91,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.94,"maxwave": 4.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/16/2024 13:00","a_10mwinddir": 41.53,"a_10mwindspeed": 26.24,"a_10mgust": 34.1,"a_50mwindspeed": 36.7,"windseaheight": 2.87,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.9,"maxwave": 4.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/16/2024 16:00","a_10mwinddir": 44.74,"a_10mwindspeed": 27.02,"a_10mgust": 35.1,"a_50mwindspeed": 37.8,"windseaheight": 2.83,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.86,"maxwave": 4.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/16/2024 19:00","a_10mwinddir": 44.97,"a_10mwindspeed": 28.55,"a_10mgust": 37.1,"a_50mwindspeed": 40.0,"windseaheight": 2.84,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.87,"maxwave": 4.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/16/2024 22:00","a_10mwinddir": 42.67,"a_10mwindspeed": 26.73,"a_10mgust": 34.7,"a_50mwindspeed": 37.4,"windseaheight": 2.8,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.83,"maxwave": 4.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/17/2024 01:00","a_10mwinddir": 41.63,"a_10mwindspeed": 24.95,"a_10mgust": 32.4,"a_50mwindspeed": 34.9,"windseaheight": 2.76,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.79,"maxwave": 4.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/17/2024 04:00","a_10mwinddir": 38.42,"a_10mwindspeed": 23.21,"a_10mgust": 30.2,"a_50mwindspeed": 32.5,"windseaheight": 2.58,"swell1direction": 45.0,"swell1height": 0.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.61,"maxwave": 4.4,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/17/2024 07:00","a_10mwinddir": 38.4,"a_10mwindspeed": 21.84,"a_10mgust": 28.4,"a_50mwindspeed": 30.6,"windseaheight": 2.46,"swell1direction": 45.0,"swell1height": 0.5,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.51,"maxwave": 4.2,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/17/2024 10:00","a_10mwinddir": 41.33,"a_10mwindspeed": 22.37,"a_10mgust": 29.1,"a_50mwindspeed": 31.3,"windseaheight": 2.52,"swell1direction": 45.0,"swell1height": 0.5,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.57,"maxwave": 4.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/17/2024 13:00","a_10mwinddir": 46.98,"a_10mwindspeed": 24.13,"a_10mgust": 31.4,"a_50mwindspeed": 33.8,"windseaheight": 2.55,"swell1direction": 45.0,"swell1height": 0.5,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.6,"maxwave": 4.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/17/2024 16:00","a_10mwinddir": 52.49,"a_10mwindspeed": 28.04,"a_10mgust": 36.5,"a_50mwindspeed": 39.3,"windseaheight": 2.59,"swell1direction": 45.0,"swell1height": 0.6,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.66,"maxwave": 4.4,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/17/2024 19:00","a_10mwinddir": 50.4,"a_10mwindspeed": 29.37,"a_10mgust": 38.2,"a_50mwindspeed": 41.1,"windseaheight": 2.66,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.78,"maxwave": 4.6,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/17/2024 22:00","a_10mwinddir": 47.87,"a_10mwindspeed": 24.68,"a_10mgust": 32.1,"a_50mwindspeed": 34.6,"windseaheight": 2.49,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.68,"maxwave": 4.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/18/2024 01:00","a_10mwinddir": 44.65,"a_10mwindspeed": 22.99,"a_10mgust": 29.9,"a_50mwindspeed": 32.2,"windseaheight": 2.3,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.51,"maxwave": 4.2,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/18/2024 04:00","a_10mwinddir": 39.16,"a_10mwindspeed": 20.92,"a_10mgust": 27.2,"a_50mwindspeed": 29.3,"windseaheight": 2.0,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.24,"maxwave": 3.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/18/2024 07:00","a_10mwinddir": 41.71,"a_10mwindspeed": 20.37,"a_10mgust": 26.5,"a_50mwindspeed": 28.5,"windseaheight": 1.7,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.97,"maxwave": 3.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/18/2024 10:00","a_10mwinddir": 43.11,"a_10mwindspeed": 21.95,"a_10mgust": 28.5,"a_50mwindspeed": 30.7,"windseaheight": 2.0,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.24,"maxwave": 3.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/18/2024 13:00","a_10mwinddir": 49.97,"a_10mwindspeed": 26.86,"a_10mgust": 34.9,"a_50mwindspeed": 37.6,"windseaheight": 2.2,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.42,"maxwave": 4.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/18/2024 16:00","a_10mwinddir": 54.84,"a_10mwindspeed": 34.0,"a_10mgust": 44.2,"a_50mwindspeed": 47.6,"windseaheight": 2.3,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.51,"maxwave": 4.2,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/18/2024 19:00","a_10mwinddir": 45.8,"a_10mwindspeed": 30.4,"a_10mgust": 39.5,"a_50mwindspeed": 42.6,"windseaheight": 2.6,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.79,"maxwave": 4.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/18/2024 22:00","a_10mwinddir": 43.4,"a_10mwindspeed": 26.94,"a_10mgust": 35.0,"a_50mwindspeed": 37.7,"windseaheight": 2.2,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.42,"maxwave": 4.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/19/2024 01:00","a_10mwinddir": 43.17,"a_10mwindspeed": 26.59,"a_10mgust": 34.6,"a_50mwindspeed": 37.2,"windseaheight": 2.0,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.24,"maxwave": 3.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/19/2024 04:00","a_10mwinddir": 39.79,"a_10mwindspeed": 26.0,"a_10mgust": 33.8,"a_50mwindspeed": 36.4,"windseaheight": 2.0,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.24,"maxwave": 3.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/19/2024 07:00","a_10mwinddir": 41.77,"a_10mwindspeed": 26.7,"a_10mgust": 34.7,"a_50mwindspeed": 37.4,"windseaheight": 2.0,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.24,"maxwave": 3.7,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/19/2024 10:00","a_10mwinddir": 42.11,"a_10mwindspeed": 29.51,"a_10mgust": 38.4,"a_50mwindspeed": 41.3,"windseaheight": 2.2,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.42,"maxwave": 4.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/19/2024 13:00","a_10mwinddir": 46.36,"a_10mwindspeed": 31.08,"a_10mgust": 40.4,"a_50mwindspeed": 43.5,"windseaheight": 2.3,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.51,"maxwave": 4.2,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/19/2024 16:00","a_10mwinddir": 53.36,"a_10mwindspeed": 34.73,"a_10mgust": 45.1,"a_50mwindspeed": 48.6,"windseaheight": 2.5,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.69,"maxwave": 4.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/19/2024 19:00","a_10mwinddir": 49.01,"a_10mwindspeed": 34.55,"a_10mgust": 44.9,"a_50mwindspeed": 48.4,"windseaheight": 2.5,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.69,"maxwave": 4.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/19/2024 22:00","a_10mwinddir": 45.91,"a_10mwindspeed": 31.59,"a_10mgust": 41.1,"a_50mwindspeed": 44.2,"windseaheight": 2.4,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.6,"maxwave": 4.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/20/2024 01:00","a_10mwinddir": 41.25,"a_10mwindspeed": 27.97,"a_10mgust": 36.4,"a_50mwindspeed": 39.2,"windseaheight": 1.7,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.97,"maxwave": 3.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/20/2024 04:00","a_10mwinddir": 42.92,"a_10mwindspeed": 26.55,"a_10mgust": 34.5,"a_50mwindspeed": 37.2,"windseaheight": 1.4,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.72,"maxwave": 2.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/20/2024 07:00","a_10mwinddir": 43.91,"a_10mwindspeed": 28.8,"a_10mgust": 37.4,"a_50mwindspeed": 40.3,"windseaheight": 1.5,"swell1direction": 45.0,"swell1height": 1.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.8,"maxwave": 3.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/20/2024 10:00","a_10mwinddir": 44.82,"a_10mwindspeed": 29.73,"a_10mgust": 38.6,"a_50mwindspeed": 41.6,"windseaheight": 1.2,"swell1direction": 45.0,"swell1height": 0.9,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.5,"maxwave": 2.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/20/2024 13:00","a_10mwinddir": 47.41,"a_10mwindspeed": 30.28,"a_10mgust": 39.4,"a_50mwindspeed": 42.4,"windseaheight": 1.5,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.7,"maxwave": 2.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/20/2024 16:00","a_10mwinddir": 51.74,"a_10mwindspeed": 32.96,"a_10mgust": 42.8,"a_50mwindspeed": 46.1,"windseaheight": 1.7,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.88,"maxwave": 3.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/20/2024 19:00","a_10mwinddir": 49.33,"a_10mwindspeed": 32.3,"a_10mgust": 42.0,"a_50mwindspeed": 45.2,"windseaheight": 2.8,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.91,"maxwave": 4.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/20/2024 22:00","a_10mwinddir": 45.01,"a_10mwindspeed": 30.21,"a_10mgust": 39.3,"a_50mwindspeed": 42.3,"windseaheight": 2.6,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.72,"maxwave": 4.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/21/2024 01:00","a_10mwinddir": 46.12,"a_10mwindspeed": 27.81,"a_10mgust": 36.2,"a_50mwindspeed": 38.9,"windseaheight": 2.51,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.63,"maxwave": 4.4,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/21/2024 04:00","a_10mwinddir": 43.96,"a_10mwindspeed": 27.96,"a_10mgust": 36.3,"a_50mwindspeed": 39.1,"windseaheight": 2.45,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.58,"maxwave": 4.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/21/2024 07:00","a_10mwinddir": 42.44,"a_10mwindspeed": 26.78,"a_10mgust": 34.8,"a_50mwindspeed": 37.5,"windseaheight": 2.61,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.73,"maxwave": 4.6,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/21/2024 10:00","a_10mwinddir": 43.53,"a_10mwindspeed": 26.64,"a_10mgust": 34.6,"a_50mwindspeed": 37.3,"windseaheight": 2.76,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.87,"maxwave": 4.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/21/2024 13:00","a_10mwinddir": 48.23,"a_10mwindspeed": 28.37,"a_10mgust": 36.9,"a_50mwindspeed": 39.7,"windseaheight": 2.88,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.99,"maxwave": 5.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/21/2024 16:00","a_10mwinddir": 47.72,"a_10mwindspeed": 31.12,"a_10mgust": 40.5,"a_50mwindspeed": 43.6,"windseaheight": 3.1,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.2,"maxwave": 5.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/21/2024 19:00","a_10mwinddir": 47.68,"a_10mwindspeed": 32.96,"a_10mgust": 42.8,"a_50mwindspeed": 46.1,"windseaheight": 3.2,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.3,"maxwave": 5.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/21/2024 22:00","a_10mwinddir": 46.03,"a_10mwindspeed": 30.59,"a_10mgust": 39.8,"a_50mwindspeed": 42.8,"windseaheight": 2.98,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.09,"maxwave": 5.2,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/22/2024 01:00","a_10mwinddir": 44.61,"a_10mwindspeed": 27.3,"a_10mgust": 35.5,"a_50mwindspeed": 38.2,"windseaheight": 2.83,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.94,"maxwave": 4.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/22/2024 04:00","a_10mwinddir": 46.42,"a_10mwindspeed": 28.19,"a_10mgust": 36.6,"a_50mwindspeed": 39.5,"windseaheight": 2.77,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.88,"maxwave": 4.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/22/2024 07:00","a_10mwinddir": 42.24,"a_10mwindspeed": 28.42,"a_10mgust": 36.9,"a_50mwindspeed": 39.8,"windseaheight": 2.83,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.94,"maxwave": 4.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/22/2024 10:00","a_10mwinddir": 42.2,"a_10mwindspeed": 25.2,"a_10mgust": 32.8,"a_50mwindspeed": 35.3,"windseaheight": 2.88,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.99,"maxwave": 5.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/22/2024 13:00","a_10mwinddir": 46.98,"a_10mwindspeed": 25.58,"a_10mgust": 33.3,"a_50mwindspeed": 35.8,"windseaheight": 2.91,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.02,"maxwave": 5.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/22/2024 16:00","a_10mwinddir": 51.65,"a_10mwindspeed": 28.61,"a_10mgust": 37.2,"a_50mwindspeed": 40.1,"windseaheight": 3.1,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.2,"maxwave": 5.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/22/2024 19:00","a_10mwinddir": 51.57,"a_10mwindspeed": 29.09,"a_10mgust": 37.8,"a_50mwindspeed": 40.7,"windseaheight": 3.2,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.3,"maxwave": 5.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/22/2024 22:00","a_10mwinddir": 42.54,"a_10mwindspeed": 25.84,"a_10mgust": 33.6,"a_50mwindspeed": 36.2,"windseaheight": 3.0,"swell1direction": 45.0,"swell1height": 0.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.1,"maxwave": 5.2,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/23/2024 01:00","a_10mwinddir": 27.41,"a_10mwindspeed": 15.67,"a_10mgust": 20.4,"a_50mwindspeed": 21.9,"windseaheight": 2.6,"swell1direction": 45.0,"swell1height": 1.2,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.86,"maxwave": 4.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/23/2024 04:00","a_10mwinddir": 37.25,"a_10mwindspeed": 13.8,"a_10mgust": 17.9,"a_50mwindspeed": 19.3,"windseaheight": 2.0,"swell1direction": 45.0,"swell1height": 1.3,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.39,"maxwave": 4.0,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/23/2024 07:00","a_10mwinddir": 37.85,"a_10mwindspeed": 14.34,"a_10mgust": 18.6,"a_50mwindspeed": 20.1,"windseaheight": 1.5,"swell1direction": 45.0,"swell1height": 1.5,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.12,"maxwave": 3.5,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/23/2024 10:00","a_10mwinddir": 34.34,"a_10mwindspeed": 16.28,"a_10mgust": 21.2,"a_50mwindspeed": 22.8,"windseaheight": 1.2,"swell1direction": 45.0,"swell1height": 1.6,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.0,"maxwave": 3.3,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/23/2024 13:00","a_10mwinddir": 27.65,"a_10mwindspeed": 13.11,"a_10mgust": 17.0,"a_50mwindspeed": 18.4,"windseaheight": 0.8,"swell1direction": 45.0,"swell1height": 2.2,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.34,"maxwave": 3.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/23/2024 16:00","a_10mwinddir": 40.53,"a_10mwindspeed": 12.27,"a_10mgust": 16.0,"a_50mwindspeed": 17.2,"windseaheight": 0.8,"swell1direction": 45.0,"swell1height": 2.0,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.15,"maxwave": 3.6,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/23/2024 19:00","a_10mwinddir": 43.81,"a_10mwindspeed": 22.79,"a_10mgust": 29.6,"a_50mwindspeed": 31.9,"windseaheight": 1.0,"swell1direction": 45.0,"swell1height": 1.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.06,"maxwave": 3.4,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/23/2024 22:00","a_10mwinddir": 35.97,"a_10mwindspeed": 18.98,"a_10mgust": 24.7,"a_50mwindspeed": 26.6,"windseaheight": 0.8,"swell1direction": 45.0,"swell1height": 1.5,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.7,"maxwave": 2.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/24/2024 01:00","a_10mwinddir": 39.98,"a_10mwindspeed": 18.4,"a_10mgust": 23.9,"a_50mwindspeed": 25.8,"windseaheight": 0.7,"swell1direction": 45.0,"swell1height": 1.5,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.66,"maxwave": 2.8,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/24/2024 04:00","a_10mwinddir": 32.68,"a_10mwindspeed": 17.75,"a_10mgust": 23.1,"a_50mwindspeed": 24.8,"windseaheight": 0.8,"swell1direction": 45.0,"swell1height": 1.7,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 1.88,"maxwave": 3.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/24/2024 07:00","a_10mwinddir": 33.5,"a_10mwindspeed": 14.84,"a_10mgust": 19.3,"a_50mwindspeed": 20.8,"windseaheight": 0.8,"swell1direction": 45.0,"swell1height": 2.2,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.34,"maxwave": 3.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/24/2024 10:00","a_10mwinddir": 37.8,"a_10mwindspeed": 21.93,"a_10mgust": 28.5,"a_50mwindspeed": 30.7,"windseaheight": 1.2,"swell1direction": 45.0,"swell1height": 1.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.16,"maxwave": 3.6,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/24/2024 13:00","a_10mwinddir": 40.83,"a_10mwindspeed": 30.82,"a_10mgust": 40.1,"a_50mwindspeed": 43.1,"windseaheight": 2.1,"swell1direction": 45.0,"swell1height": 1.6,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.64,"maxwave": 4.4,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/24/2024 16:00","a_10mwinddir": 46.78,"a_10mwindspeed": 34.43,"a_10mgust": 44.8,"a_50mwindspeed": 48.2,"windseaheight": 2.7,"swell1direction": 45.0,"swell1height": 1.4,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.04,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/24/2024 19:00","a_10mwinddir": 48.56,"a_10mwindspeed": 31.02,"a_10mgust": 40.3,"a_50mwindspeed": 43.4,"windseaheight": 2.6,"swell1direction": 45.0,"swell1height": 1.6,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 3.05,"maxwave": 5.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/24/2024 22:00","a_10mwinddir": 47.18,"a_10mwindspeed": 24.39,"a_10mgust": 31.7,"a_50mwindspeed": 34.1,"windseaheight": 2.3,"swell1direction": 45.0,"swell1height": 1.5,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.75,"maxwave": 4.6,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}],[{"datetimeutc": "12/25/2024 01:00","a_10mwinddir": 41.85,"a_10mwindspeed": 19.66,"a_10mgust": 25.6,"a_50mwindspeed": 27.5,"windseaheight": 1.7,"swell1direction": 45.0,"swell1height": 1.8,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.48,"maxwave": 4.1,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/25/2024 04:00","a_10mwinddir": 24.99,"a_10mwindspeed": 16.36,"a_10mgust": 21.3,"a_50mwindspeed": 22.9,"windseaheight": 1.2,"swell1direction": 45.0,"swell1height": 2.2,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.51,"maxwave": 4.2,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"},{"datetimeutc": "12/25/2024 07:00","a_10mwinddir": 21.2,"a_10mwindspeed": 12.38,"a_10mgust": 16.1,"a_50mwindspeed": 17.3,"windseaheight": 0.7,"swell1direction": 45.0,"swell1height": 2.2,"swell1period": 8.29,"swell2direction": 0,"swell2height": 0.0,"swell2period": 0,"sigwaveheight": 2.31,"maxwave": 3.9,"lat": 10.4,"long": 108.5,"time_zone": "(UTC+07:00) Bangkok, Hanoi, Jakarta"}]],"interval": 3,"total": 81,"discussion": {"discussion": {"discussion_id": 322977,"synopsis": "A high pressure ridge over Vietnam, SE China and their immediate waters while a low pressure in W of Natuna extends a trough to Biendong Sea and Gulf of Thailand.","warning": "STRONG TO NEAR GALEFORCE WINDS. RISING SEAS BY THE 15TH. MODERATE TO HIGH RISK OF SQUALLS OF 30-40 KNOTS IN/NEAR SHOWERS AND THUNDERSTORMS WITH TEMPORARILY RAISED SEAS DURING OCCURRENCE.","advisory": "","notes": "Partly cloudy to cloudy periods with chance of showers/rain"},"discussion_detail": null,"subject": {"vessel_rig_platform_name": "RBDP-B Platform","field_area_name": "10.404N 108.508E"},"validity_a": [{"time_block": 240,"forecast_time_table_step_id": 6849,"forecast_id": 8479,"interval": 3,"created_by": 20,"created_on": "2024-08-28T06:55:13.129188","updated_by": 20,"updated_on": "2024-09-20T04:48:44.581275","last_accessed_on": "2024-09-20T04:48:44.585034"}],"validity_b": {"issue_date_time": "2024-12-15T07:00:00","duty_list_task_id": 83576385,"forecast_id": 8479,"shift_id": 14,"status_id": 5,"send_date_time": "2024-12-14T23:00:00","created_on": "2024-08-28T06:55:14","created_by": 20,"updated_by": 18,"updated_on": "2024-12-14T21:46:10.519458","sent_on": "2024-12-14T23:01:14.765053","sent_by": 18,"longitude": 108.5,"latitude": 10.4,"is_fixed_site": true,"route_id": null,"region_id": 6,"day_offset": 0,"nearest_lat": null,"nearest_long": null,"is_nearest_grid_points": false,"allow_conditional_limit": false,"conditional_limit_margin_val": null,"is_manual": false,"is_discussion_task": false,"last_accessed_on": "2024-12-14T23:01:14.760689","is_auto": false,"skipped_by": null,"skipped_on": null,"email_addresses": null,"orginal_issue_time": null,"orginal_send_time": null}},"subheaders": [{"location": 0},{"wind": 4},{"windwave": 1},{"swell1": 3},{"swell2": 3},{"total": 2},{"weather": 0},{"currents": 0}]}
-              
+              const hardcodedData = {"headers": [{"name": "datetimeutc","caption": "Time"},{"name": "a_10mwinddir","caption": "10m Wind Dir","field_id": 1,"output_unit_name": "[Cardinals]"},{"name": "a_10mwindspeed","caption": "10m Wind Speed","field_id": 2,"output_unit_name": "[kts]"},{"name": "a_10mgust","caption": "10m Gust","field_id": 3,"output_unit_name": "[kts]"},{"name": "a_50mwindspeed","caption": "50m Wind Speed","field_id": 5,"output_unit_name": "[kts]"},{"name": "windseaheight","caption": "Wind Wave Height","field_id": 47,"output_unit_name": "[m]"},{"name": "swell1direction","caption": "Swell 1 Dir","field_id": 51,"output_unit_name": "[Cardinals]"},{"name": "swell1height","caption": "Swell 1 Height","field_id": 50,"output_unit_name": "[m]"},{"name": "swell1period","caption": "Swell 1 Period","field_id": 52,"output_unit_name": "[s]"},{"name": "sigwaveheight","caption": "Sig Wave Height","field_id": 62,"output_unit_name": "[m]"},{"name": "maxwave","caption": "Max Wave","field_id": 61,"output_unit_name": "[m]"},{"name": "swell2direction","caption": "Swell 2 Dir","field_id": 54,"output_unit_name": "[Cardinals]"},{"name": "swell2height","caption": "Swell 2 Height","field_id": 53,"output_unit_name": "[m]"},{"name": "swell2period","caption": "Swell 2 Period","field_id": 55,"output_unit_name": "[s]"}],"datas": [[{"datetimeutc": "12/19/2024 20:00","a_10mwinddir": 132.37,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.31,"maxwave": 2.0,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 23:00","a_10mwinddir": 126.16,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.31,"maxwave": 2.0,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/20/2024 02:00","a_10mwinddir": 157.85,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.41,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 05:00","a_10mwinddir": 148.33,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.41,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 08:00","a_10mwinddir": 134.23,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.41,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 11:00","a_10mwinddir": 18.3,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 14:00","a_10mwinddir": 2.2,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 10.3,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 17:00","a_10mwinddir": 21.2,"a_10mwindspeed": 11.66,"a_10mgust": 15.2,"a_50mwindspeed": 16.3,"windseaheight": 0.6,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.62,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 20:00","a_10mwinddir": 30.41,"a_10mwindspeed": 13.58,"a_10mgust": 17.7,"a_50mwindspeed": 19.0,"windseaheight": 0.7,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.75,"maxwave": 2.7,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 23:00","a_10mwinddir": 38.04,"a_10mwindspeed": 11.75,"a_10mgust": 15.3,"a_50mwindspeed": 16.4,"windseaheight": 0.6,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.72,"maxwave": 2.6,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/21/2024 02:00","a_10mwinddir": 43.59,"a_10mwindspeed": 0,"a_10mgust": 12.6,"a_50mwindspeed": 13.6,"windseaheight": 0.4,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.66,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 05:00","a_10mwinddir": 60.07,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 10.1,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.62,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 08:00","a_10mwinddir": 174.54,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.62,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 11:00","a_10mwinddir": 207.6,"a_10mwindspeed": 0,"a_10mgust": 11.0,"a_50mwindspeed": 11.9,"windseaheight": 0.3,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.63,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 14:00","a_10mwinddir": 239.85,"a_10mwindspeed": 11.42,"a_10mgust": 14.8,"a_50mwindspeed": 16.0,"windseaheight": 0.4,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.56,"maxwave": 2.4,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 17:00","a_10mwinddir": 290.79,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 20:00","a_10mwinddir": 329.73,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 23:00","a_10mwinddir": 89.47,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/22/2024 02:00","a_10mwinddir": 79.55,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 05:00","a_10mwinddir": 168.69,"a_10mwindspeed": 0,"a_10mgust": 10.2,"a_50mwindspeed": 11.0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 08:00","a_10mwinddir": 177.64,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 11:00","a_10mwinddir": 180.3,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.67,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 14:00","a_10mwinddir": 161.85,"a_10mwindspeed": 18.22,"a_10mgust": 23.7,"a_50mwindspeed": 25.5,"windseaheight": 1.0,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.97,"maxwave": 3.0,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 17:00","a_10mwinddir": 257.29,"a_10mwindspeed": 21.12,"a_10mgust": 27.5,"a_50mwindspeed": 29.6,"windseaheight": 1.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 2.01,"maxwave": 3.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 20:00","a_10mwinddir": 273.46,"a_10mwindspeed": 16.25,"a_10mgust": 21.1,"a_50mwindspeed": 22.8,"windseaheight": 0.9,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.85,"maxwave": 2.8,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 23:00","a_10mwinddir": 223.64,"a_10mwindspeed": 10.07,"a_10mgust": 13.1,"a_50mwindspeed": 14.1,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.61,"maxwave": 2.4,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/23/2024 02:00","a_10mwinddir": 188.22,"a_10mwindspeed": 10.12,"a_10mgust": 13.2,"a_50mwindspeed": 14.2,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.53,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 05:00","a_10mwinddir": 193.9,"a_10mwindspeed": 12.35,"a_10mgust": 16.1,"a_50mwindspeed": 17.3,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.61,"maxwave": 2.4,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 08:00","a_10mwinddir": 193.69,"a_10mwindspeed": 0,"a_10mgust": 12.9,"a_50mwindspeed": 13.9,"windseaheight": 0.4,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.5,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 11:00","a_10mwinddir": 215.9,"a_10mwindspeed": 0,"a_10mgust": 10.7,"a_50mwindspeed": 11.5,"windseaheight": 0.3,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.42,"maxwave": 2.2,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 14:00","a_10mwinddir": 269.64,"a_10mwindspeed": 11.79,"a_10mgust": 15.3,"a_50mwindspeed": 16.5,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.4,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 17:00","a_10mwinddir": 256.15,"a_10mwindspeed": 13.92,"a_10mgust": 18.1,"a_50mwindspeed": 19.5,"windseaheight": 0.6,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.44,"maxwave": 2.2,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 20:00","a_10mwinddir": 236.88,"a_10mwindspeed": 10.28,"a_10mgust": 13.4,"a_50mwindspeed": 14.4,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.4,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}]],"interval": 3,"total": 33,"discussion": {"discussion": {"discussion_id": 323507,"synopsis": "A high pressure ridge over Vietnam, SE China and their immediate waters, while a low pressure in offshore Sarawak extends a trough to Natuna Sea and to west waters Borneo.","warning": "MODERATE TO HIGH RISKS OF SQUALLS OF 20-30 KNOTS IN/NEAR SHOWERS AND THUNDERSTORMS WITH TEMPORARILY RAISED SEAS DURING OCCURRENCE.","advisory": "","notes": "Partly cloudy to cloudy periods with chance of showers/rains"},"discussion_detail": null,"subject": {"vessel_rig_platform_name": "SPM Buoy","field_area_name": "4.788N, 114.476E"},"validity_a": [{"time_block": 96,"forecast_time_table_step_id": 1393,"forecast_id": 1294,"interval": 3,"created_by": 10,"created_on": "2019-02-07T00:43:54.992443","updated_by": 23,"updated_on": "2024-12-18T06:18:12.674526","last_accessed_on": "2024-12-18T06:18:08.802139"}],"validity_b": {"issue_date_time": "2024-12-19T20:00:00","duty_list_task_id": 1217229,"forecast_id": 1294,"shift_id": 15,"status_id": 5,"send_date_time": "2024-12-19T09:50:00","created_on": "2019-02-07T00:43:59","created_by": 10,"updated_by": 23,"updated_on": "2024-12-19T06:15:23.753571","sent_on": "2024-12-19T09:50:18.010355","sent_by": 23,"longitude": 114.47,"latitude": 4.78,"is_fixed_site": true,"route_id": null,"region_id": 4,"day_offset": 0,"nearest_lat": null,"nearest_long": null,"is_nearest_grid_points": false,"allow_conditional_limit": false,"conditional_limit_margin_val": null,"is_manual": false,"is_discussion_task": false,"last_accessed_on": "2024-12-19T09:50:18.019232","is_auto": false,"skipped_by": null,"skipped_on": null,"email_addresses": null,"orginal_issue_time": null,"orginal_send_time": null}},"subheaders": [{"location": 0},{"wind": 4},{"windwave": 1},{"swell1": 3},{"swell2": 3},{"total": 2},{"weather": 0},{"currents": 0}]}
+             
               if (!hardcodedData || !hardcodedData.headers || hardcodedData.headers.length === 0) {
         setNoDataMessage("No forecast data available");
         setLoading(false); 
@@ -2076,20 +2076,22 @@ latlong.forEach((columnName1) => {
         }
       }
 
-if (!datas[data_array].hasOwnProperty("windseadirection")) {
-  datas[data_array]["windseadirection"] = (datas[data_array]["a_10winddir"]) || null;
-}
-
-first = true;
-let directionWw = false;
-
-// Direction of windwave
- for (let data in datas[data_array]) {
+      first = true;
+      let directionWw = false;
+      
+      // Direction of windwave
+      for (let data in datas[data_array]) {
         let cellData = datas[data_array][data];
-        if (data === "a_10mwinddir") {
-          cellData = calculateWindDir(datas[data_array][data]);
-          tmpdir = calculateWindDir(datas[data_array][data]);
+      
+        if (data === "a_10winddir") {
+          // Check if windseadirection is null/undefined, fallback to a_10winddir
+          cellData =
+            cellData === null || cellData === undefined
+              ? calculateWindDir(datas[data_array]["a_10winddir"])
+              : calculateWindDir(datas[data_array][data]);
+          tmpdir = cellData;
         }
+      
         if (
           data === "modelvisibility" ||
           data === "cloudbase" ||
@@ -2097,11 +2099,57 @@ let directionWw = false;
         ) {
           continue;
         }
-        if (data === "a_10mwinddir") {
-          // eslint-disable-next-line no-lone-blocks
-          {
+      
+        if (data === "a_10winddir") {
+          directionWw = true;
+          setPreWw(true);
+          dict_temp.push(
+            <td
+              style={{
+                borderLeft: "0.5px solid #437c92",
+                borderRight: `${""}`,
+                textAlign: "center",
+              }}
+              key={Math.random()}
+            >
+              {cellData === null || cellData === undefined ? (
+                "-"
+              ) : typeof cellData === "string" && cellData.length === 16 ? (
+                <div style={{ display: "flex", gap: "8px" }}>
+                  {cellData.slice(10)}
+                </div>
+              ) : (
+                <>{cellData}</>
+              )}
+            </td>
+          );
+        }
+      }
+      
+      if (directionWw === false && windwave !== 0) {
+        setIsDirWw(true);
+        for (let data in datas[data_array]) {
+          let cellData = datas[data_array][data];
+      
+          if (data === "a_10winddir") {
+            // Fallback to a_10winddir if windseadirection is missing
+            cellData =
+              cellData === null || cellData === undefined
+                ? calculateWindDir(datas[data_array]["a_10winddir"])
+                : calculateWindDir(datas[data_array][data]);
+            tmpdir = cellData;
+          }
+      
+          if (
+            data === "modelvisibility" ||
+            data === "cloudbase" ||
+            data === "rainrate"
+          ) {
+            continue;
+          }
+      
+          if (data === "datetimeutc") {
             directionWw = true;
-            setPreWw(true);
             dict_temp.push(
               <td
                 style={{
@@ -2111,56 +2159,13 @@ let directionWw = false;
                 }}
                 key={Math.random()}
               >
-                {cellData === null || cellData === undefined ? (
-                  "-"
-                ) : typeof cellData === "string" && cellData.length === 16 ? (
-                  <div style={{ display: "flex", gap: "8px" }}>
-                    {cellData.slice(10)}
-                  </div>
-                ) : (
-                  <>{cellData}</>
-                )}
+                <></>
               </td>
             );
           }
         }
       }
-
-      if (directionWw === false) {
-        setIsDirWw(true);
-        for (let data in datas[data_array]) {
-          let cellData = datas[data_array][data];
-          if (data === "a_10mwinddir") {
-            cellData = calculateWindDir(datas[data_array][data]);
-            tmpdir = calculateWindDir(datas[data_array][data]);
-          }
-          if (
-            data === "modelvisibility" ||
-            data === "cloudbase" ||
-            data === "rainrate"
-          ) {
-            continue;
-          }
-          if (data === "datetimeutc") {
-            // eslint-disable-next-line no-lone-blocks
-            {
-              directionWw = true;
-              dict_temp.push(
-                <td
-                  style={{
-                    borderLeft: "0.5px solid #437c92",
-                    borderRight: `${""}`,
-                    textAlign: "center",
-                  }}
-                  key={Math.random()}
-                >
-                  <></>
-                </td>
-              );
-            }
-          }
-        }
-      }
+      
       // Windwaves
       first = false;
       for (let data in datas[data_array]) {
@@ -2204,18 +2209,18 @@ let directionWw = false;
                       textAlign: "center",
                     }}
                   >
-                   <p
-  className={`${
-    tableColorDatas["color_" + data + "_" + total_index] === undefined
-      ? "-"
-      : tableColorDatas["color_" + data + "_" + total_index]
-  }`}
->
-  {cellData === null || cellData === undefined
-    ? "-"
-    : Number(cellData).toFixed(1)}
-</p>
-
+                    <p
+                      className={`${
+                        tableColorDatas["color_" + data + "_" + total_index] ===
+                        undefined
+                          ? "-"
+                          : tableColorDatas["color_" + data + "_" + total_index]
+                      }`}
+                    >
+                      {Number(cellData) % 1 === 0
+                        ? cellData
+                        : (Math.round(Number(cellData) * 10) / 10).toFixed(1)}
+                    </p>
                   </div>
                 </>
               )}
@@ -2224,6 +2229,7 @@ let directionWw = false;
           );
         }
       }
+      
       
       // Swell 1
       first = true;
@@ -3142,7 +3148,7 @@ for (let data in datas[data_array]) {
     }
     return (
       <>
-        <span className={"tableTitle"}>{text === "date" ? <br /> : text}</span>
+        <b><span className={"tableTitle"}>{text === "date" ? <br /> : text}</span></b>
       </>
     );
   }
@@ -3250,6 +3256,7 @@ for (let data in datas[data_array]) {
         break;
       case "Cloud Base":
         text = "Cloud Base";
+
         break;
       case "Amt":
         text = "Amt";
@@ -3262,12 +3269,15 @@ for (let data in datas[data_array]) {
         break;
       case "Accummulated Precip":
         text = "Amt";
+
         break;
       default:
         text = caption;
     }
     return text;
   }
+
+
   function HeaderFunction() {
     // Date
     /*let headers = new Array();
@@ -3325,7 +3335,7 @@ for (let data in datas[data_array]) {
            }}
            className={column.name === "datetimeutc" ? "date" : ""}
 >
-           {column.caption === "Time" ? timeZoneDisplay : column.name}
+           <strong>{column.caption === "Time" ? timeZoneDisplay : column.name}</strong>
            {replace}
 </td>
        );
@@ -3427,12 +3437,13 @@ for (let data in datas[data_array]) {
             className={column.name === "datetimeutc" ? "date" : ""}
           >
             <TableTitle
-              key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
-              subCaption={replace}
-              name={column.name === "Time" ? "UTC" : column.name}
-              total_index={index}
-            />
+  key={Math.random()}
+  caption={<strong>{tableHeaderFn(column.caption)}</strong>}
+  subCaption={replace}
+  name={column.name === "Time" ? "UTC" : column.name}
+  total_index={index}
+/>
+
           </td>
         );
         first = false;
@@ -3467,7 +3478,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
+              caption={<strong>{tableHeaderFn(column.caption)}</strong>}
               subCaption={replace}
               name={column.name === "Time" ? "UTC" : column.name}
               total_index={index}
@@ -3505,7 +3516,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
+              caption={<b>{tableHeaderFn(column.caption)}</b>}
               subCaption={replace}
               name={column.name === "Time" ? "UTC" : column.name}
               total_index={index}
@@ -3532,12 +3543,13 @@ for (let data in datas[data_array]) {
           className={tableColorDatas["color_" + "windseadirection" + "_" + 0]}
         >
           <TableTitle
-            key={Math.random()}
-            caption={"Dir"}
-            subCaption={""}
-            name={"Dir"}
-            total_index={1}
-          />
+  key={Math.random()}
+  caption={<strong>Dir</strong>}
+  subCaption={""}
+  name={"Dir"}
+  total_index={1}
+/>
+
         </td>
       );
     }
@@ -3566,7 +3578,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
+              caption={<strong>{tableHeaderFn(column.caption)}</strong>}
               subCaption={replace}
               name={column.name === "Time" ? "UTC" : column.name}
               total_index={index}
@@ -3604,7 +3616,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
+              caption={<strong>{tableHeaderFn(column.caption)}</strong>}
               subCaption={replace}
               name={column.name === "Time" ? "UTC" : column.name}
               total_index={index}
@@ -3665,7 +3677,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
+              caption={<strong>{tableHeaderFn(column.caption)}</strong>}
               subCaption={replace}
               name={column.name === "Time" ? "UTC" : column.name}
               total_index={index}
@@ -3703,7 +3715,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
+              caption={<strong>{tableHeaderFn(column.caption)}</strong>}
               subCaption={replace}
               name={column.name === "Time" ? "UTC" : column.name}
               total_index={index}
@@ -3765,7 +3777,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={tableHeaderFn(column.caption)}
+              caption={<strong>{tableHeaderFn(column.caption)}</strong>}
               subCaption={replace}
               name={column.name === "Time" ? "UTC" : column.name}
               total_index={index}
@@ -3825,12 +3837,13 @@ for (let data in datas[data_array]) {
                 className={columnName === "datetimeutc" ? "date" : ""}
               >
                 <TableTitle
-                  key={Math.random()}
-                  caption={tableHeaderFn(column?.caption || "Peak Wave Dir")}
-                  subCaption={replace}
-                  name={columnName === "Time" ? "UTC" : columnName}
-                  total_index={columnOrder.indexOf(columnName)}
-                />
+  key={Math.random()}
+  // caption={column?.caption ? "Dir" : ""}
+  subCaption={<strong>{column?.caption ? "Dir" : ""}</strong>}
+  name={columnName === "Time" ? "UTC" : columnName}
+  total_index={columnOrder.indexOf(columnName)}
+/>
+
               </td>
             );
             first = false;
@@ -3861,7 +3874,7 @@ for (let data in datas[data_array]) {
               >
                 <TableTitle
                   key={Math.random()}
-                  caption={tableHeaderFn(column?.caption || columnName)}
+                  caption={<strong>{tableHeaderFn(column?.caption || columnName)}</strong>}
                   subCaption={replace}
                   name={columnName === "Time" ? "UTC" : columnName}
                   total_index={columnOrder.indexOf(columnName)}
@@ -3911,7 +3924,7 @@ for (let data in datas[data_array]) {
             >
               <TableTitle
                 key={Math.random()}
-                caption={tableHeaderFn(column.caption)}
+                caption={<strong>{tableHeaderFn(column.caption)}</strong>}
                 subCaption={replace}
                 name={column.name === "Time" ? "UTC" : column.name}
                 total_index={index}
@@ -4563,13 +4576,14 @@ for (let data in datas[data_array]) {
           }}
           className={tableColorDatas["color_" + "peakwavedir" + "_" + 0]}
         >
-          <TableUnit
-            key={Math.random()}
-            caption={"Dir"}
-            subCaption={""}
-            name={"Dir"}
-            total_index={1}
-          />
+         <TableUnit
+  key={Math.random()}
+  caption={data.peakwavedir ? "Dir" : ""}
+  subCaption={data.peakwavedir ? "Dir" : ""}
+  name={"Dir"}
+  total_index={1}
+/>
+
         </td>
       );
     }

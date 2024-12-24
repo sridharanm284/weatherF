@@ -178,6 +178,26 @@ export default function AuthPage() {
                       Sign Up
                     </a>
                   </Typography>
+                  <Typography
+                    variant="body2"
+                    style={{ textAlign: "center", margin: "10px 0" }}
+                  >
+                    -------------------------------- or ----------------------------------
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    style={{ textAlign: "center", fontWeight: "bold" }}
+                  >
+                    <Button
+                    onClick={() => window.location.href = "https://example-sso-login.com"}
+                    style={{ width: 200 }}
+                    className={"login-submit"}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Sign in with SSO
+                  </Button>
+                  </Typography>
                   <Typography variant="body2" className={"login-social"}>
                     or sign in with
                   </Typography>
