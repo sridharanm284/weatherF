@@ -24,6 +24,8 @@
   box-shadow: $elevation-z12;
   background: $white;
 }
+
+
 .sidenav .topbar,
 .content-wrap {
   transition: all 0.3s ease;
@@ -63,6 +65,13 @@
     padding: 0;
   }
 }
+
+
+.hide-topbar .topbar {
+  display: none;
+}
+
+
 .fug-container {
   height: 100%;
   .container-section {

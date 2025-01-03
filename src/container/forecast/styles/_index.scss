@@ -90,10 +90,20 @@
   overflow: hidden;
   background-color: #add8e6;
   font-weight: normal !important;
+  padding: '4px';
+  font-size: '12px';
+  z-index: 2;
+  top: 0;
+  border: "0.5px solid #437c92";
  }
  .theadunitWhite,
  .theadtitleWhite {
   overflow: hidden;
+  padding: '4px';
+  font-size: '12px';
+  z-index: 2;
+  top: 0;
+  border: "0.5px solid #437c92";
   background-color: white !important;
   th {
     background-color: white !important;

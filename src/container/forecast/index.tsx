@@ -1452,8 +1452,8 @@ const ForeCast = () => {
           const fetchData = async () => {
             try {
           
-              const hardcodedData = {"headers": [{"name": "datetimeutc","caption": "Time"},{"name": "a_10mwinddir","caption": "10m Wind Dir","field_id": 1,"output_unit_name": "[Cardinals]"},{"name": "a_10mwindspeed","caption": "10m Wind Speed","field_id": 2,"output_unit_name": "[kts]"},{"name": "a_10mgust","caption": "10m Gust","field_id": 3,"output_unit_name": "[kts]"},{"name": "a_50mwindspeed","caption": "50m Wind Speed","field_id": 5,"output_unit_name": "[kts]"},{"name": "windseaheight","caption": "Wind Wave Height","field_id": 47,"output_unit_name": "[m]"},{"name": "swell1direction","caption": "Swell 1 Dir","field_id": 51,"output_unit_name": "[Cardinals]"},{"name": "swell1height","caption": "Swell 1 Height","field_id": 50,"output_unit_name": "[m]"},{"name": "swell1period","caption": "Swell 1 Period","field_id": 52,"output_unit_name": "[s]"},{"name": "sigwaveheight","caption": "Sig Wave Height","field_id": 62,"output_unit_name": "[m]"},{"name": "maxwave","caption": "Max Wave","field_id": 61,"output_unit_name": "[m]"},{"name": "swell2direction","caption": "Swell 2 Dir","field_id": 54,"output_unit_name": "[Cardinals]"},{"name": "swell2height","caption": "Swell 2 Height","field_id": 53,"output_unit_name": "[m]"},{"name": "swell2period","caption": "Swell 2 Period","field_id": 55,"output_unit_name": "[s]"}],"datas": [[{"datetimeutc": "12/19/2024 20:00","a_10mwinddir": 132.37,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.31,"maxwave": 2.0,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 23:00","a_10mwinddir": 126.16,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.31,"maxwave": 2.0,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/20/2024 02:00","a_10mwinddir": 157.85,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.41,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 05:00","a_10mwinddir": 148.33,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.41,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 08:00","a_10mwinddir": 134.23,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.41,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 11:00","a_10mwinddir": 18.3,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 14:00","a_10mwinddir": 2.2,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 10.3,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 17:00","a_10mwinddir": 21.2,"a_10mwindspeed": 11.66,"a_10mgust": 15.2,"a_50mwindspeed": 16.3,"windseaheight": 0.6,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.62,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 20:00","a_10mwinddir": 30.41,"a_10mwindspeed": 13.58,"a_10mgust": 17.7,"a_50mwindspeed": 19.0,"windseaheight": 0.7,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.75,"maxwave": 2.7,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 23:00","a_10mwinddir": 38.04,"a_10mwindspeed": 11.75,"a_10mgust": 15.3,"a_50mwindspeed": 16.4,"windseaheight": 0.6,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.72,"maxwave": 2.6,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/21/2024 02:00","a_10mwinddir": 43.59,"a_10mwindspeed": 0,"a_10mgust": 12.6,"a_50mwindspeed": 13.6,"windseaheight": 0.4,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.66,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 05:00","a_10mwinddir": 60.07,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 10.1,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.62,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 08:00","a_10mwinddir": 174.54,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.62,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 11:00","a_10mwinddir": 207.6,"a_10mwindspeed": 0,"a_10mgust": 11.0,"a_50mwindspeed": 11.9,"windseaheight": 0.3,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.63,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 14:00","a_10mwinddir": 239.85,"a_10mwindspeed": 11.42,"a_10mgust": 14.8,"a_50mwindspeed": 16.0,"windseaheight": 0.4,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.56,"maxwave": 2.4,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 17:00","a_10mwinddir": 290.79,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 20:00","a_10mwinddir": 329.73,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 23:00","a_10mwinddir": 89.47,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/22/2024 02:00","a_10mwinddir": 79.55,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.51,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 05:00","a_10mwinddir": 168.69,"a_10mwindspeed": 0,"a_10mgust": 10.2,"a_50mwindspeed": 11.0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 08:00","a_10mwinddir": 177.64,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.52,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 11:00","a_10mwinddir": 180.3,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.67,"maxwave": 2.5,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 14:00","a_10mwinddir": 161.85,"a_10mwindspeed": 18.22,"a_10mgust": 23.7,"a_50mwindspeed": 25.5,"windseaheight": 1.0,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.97,"maxwave": 3.0,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 17:00","a_10mwinddir": 257.29,"a_10mwindspeed": 21.12,"a_10mgust": 27.5,"a_50mwindspeed": 29.6,"windseaheight": 1.2,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 2.01,"maxwave": 3.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 20:00","a_10mwinddir": 273.46,"a_10mwindspeed": 16.25,"a_10mgust": 21.1,"a_50mwindspeed": 22.8,"windseaheight": 0.9,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.85,"maxwave": 2.8,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 23:00","a_10mwinddir": 223.64,"a_10mwindspeed": 10.07,"a_10mgust": 13.1,"a_50mwindspeed": 14.1,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.61,"maxwave": 2.4,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/23/2024 02:00","a_10mwinddir": 188.22,"a_10mwindspeed": 10.12,"a_10mgust": 13.2,"a_50mwindspeed": 14.2,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.53,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 05:00","a_10mwinddir": 193.9,"a_10mwindspeed": 12.35,"a_10mgust": 16.1,"a_50mwindspeed": 17.3,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.61,"maxwave": 2.4,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 08:00","a_10mwinddir": 193.69,"a_10mwindspeed": 0,"a_10mgust": 12.9,"a_50mwindspeed": 13.9,"windseaheight": 0.4,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.5,"maxwave": 2.3,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 11:00","a_10mwinddir": 215.9,"a_10mwindspeed": 0,"a_10mgust": 10.7,"a_50mwindspeed": 11.5,"windseaheight": 0.3,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.42,"maxwave": 2.2,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 14:00","a_10mwinddir": 269.64,"a_10mwindspeed": 11.79,"a_10mgust": 15.3,"a_50mwindspeed": 16.5,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.4,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 17:00","a_10mwinddir": 256.15,"a_10mwindspeed": 13.92,"a_10mgust": 18.1,"a_50mwindspeed": 19.5,"windseaheight": 0.6,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.44,"maxwave": 2.2,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/23/2024 20:00","a_10mwinddir": 236.88,"a_10mwindspeed": 10.28,"a_10mgust": 13.4,"a_50mwindspeed": 14.4,"windseaheight": 0.5,"swell1direction": 315.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 1.4,"maxwave": 2.1,"swell2direction": 337.5,"swell2height": 0,"swell2period": 0,"lat": 4.78,"long": 114.47,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}]],"interval": 3,"total": 33,"discussion": {"discussion": {"discussion_id": 323507,"synopsis": "A high pressure ridge over Vietnam, SE China and their immediate waters, while a low pressure in offshore Sarawak extends a trough to Natuna Sea and to west waters Borneo.","warning": "MODERATE TO HIGH RISKS OF SQUALLS OF 20-30 KNOTS IN/NEAR SHOWERS AND THUNDERSTORMS WITH TEMPORARILY RAISED SEAS DURING OCCURRENCE.","advisory": "","notes": "Partly cloudy to cloudy periods with chance of showers/rains"},"discussion_detail": null,"subject": {"vessel_rig_platform_name": "SPM Buoy","field_area_name": "4.788N, 114.476E"},"validity_a": [{"time_block": 96,"forecast_time_table_step_id": 1393,"forecast_id": 1294,"interval": 3,"created_by": 10,"created_on": "2019-02-07T00:43:54.992443","updated_by": 23,"updated_on": "2024-12-18T06:18:12.674526","last_accessed_on": "2024-12-18T06:18:08.802139"}],"validity_b": {"issue_date_time": "2024-12-19T20:00:00","duty_list_task_id": 1217229,"forecast_id": 1294,"shift_id": 15,"status_id": 5,"send_date_time": "2024-12-19T09:50:00","created_on": "2019-02-07T00:43:59","created_by": 10,"updated_by": 23,"updated_on": "2024-12-19T06:15:23.753571","sent_on": "2024-12-19T09:50:18.010355","sent_by": 23,"longitude": 114.47,"latitude": 4.78,"is_fixed_site": true,"route_id": null,"region_id": 4,"day_offset": 0,"nearest_lat": null,"nearest_long": null,"is_nearest_grid_points": false,"allow_conditional_limit": false,"conditional_limit_margin_val": null,"is_manual": false,"is_discussion_task": false,"last_accessed_on": "2024-12-19T09:50:18.019232","is_auto": false,"skipped_by": null,"skipped_on": null,"email_addresses": null,"orginal_issue_time": null,"orginal_send_time": null}},"subheaders": [{"location": 0},{"wind": 4},{"windwave": 1},{"swell1": 3},{"swell2": 3},{"total": 2},{"weather": 0},{"currents": 0}]}
-             
+              const hardcodedData = {"headers": [{"name": "datetimeutc","caption": "Time"},{"name": "a_10mwinddir","caption": "10m Wind Dir","field_id": 1,"output_unit_name": "[Cardinals]"},{"name": "a_10mwindspeed","caption": "10m Wind Speed","field_id": 2,"output_unit_name": "[kts]"},{"name": "a_10mgust","caption": "10m Gust","field_id": 3,"output_unit_name": "[kts]"},{"name": "a_50mwindspeed","caption": "50m Wind Speed","field_id": 5,"output_unit_name": "[kts]"},{"name": "windseaheight","caption": "Wind Wave Height","field_id": 47,"output_unit_name": "[m]"},{"name": "swell1direction","caption": "Swell 1 Dir","field_id": 51,"output_unit_name": "[Cardinals]"},{"name": "swell1height","caption": "Swell 1 Height","field_id": 50,"output_unit_name": "[m]"},{"name": "swell1period","caption": "Swell 1 Period","field_id": 52,"output_unit_name": "[s]"},{"name": "sigwaveheight","caption": "Sig Wave Height","field_id": 62,"output_unit_name": "[m]"},{"name": "maxwave","caption": "Max Wave","field_id": 61,"output_unit_name": "[m]"},{"name": "swell2direction","caption": "Swell 2 Dir","field_id": 54,"output_unit_name": "[Cardinals]"},{"name": "swell2height","caption": "Swell 2 Height","field_id": 53,"output_unit_name": "[m]"},{"name": "swell2period","caption": "Swell 2 Period","field_id": 55,"output_unit_name": "[s]"},{"name": "surfacecurrentdirection","caption": "Surface Current Dir Towards","field_id": 58,"output_unit_name": "[deg]"},{"name": "surfacecurrentspeed","caption": "Surface Current Speed","field_id": 59,"output_unit_name": "[kts]"}],"datas": [[{"datetimeutc": "12/26/2024 21:00","a_10mwinddir": 289.4,"a_10mwindspeed": 0,"a_10mgust": 10.8,"a_50mwindspeed": 11.6,"windseaheight": 0.2,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.63,"maxwave": 1.1,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 41,"surfacecurrentspeed": 0.57,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/27/2024 00:00","a_10mwinddir": 284.8,"a_10mwindspeed": 12.0,"a_10mgust": 15.6,"a_50mwindspeed": 16.8,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.67,"maxwave": 1.1,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 153,"surfacecurrentspeed": 0.14,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/27/2024 03:00","a_10mwinddir": 298.3,"a_10mwindspeed": 15.0,"a_10mgust": 19.5,"a_50mwindspeed": 21.0,"windseaheight": 0.44,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.74,"maxwave": 1.2,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 183,"surfacecurrentspeed": 0.26,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/27/2024 06:00","a_10mwinddir": 300.3,"a_10mwindspeed": 15.0,"a_10mgust": 19.5,"a_50mwindspeed": 21.0,"windseaheight": 0.5,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.86,"maxwave": 1.4,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 44,"surfacecurrentspeed": 0.47,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/27/2024 09:00","a_10mwinddir": 303.6,"a_10mwindspeed": 12.9,"a_10mgust": 16.8,"a_50mwindspeed": 18.1,"windseaheight": 0.5,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.94,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 38,"surfacecurrentspeed": 1.03,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/27/2024 12:00","a_10mwinddir": 298.8,"a_10mwindspeed": 0,"a_10mgust": 12.9,"a_50mwindspeed": 13.9,"windseaheight": 0.4,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.98,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 40,"surfacecurrentspeed": 0.79,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/27/2024 15:00","a_10mwinddir": 292.5,"a_10mwindspeed": 11.6,"a_10mgust": 15.1,"a_50mwindspeed": 16.2,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.95,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 48,"surfacecurrentspeed": 0.56,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/27/2024 18:00","a_10mwinddir": 276.8,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.92,"maxwave": 1.5,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 43,"surfacecurrentspeed": 0.76,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/27/2024 21:00","a_10mwinddir": 257.7,"a_10mwindspeed": 12.2,"a_10mgust": 15.9,"a_50mwindspeed": 17.1,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.95,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 44,"surfacecurrentspeed": 0.78,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/28/2024 00:00","a_10mwinddir": 284.8,"a_10mwindspeed": 0,"a_10mgust": 12.6,"a_50mwindspeed": 13.6,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.95,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 116,"surfacecurrentspeed": 0.21,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 03:00","a_10mwinddir": 306.7,"a_10mwindspeed": 0,"a_10mgust": 10.0,"a_50mwindspeed": 10.8,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.95,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 194,"surfacecurrentspeed": 0.53,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 06:00","a_10mwinddir": 304.4,"a_10mwindspeed": 10.3,"a_10mgust": 13.4,"a_50mwindspeed": 14.4,"windseaheight": 0.4,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.89,"maxwave": 1.5,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 82,"surfacecurrentspeed": 0.1,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 09:00","a_10mwinddir": 298.0,"a_10mwindspeed": 15.0,"a_10mgust": 19.5,"a_50mwindspeed": 21.0,"windseaheight": 0.55,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.97,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 36,"surfacecurrentspeed": 0.91,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 12:00","a_10mwinddir": 296.3,"a_10mwindspeed": 17.0,"a_10mgust": 22.1,"a_50mwindspeed": 23.8,"windseaheight": 0.64,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.95,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 41,"surfacecurrentspeed": 0.87,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 15:00","a_10mwinddir": 294.7,"a_10mwindspeed": 16.0,"a_10mgust": 20.8,"a_50mwindspeed": 22.4,"windseaheight": 0.69,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.98,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 50,"surfacecurrentspeed": 0.51,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 18:00","a_10mwinddir": 293.2,"a_10mwindspeed": 15.0,"a_10mgust": 19.5,"a_50mwindspeed": 21.0,"windseaheight": 0.66,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.96,"maxwave": 1.6,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 48,"surfacecurrentspeed": 0.63,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 21:00","a_10mwinddir": 292.4,"a_10mwindspeed": 14.9,"a_10mgust": 19.4,"a_50mwindspeed": 20.9,"windseaheight": 0.6,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.92,"maxwave": 1.5,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 47,"surfacecurrentspeed": 0.86,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/29/2024 00:00","a_10mwinddir": 294.1,"a_10mwindspeed": 14.6,"a_10mgust": 19.0,"a_50mwindspeed": 20.4,"windseaheight": 0.49,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.85,"maxwave": 1.4,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 81,"surfacecurrentspeed": 0.34,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 03:00","a_10mwinddir": 296.7,"a_10mwindspeed": 12.0,"a_10mgust": 15.6,"a_50mwindspeed": 16.8,"windseaheight": 0.54,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.88,"maxwave": 1.5,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 185,"surfacecurrentspeed": 0.53,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 06:00","a_10mwinddir": 279.5,"a_10mwindspeed": 10.0,"a_10mgust": 13.0,"a_50mwindspeed": 14.0,"windseaheight": 0.37,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.79,"maxwave": 1.3,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 125,"surfacecurrentspeed": 0.13,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 09:00","a_10mwinddir": 235.8,"a_10mwindspeed": 0,"a_10mgust": 11.7,"a_50mwindspeed": 12.6,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.76,"maxwave": 1.3,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 35,"surfacecurrentspeed": 1.1,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 12:00","a_10mwinddir": 277.8,"a_10mwindspeed": 0,"a_10mgust": 11.4,"a_50mwindspeed": 12.3,"windseaheight": 0.2,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.73,"maxwave": 1.2,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 38,"surfacecurrentspeed": 1.18,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 15:00","a_10mwinddir": 250.9,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.61,"maxwave": 1.0,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 52,"surfacecurrentspeed": 0.55,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 18:00","a_10mwinddir": 264.8,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.51,"maxwave": 0.9,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 54,"surfacecurrentspeed": 0.51,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 21:00","a_10mwinddir": 269.3,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.51,"maxwave": 0.9,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 43,"surfacecurrentspeed": 0.87,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/30/2024 00:00","a_10mwinddir": 277.0,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.1,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.51,"maxwave": 0.9,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 53,"surfacecurrentspeed": 0.5,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 03:00","a_10mwinddir": 253.0,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.15,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.52,"maxwave": 0.9,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 184,"surfacecurrentspeed": 0.44,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 06:00","a_10mwinddir": 267.1,"a_10mwindspeed": 0,"a_10mgust": 0,"a_50mwindspeed": 0,"windseaheight": 0.2,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.54,"maxwave": 0.9,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 167,"surfacecurrentspeed": 0.22,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 09:00","a_10mwinddir": 269.9,"a_10mwindspeed": 0,"a_10mgust": 10.4,"a_50mwindspeed": 11.2,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.58,"maxwave": 1.0,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 37,"surfacecurrentspeed": 1.03,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 12:00","a_10mwinddir": 239.0,"a_10mwindspeed": 11.1,"a_10mgust": 14.4,"a_50mwindspeed": 15.5,"windseaheight": 0.4,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.64,"maxwave": 1.1,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 32,"surfacecurrentspeed": 1.41,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 15:00","a_10mwinddir": 241.4,"a_10mwindspeed": 14.0,"a_10mgust": 18.2,"a_50mwindspeed": 19.6,"windseaheight": 0.58,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.77,"maxwave": 1.3,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 34,"surfacecurrentspeed": 0.76,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 18:00","a_10mwinddir": 224.6,"a_10mwindspeed": 13.0,"a_10mgust": 16.9,"a_50mwindspeed": 18.2,"windseaheight": 0.6,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.78,"maxwave": 1.3,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 39,"surfacecurrentspeed": 0.49,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 21:00","a_10mwinddir": 233.5,"a_10mwindspeed": 11.0,"a_10mgust": 14.3,"a_50mwindspeed": 15.4,"windseaheight": 0.5,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.71,"maxwave": 1.2,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 35,"surfacecurrentspeed": 0.9,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/31/2024 00:00","a_10mwinddir": 254.2,"a_10mwindspeed": 0,"a_10mgust": 10.5,"a_50mwindspeed": 11.3,"windseaheight": 0.4,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.64,"maxwave": 1.1,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 37,"surfacecurrentspeed": 0.67,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 03:00","a_10mwinddir": 283.4,"a_10mwindspeed": 0,"a_10mgust": 12.1,"a_50mwindspeed": 13.0,"windseaheight": 0.4,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.64,"maxwave": 1.1,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 197,"surfacecurrentspeed": 0.32,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 06:00","a_10mwinddir": 297.6,"a_10mwindspeed": 11.6,"a_10mgust": 15.1,"a_50mwindspeed": 16.2,"windseaheight": 0.5,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.71,"maxwave": 1.2,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 202,"surfacecurrentspeed": 0.38,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 09:00","a_10mwinddir": 302.4,"a_10mwindspeed": 12.8,"a_10mgust": 16.6,"a_50mwindspeed": 17.9,"windseaheight": 0.6,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.78,"maxwave": 1.3,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 32,"surfacecurrentspeed": 0.8,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 12:00","a_10mwinddir": 305.6,"a_10mwindspeed": 11.6,"a_10mgust": 15.1,"a_50mwindspeed": 16.2,"windseaheight": 0.5,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.71,"maxwave": 1.2,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 32,"surfacecurrentspeed": 1.57,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 15:00","a_10mwinddir": 303.7,"a_10mwindspeed": 11.5,"a_10mgust": 15.0,"a_50mwindspeed": 16.1,"windseaheight": 0.4,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.57,"maxwave": 1.0,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 34,"surfacecurrentspeed": 0.97,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 18:00","a_10mwinddir": 313.8,"a_10mwindspeed": 0,"a_10mgust": 10.4,"a_50mwindspeed": 11.2,"windseaheight": 0.4,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.64,"maxwave": 1.1,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 41,"surfacecurrentspeed": 0.5,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 21:00","a_10mwinddir": 323.3,"a_10mwindspeed": 0,"a_10mgust": 10.9,"a_50mwindspeed": 11.8,"windseaheight": 0.3,"swell1direction": 45.0,"swell1height": 0,"swell1period": 0,"sigwaveheight": 0.67,"maxwave": 1.1,"swell2direction": 0,"swell2height": 0,"swell2period": 0,"surfacecurrentdirection": 36,"surfacecurrentspeed": 0.89,"lat": 35.44,"long": 129.41,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}]],"interval": 3,"total": 41,"discussion": {"discussion": {"discussion_id": 324445,"synopsis": "Strong high pressure over Mongolia extends a firm ridge to the Yellow Sea, Korean Peninsula and its waters, Ryukus, Shikoku and S Honshu. A deep low pressure over Sakhalin extends a trough to central Japan. The high will weaken while moving to E China by the 28th, while the trough persist over N Honshu and Hokkaido.","warning": "OCCASIONALLY FRESH WINDS ON THE 28TH","advisory": "","notes": "Partly cloudy periods"},"discussion_detail": null,"subject": {"vessel_rig_platform_name": "EQUATOR","field_area_name": "ULSAN, SOUTH KOREA"},"validity_a": [{"time_block": 120,"forecast_time_table_step_id": 6536,"forecast_id": 7373,"interval": 3,"created_by": 11,"created_on": "2024-05-19T13:42:13.513212","updated_by": 20,"updated_on": "2024-11-17T09:45:02.445790","last_accessed_on": "2024-11-17T09:44:31.960147"}],"validity_b": {"issue_date_time": "2024-12-26T21:00:00","duty_list_task_id": 76528494,"forecast_id": 7373,"shift_id": 15,"status_id": 5,"send_date_time": "2024-12-26T10:00:00","created_on": "2024-05-19T13:42:14","created_by": 11,"updated_by": 20,"updated_on": "2024-12-26T09:12:57.394917","sent_on": "2024-12-26T10:02:30.243914","sent_by": 20,"longitude": 129.41,"latitude": 35.44,"is_fixed_site": true,"route_id": null,"region_id": 13,"day_offset": 0,"nearest_lat": null,"nearest_long": null,"is_nearest_grid_points": false,"allow_conditional_limit": false,"conditional_limit_margin_val": null,"is_manual": false,"is_discussion_task": false,"last_accessed_on": "2024-12-26T10:02:30.230280","is_auto": false,"skipped_by": null,"skipped_on": null,"email_addresses": null,"orginal_issue_time": null,"orginal_send_time": null}},"subheaders": [{"location": 0},{"wind": 4},{"windwave": 1},{"swell1": 3},{"swell2": 3},{"total": 2},{"weather": 0},{"currents": 2}]}
+            
               if (!hardcodedData || !hardcodedData.headers || hardcodedData.headers.length === 0) {
         setNoDataMessage("No forecast data available");
         setLoading(false); 
@@ -2076,31 +2076,22 @@ latlong.forEach((columnName1) => {
         }
       }
 
+      //wind wave
       first = true;
       let directionWw = false;
       
-      // Direction of windwave
+      let windDirectionKey = "a_10mwinddir"; 
+      if (datas[data_array].hasOwnProperty("windseadirection")) {
+        windDirectionKey = "windseadirection"; 
+      }
+      
       for (let data in datas[data_array]) {
         let cellData = datas[data_array][data];
       
-        if (data === "a_10winddir") {
-          // Check if windseadirection is null/undefined, fallback to a_10winddir
-          cellData =
-            cellData === null || cellData === undefined
-              ? calculateWindDir(datas[data_array]["a_10winddir"])
-              : calculateWindDir(datas[data_array][data]);
-          tmpdir = cellData;
-        }
+        if (data === windDirectionKey) {
+          cellData = calculateWindDir(datas[data_array][data]);
+          tmpdir = cellData; 
       
-        if (
-          data === "modelvisibility" ||
-          data === "cloudbase" ||
-          data === "rainrate"
-        ) {
-          continue;
-        }
-      
-        if (data === "a_10winddir") {
           directionWw = true;
           setPreWw(true);
           dict_temp.push(
@@ -2124,22 +2115,24 @@ latlong.forEach((columnName1) => {
             </td>
           );
         }
+      
+        if (
+          data === "modelvisibility" ||
+          data === "cloudbase" ||
+          data === "rainrate"
+        ) {
+          continue;
+        }
       }
       
-      if (directionWw === false && windwave !== 0) {
+      if (directionWw === false) {
         setIsDirWw(true);
         for (let data in datas[data_array]) {
           let cellData = datas[data_array][data];
-      
-          if (data === "a_10winddir") {
-            // Fallback to a_10winddir if windseadirection is missing
-            cellData =
-              cellData === null || cellData === undefined
-                ? calculateWindDir(datas[data_array]["a_10winddir"])
-                : calculateWindDir(datas[data_array][data]);
+          if (data === windDirectionKey) {
+            cellData = calculateWindDir(datas[data_array][data]);
             tmpdir = cellData;
           }
-      
           if (
             data === "modelvisibility" ||
             data === "cloudbase" ||
@@ -2147,7 +2140,6 @@ latlong.forEach((columnName1) => {
           ) {
             continue;
           }
-      
           if (data === "datetimeutc") {
             directionWw = true;
             dict_temp.push(
@@ -2166,11 +2158,8 @@ latlong.forEach((columnName1) => {
         }
       }
       
-      // Windwaves
-      first = false;
       for (let data in datas[data_array]) {
         let cellData = datas[data_array][data];
-      
         if (data === "windseaheight" || data === "windseaperiod") {
           dict_temp.push(
             <td
@@ -2211,15 +2200,18 @@ latlong.forEach((columnName1) => {
                   >
                     <p
                       className={`${
-                        tableColorDatas["color_" + data + "_" + total_index] ===
-                        undefined
+                        tableColorDatas[
+                          "color_" + data + "_" + total_index
+                        ] === undefined
                           ? "-"
-                          : tableColorDatas["color_" + data + "_" + total_index]
+                          : tableColorDatas[
+                              "color_" + data + "_" + total_index
+                            ]
                       }`}
                     >
                       {Number(cellData) % 1 === 0
                         ? cellData
-                        : (Math.round(Number(cellData) * 10) / 10).toFixed(1)}
+                        : Math.round(Number(cellData) * 10) / 10}
                     </p>
                   </div>
                 </>
@@ -3489,6 +3481,8 @@ for (let data in datas[data_array]) {
       }
     });
 
+
+    //wind wave 
     first = true;
     let directionWw = false;
     tableHeader.map((column: any, index: number) => {
@@ -3527,7 +3521,7 @@ for (let data in datas[data_array]) {
       }
     });
 
-    if (directionWw === false && windwave !== 0) {
+    if (directionWw === false) {
       headers.push(
         <td
           key={Math.random()}
@@ -3589,6 +3583,8 @@ for (let data in datas[data_array]) {
       }
     });
 
+
+    //swell1
     first = true;
     let directionS1 = false;
     tableHeader.map((column: any, index: number) => {
@@ -3969,7 +3965,7 @@ for (let data in datas[data_array]) {
             >
               <TableTitle
                 key={Math.random()}
-                caption={tableHeaderFn(column.caption)}
+                caption={<strong>{tableHeaderFn(column.caption)}</strong>}
                 subCaption={replace}
                 name={column.name === "Time" ? "UTC" : column.name}
                 total_index={index}
@@ -4003,7 +3999,7 @@ for (let data in datas[data_array]) {
             >
               <TableTitle
                 key={Math.random()}
-                caption={tableHeaderFn(column.caption)}
+                caption={<strong>{tableHeaderFn(column.caption)}</strong>}
                 subCaption={replace}
                 name={column.name === "Time" ? "UTC" : column.name}
                 total_index={index}
@@ -4028,7 +4024,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={"Dir"}
+              caption={<strong>Dir</strong>}
               subCaption={""}
               name={"Dir"}
               total_index={1}
@@ -4052,7 +4048,7 @@ for (let data in datas[data_array]) {
           >
             <TableTitle
               key={Math.random()}
-              caption={"Sp"}
+              caption={<strong>Sp</strong>}
               subCaption={""}
               name={"Sp"}
               total_index={1}
@@ -4221,6 +4217,7 @@ for (let data in datas[data_array]) {
       }
     });
 
+    //wind wave
     first = true;
     let directionWw = false;
     tableHeader.map((column: any, index: number) => {
@@ -4259,7 +4256,7 @@ for (let data in datas[data_array]) {
       }
     });
 
-    if (directionWw === false && windwave !== 0) {
+    if (directionWw === false) {
       headers.push(
         <td
           key={Math.random()}
@@ -4973,7 +4970,7 @@ for (let data in datas[data_array]) {
     let directionWw = false;
 
     tableHeader.map((column: any, index: number) => {
-      if (column.name === "windseadirection" && windwave > 0) {
+      if (column.name === "windseadirection") {
         directionWw = true;
         const replace =
           column.output_unit_name === "kts" || column.ud_unit_name === "kt"
@@ -5007,7 +5004,7 @@ for (let data in datas[data_array]) {
       }
     });
 
-    if (directionWw === false && windwave > 0) {
+    if (directionWw === false) {
       headers.push(
         <td
           key={Math.random()}
@@ -5768,127 +5765,125 @@ for (let data in datas[data_array]) {
                   </div>
                 </div>
                 <Paper
-                  sx={{
-                    width: "100%",
-                    overflow: "auto",
-                    overflowX: "hidden",
-                    "@media (max-width: 960px)": {
-                      width: "300%",
-                    },
-                  }}
-                >
-                  <table>
-                    <thead
-                      style={{
-                        position: "sticky",
-                        top: 0,
-                        border: "0.5px solid #437c92",
-                        backgroundColor: "#add8e6",
-                      }}
-                    >
-                      <tr style={{ border: "0.5px solid #437c92" }}>
-                        {HeaderRange().map((d: any) => (
-                          <th className="theadtitleWhite">{d}</th>
-                        ))}
-                      </tr>
-                      <tr className="colorRow">
-                        <th className="theadtitle">
-                          <p>
-                            <strong>LocalTime</strong>
-                          </p>
-                        </th>
-                        <th className="theadtitle">
-                          <p>
-                            <strong>Latitude</strong>
-                          </p>
-                        </th>
-                        <th className="theadtitle">
-                          <p>
-                            <strong>Longitude</strong>
-                          </p>
-                        </th>
-                        <th className="theadtitle" colSpan={wind}>
-                          <p>
-                            <strong>winds</strong>
-                            </p>
-                        </th>
-                        {windwave > 0 ? (
-                          <th
-                            className="theadtitle"
-                            colSpan={
-                              isDirWw === true ? windwave + 1 : windwave + 1
-                            }
-                          >
-                            <p>
-                              <strong>Wind Waves</strong>
-                              </p>
-                          </th>
-                        ) : (
-                          <></>
-                        )}
-                        {swell1 > 0 ? (
-                          <th
-                            className="theadtitle"
-                            colSpan={presentS1 === true ? swell1 + 1 : swell1}
-                          >
-                            <p> 
-                              <strong>Swell 1</strong>
-                              </p>
-                          </th>
-                        ) : (
-                          <></>
-                        )}
-                        {swell2 !== 0 ? (
-                          <th
-                            className="threadtitle"
-                            colSpan={presentS2 === true ? swell2 + 1 : swell2}
-                          >
-                            <p style={{ fontWeight: "normal" }}>
-                              <strong>Swell 2</strong>
-                              </p>
-                          </th>
-                        ) : null}
-                        {total > 0 ? (
-                          <th
-                            className="theadtitle"
-                            colSpan={isDirTS === true ? total + 1 : total}
-                          >
-                            <p>
-                              <strong>Total Sea</strong> 
-                              </p>
-                          </th>
-                        ) : (
-                          <></>
-                        )}
+  sx={{
+    width: "100%",
+    overflow: "auto",
+    "@media (max-width: 960px)": {
+      width: "100%",
+      maxWidth: "100vw",
+    },
+  }}
+>
+  <table style={{ minWidth: '100%' }}>
+    <thead
+      style={{
+        position: "sticky",
+        top: 0,
+        border: "0.5px solid #437c92",
+        backgroundColor: "#add8e6",
+      }}
+    >
+      <tr style={{ border: "0.5px solid #437c92" }}>
+        {HeaderRange().map((d: any) => (
+          <th className="theadtitleWhite">{d}</th>
+        ))}
+      </tr>
+      <tr className="colorRow">
+        <th className="theadtitle">
+          <p>
+            <strong>LocalTime</strong>
+          </p>
+        </th>
+        <th className="theadtitle">
+          <p>
+            <strong>Lat</strong>
+          </p>
+        </th>
+        <th className="theadtitle">
+          <p>
+            <strong>Lon</strong>
+          </p>
+        </th>
+        <th className="theadtitle" colSpan={wind}>
+          <p>
+            <strong>winds</strong>
+          </p>
+        </th>
+        
+        <th
+          className="theadtitle"
+          colSpan={
+            isDirWw === true ? windwave + 1 : windwave + 1
+          }
+        >
+          <p>
+            <strong>Wind Waves</strong>
+          </p>
+        </th>
+       
+        {swell1 > 0 ? (
+          <th
+            className="theadtitle"
+            colSpan={presentS1 === true ? swell1 + 1 : swell1}
+          >
+            <p> 
+              <strong>Swell 1</strong>
+            </p>
+          </th>
+        ) : (
+          <></>
+        )}
+        {swell2 !== 0 ? (
+          <th
+            className="theadtitle"
+            colSpan={presentS2 === true ? swell2 + 1 : swell2}
+          >
+            <p style={{ fontWeight: "normal" }}>
+              <strong>Swell 2</strong>
+            </p>
+          </th>
+        ) : null}
+        {total > 0 ? (
+          <th
+            className="theadtitle"
+            colSpan={isDirTS === true ? total + 1 : total}
+          >
+            <p>
+              <strong>Total Sea</strong> 
+            </p>
+          </th>
+        ) : (
+          <></>
+        )}
 
-                        {weather !== 0 && (
-                          <th className="theadtitle" colSpan={weather}>
-                            <p><strong>Weather</strong>
-                            </p>
-                          </th>
-                        )}
-                        {currents !== 0 && (
-                          <th className="theadtitle" colSpan={currents}>
-                            <p>
-                              <strong>Currents</strong>
-                              </p>
-                          </th>
-                        )}
-                      </tr>
-                      <tr className="colorRow">
-                        {HeaderFunction().map((d: any) => (
-                          <th className="theadtitle">{d}</th>
-                        ))}
-                      </tr>
-                      <tr>
-                        {HeaderUnit().map((d: any) => (
-                          <th className="theadunitWhite">{d}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>{tableContent}</tbody>
-                  </table>
-                </Paper>
+        {weather !== 0 && (
+          <th className="theadtitle" colSpan={weather}>
+            <p><strong>Weather</strong>
+            </p>
+          </th>
+        )}
+        {currents !== 0 && (
+          <th className="theadtitle" colSpan={currents}>
+            <p>
+              <strong>Currents</strong>
+            </p>
+          </th>
+        )}
+      </tr>
+      <tr className="colorRow">
+        {HeaderFunction().map((d: any) => (
+          <th className="theadtitle">{d}</th>
+        ))}
+      </tr>
+      <tr>
+        {HeaderUnit().map((d: any) => (
+          <th className="theadunitWhite">{d}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>{tableContent}</tbody>
+  </table>
+</Paper>
               </div>
             )}
           </Main>

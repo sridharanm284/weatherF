@@ -9,14 +9,13 @@ import {
   Typography,
   Grid,
   Button,
-  FormControl,
-  Select,
-  MenuItem,
+
 } from "@mui/material";
 import CardPlan from "../../components/dashboard/card";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import OperationsComponent from "../../container/login/operations/operations";
+import OperationsComponent from "../login/operations/operations";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 0;
 
@@ -70,9 +69,12 @@ export default function DashBoard() {
   const [operationOpen, setOperationOpen] = useState(false);
   const [clients, setClients] = useState<any[]>([]);
   const [selectedClient, setSelectedClient] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const data = useSelector((state: any) => state?.app);
-  const isAdmin = data.userRole === "admin";
+  const isAdmin = localStorage.getItem("type") === "admin";
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     store.dispatch({
@@ -109,27 +111,39 @@ export default function DashBoard() {
     }
   }, [isAdmin]);
 
-  const handleOpenOperations = () => setOperationOpen(true);
+  const closeOperations = () => {
+    setOperationOpen(false);
+    window.location.href = "/dashboard";
+  };
+
+  const handleOpenOperations = () => {
+    setOperationOpen(true);
+  };
+
   const handleCloseOperations = () => setOperationOpen(false);
 
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
-      <Box className="fug-container bg-default flex sidenav-full" sx={{ width: "100%" }}>
+      <Box
+        className="fug-container bg-default flex sidenav-full"
+        sx={{ width: "100%" }}
+      >
         <div className="content-wrap dashboard">
           <Main open={open} className="main">
-            <Button
-              variant="contained"
-              onClick={handleOpenOperations}
-              className="operations-button"
-            >
-              Operations
-            </Button>
             <Grid container spacing={2} display="flex" alignItems="start">
               <Grid item xs={12} md={9} order={{ xs: 2, md: 1 }}>
                 <Grid container spacing={3}>
                   <CardPlan />
                 </Grid>
               </Grid>
+
+              {operationOpen && (
+                <OperationsComponent
+                  isAdmin={isAdmin}
+                  open={operationOpen}
+                  close={closeOperations}
+                />
+              )}
 
               <Grid
                 item
@@ -139,13 +153,27 @@ export default function DashBoard() {
                 order={{ xs: 1, md: 2 }}
               >
                 <Card style={{ height: "100%", borderRadius: "15px" }}>
+                  <div>
+                    <Button
+                      variant="contained"
+                      onClick={handleOpenOperations}
+                      className="operations-button"
+                    >
+                      Operations
+                    </Button>
+                  </div>
+
                   <Grid item xs={12} sx={{ height: 130 }}>
-                    <Typography variant="body2" color="text.secondary" align="center">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      align="center"
+                    >
                       Active Warnings
                     </Typography>
                   </Grid>
 
-                  {isAdmin && (
+                  {/* {isAdmin && (
                     <Grid item xs={12} sx={{ marginTop: "20px" }}>
                       <FormControl fullWidth>
                         <Select
@@ -157,17 +185,24 @@ export default function DashBoard() {
                             <em>Select Client</em>
                           </MenuItem>
                           {clients.map((client) => (
-                            <MenuItem key={client.client_id} value={client.client_id}>
+                            <MenuItem
+                              key={client.client_id}
+                              value={client.client_id}
+                            >
                               {client.client_name}
                             </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
                     </Grid>
-                  )}
+                  )} */}
 
                   <Grid item xs={12} sx={{ height: 130 }}>
-                    <Typography variant="body2" color="text.secondary" align="center">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      align="center"
+                    >
                       Squall Warnings
                     </Typography>
                   </Grid>
@@ -186,14 +221,6 @@ export default function DashBoard() {
               </Grid>
             </Grid>
           </Main>
-
-          {operationOpen && (
-            <OperationsComponent
-              open={operationOpen}
-              close={handleCloseOperations}
-              isAdmin={isAdmin}
-            />
-          )}
         </div>
       </Box>
     </div>

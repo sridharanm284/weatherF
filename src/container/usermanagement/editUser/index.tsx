@@ -323,7 +323,7 @@ const EditUserComponent = () => {
       Object.keys(filesData).forEach((key) => (new_files_obj[key] = ""));
       setFilesData(new_files_obj);
     }}
-    readOnly
+    disabled={true}
   />
 )}
 

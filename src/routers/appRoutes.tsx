@@ -14,17 +14,6 @@ import Typhoon from "../container/typhoon";
 import Squall from "../container/squall";
 import Operations from "../container/login/operations/operations";
 import Charts from "../container/charts/charts"
-import { Component } from "react";
-
-const handleOpen = () => {
-  console.log("Opening");
-};
-
-const handleClose = () => {
-  console.log("Closing");
-};
-
-
 
 export const Roles = {
   SUPERUSER: "is_superuser",
@@ -39,17 +28,7 @@ const appRoutes = [
     isNavMenu: false,
     permission: [],
   },
-  {
-    name: "operations",
-    path: "/operations",
-    Component: Operations,
-    protected: false,
-    isNavMenu: false,
-    permission: [],
-
-  },
-
-
+  
   {
     name: "Dashboard",
     path: "/dashboard",
@@ -113,6 +92,16 @@ const appRoutes = [
     component: AuthPage,
     permission: [],
   },
+
+  {
+    name: "operations",
+    path: "/operations",
+    protected: false,
+    component: Operations,
+    permission: [],
+  },
+
+
   {
     name: "default",
     path: "/",
@@ -129,7 +118,6 @@ export const router = [
     path: "/",
     component: <Dashboard />,
   },
- 
   {
     path: "/dashboard",
     component: <Dashboard />,
@@ -140,7 +128,7 @@ export const router = [
   },
   {
     path: "/operations",
-    component: <Operations open={true} close={handleClose} isAdmin={true} />, 
+    component: <Operations open={true} close={() => {}} isAdmin={true} />,
   },
   {
     path: "/forecast",
@@ -193,7 +181,7 @@ export const router = [
   {
     path: '/view/:id',
     component: <ViewUserComponent />,
-    },
+  },
   {
     path: "/typhoon",
     component: <Typhoon />,

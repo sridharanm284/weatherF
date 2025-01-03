@@ -3,13 +3,14 @@
 .login-centre-div {
   overflow: hidden;
   .login-box {
-    background: $white;
+  
     min-height: 100%;
-    min-width: 100vw;
+    min-width: 200%;
+    margin-left: 100%;
     display: flex;
     border-radius: 0px !important;
     flex-direction: column;
-    background: rgb(255, 255, 255);
+   
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -25,7 +26,8 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      width: 100%;
+      width: 40%;
+      margin-right: 60%;
       gap: 20px;
       .login-input-div {
         display: flex;
@@ -73,33 +75,19 @@
   align-items: center;
   justify-content: space-between;
   height: 100vh;
-  width: 100%;
+  width: 100vh;
 }
-
-.login-image-container {
-  display: flex;
+html, body {
   height: 100%;
-  width: 45%;
-  background-size: cover;
-  background-position: center;
 }
 
-@media (max-width: 768px) { 
-  .login-image-container {
-    width: 100%;
-    height: 100%;
-  }
-
-  .login-centre-div .login-box {
-    min-width: 100%;
-  }
-}
 
 .login-centre-div {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100%;
 }
 
 .login-box {
@@ -107,6 +95,31 @@
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
+.login-image-container {
+  position: fixed; 
+ 
+  height: 100vh; 
+  width: 100vw; 
+  background-image: url('../../../../assets/vectos/close-up-leaf-dark-background-generative-ai_797840-2176.avif'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  z-index: -1; 
+}
+
+@media (max-width: 768px) {
+  .login-image-container {
+    width: 100vw; 
+    height: 100vh; 
+  }
+
+  .login-centre-div .login-box {
+    width: 100%;
+    border-radius: 0 !important;
+  }
+}
+
 
 .login-form {
   display: flex;
@@ -166,126 +179,4 @@
 
 .login-social-icon {
   color: #fff;
-}
-@import "../../../../styles/variables";
-
-.login-centre-div {
-  overflow: hidden;
-  .login-box {
-    background: $white;
-    min-height: 100%;
-    min-width: 100vw;
-    display: flex;
-    border-radius: 0px !important;
-    flex-direction: column;
-    background: rgb(255, 255, 255);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-
-    .login-head {
-      color: $primary;
-      font-weight: 600;
-      font-size: 26px;
-    }
-
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      width: 100%;
-      gap: 20px;
-
-      &.shake-animation {
-        animation: shake 0.3s ease-in-out;
-      }
-
-      .login-input-div {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .login-input-title {
-          font-size: 16px;
-          font-weight: 600;
-          font-family: system-ui;
-        }
-
-        .login-input-text {
-          padding: 10px;
-          outline: none;
-          border-radius: 5px;
-          width: 150px;
-          border: none;
-          box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset,
-            rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;
-        }
-
-        .login-input-text:focus {
-          box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
-        }
-      }
-
-      .login-submit {
-        font-size: 15px;
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        outline: none;
-        color: $white;
-        background: $primary;
-        border: none;
-      }
-    }
-  }
-}
-
-.login-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 100vh;
-  width: 100%;
-}
-
-.login-image-container {
-  display: flex;
-  height: 100%;
-  width: 45%;
-  background-size: cover;
-  background-position: center;
-}
-
-@media (max-width: 768px) {
-  .login-image-container {
-    width: 100%;
-    height: 100%;
-  }
-
-  .login-centre-div .login-box {
-    width: 100%;
-    border-radius: 0 !important;
-  }
-}
-
-@keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  50% {
-    transform: translateX(5px);
-  }
-  75% {
-    transform: translateX(-5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
 }

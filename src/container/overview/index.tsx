@@ -148,63 +148,16 @@ export default function Overview() {
     const fetchData = async () => {
       try {
         const hardcodedData =  
-      {"criteria_datas":
-         [{"forecast_osf_criteria_id": 626,"forecast_id": 1294,"criteria_name": "Seas over 1.5m"},
-          {"forecast_osf_criteria_id": 627,"forecast_id": 1294,"criteria_name": "Seas over 2.0m"},
-          {"forecast_osf_criteria_id": 628,"forecast_id": 1294,"criteria_name": "Seas over 2.5m"},
-          {"forecast_osf_criteria_id": 623,"forecast_id": 1294,"criteria_name": "Onset 50 kn or 6m seas"},
-          {"forecast_osf_criteria_id": 624,"forecast_id": 1294,"criteria_name": "Onset 35kn or 4m seas"},
-          {"forecast_osf_criteria_id": 625,"forecast_id": 1294,"criteria_name": "Environmental Limits"},
-          {"forecast_osf_criteria_id": 629,"forecast_id": 1294,"criteria_name": "Typhoon Disconnection"},
-          {"forecast_osf_criteria_id": 630,"forecast_id": 1294,"criteria_name": "Helicopter Ops"},
-          {"forecast_osf_criteria_id": 622,"forecast_id": 1294,"criteria_name": "Onset 80 kn or 9m seas"}],
-          
-          
-          "criteria_detail_datas": 
-          
-          
-          [{"forecast_osf_criteria_id": 622,"field_id": 2,"value": "80.00","margin_value": "63.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"},
-            
-            
-            
-            
-            {"forecast_osf_criteria_id": 622,"field_id": 62,"value": "9.00","margin_value": "7.10","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            
-            
-            {"forecast_osf_criteria_id": 623,"field_id": 2,"value": "50.00","margin_value": "39.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"},
-            
-            
-            {"forecast_osf_criteria_id": 623,"field_id": 62,"value": "6.00","margin_value": "4.70","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            {"forecast_osf_criteria_id": 624,"field_id": 2,"value": "35.00","margin_value": "27.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"},
-            
-            
-            {"forecast_osf_criteria_id": 624,"field_id": 62,"value": "4.00","margin_value": "3.20","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            {"forecast_osf_criteria_id": 625,"field_id": 2,"value": "25.00","margin_value": "14.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"},
-            
-            {"forecast_osf_criteria_id": 625,"field_id": 62,"value": "3.00","margin_value": "1.50","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            
-            {"forecast_osf_criteria_id": 626,"field_id": 62,"value": "1.50","margin_value": "1.20","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            {"forecast_osf_criteria_id": 627,"field_id": 62,"value": "2.00","margin_value": "1.60","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            {"forecast_osf_criteria_id": 628,"field_id": 62,"value": "2.50","margin_value": "2.00","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            {"forecast_osf_criteria_id": 629,"field_id": 62,"value": "9.00","margin_value": "7.20","comparison_operator_id": 2,"field_name": "sigwaveheight"},
-            
-            {"forecast_osf_criteria_id": 629,"field_id": 52,"value": "10.20","margin_value": "9.20","comparison_operator_id": 2,"field_name": "swell1period"},
-            
-            {"forecast_osf_criteria_id": 629,"field_id": 2,"value": "83.00","margin_value": "66.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"},
-            
-            {"forecast_osf_criteria_id": 630,"field_id": 2,"value": "50.00","margin_value": "40.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"}],
-            
-            
-            
-            "datas": [[{"datetimeutc": "12/18/2024 08:00","a_10mwindspeed": 5.13,"a_10mgust": 6.7,"a_50mwindspeed": 7.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.23,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 111.04,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/18/2024 11:00","a_10mwindspeed": 3.21,"a_10mgust": 4.2,"a_50mwindspeed": 4.5,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.8,"sigwaveheight": 1.21,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 38.44,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/18/2024 14:00","a_10mwindspeed": 5.3,"a_10mgust": 6.9,"a_50mwindspeed": 7.4,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.23,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 347.66,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/18/2024 17:00","a_10mwindspeed": 6.07,"a_10mgust": 7.9,"a_50mwindspeed": 8.5,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.13,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 0.28,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/18/2024 20:00","a_10mwindspeed": 10.28,"a_10mgust": 13.4,"a_50mwindspeed": 14.4,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.3,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.15,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 35.83,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/18/2024 23:00","a_10mwindspeed": 9.07,"a_10mgust": 11.8,"a_50mwindspeed": 12.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.13,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 61.69,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/19/2024 02:00","a_10mwindspeed": 7.49,"a_10mgust": 9.7,"a_50mwindspeed": 10.5,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.13,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 44.4,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 05:00","a_10mwindspeed": 5.0,"a_10mgust": 6.5,"a_50mwindspeed": 7.0,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.0,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.6,"sigwaveheight": 1.02,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 66.57,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 08:00","a_10mwindspeed": 5.0,"a_10mgust": 6.5,"a_50mwindspeed": 7.0,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.0,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.6,"sigwaveheight": 1.02,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 118.32,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 11:00","a_10mwindspeed": 4.0,"a_10mgust": 5.2,"a_50mwindspeed": 5.6,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.0,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.6,"sigwaveheight": 1.02,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 50.86,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 14:00","a_10mwindspeed": 5.1,"a_10mgust": 6.6,"a_50mwindspeed": 7.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.0,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.6,"sigwaveheight": 1.03,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 348.71,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 17:00","a_10mwindspeed": 5.64,"a_10mgust": 7.3,"a_50mwindspeed": 7.9,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.0,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.6,"sigwaveheight": 1.03,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 354.48,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 20:00","a_10mwindspeed": 4.15,"a_10mgust": 5.4,"a_50mwindspeed": 5.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.11,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 8.32,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/19/2024 23:00","a_10mwindspeed": 2.57,"a_10mgust": 3.3,"a_50mwindspeed": 3.6,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.11,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 134.47,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/20/2024 02:00","a_10mwindspeed": 5.1,"a_10mgust": 6.6,"a_50mwindspeed": 7.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.13,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 165.96,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 05:00","a_10mwindspeed": 6.53,"a_10mgust": 8.5,"a_50mwindspeed": 9.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.23,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 178.53,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 08:00","a_10mwindspeed": 5.71,"a_10mgust": 7.4,"a_50mwindspeed": 8.0,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.23,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 170.75,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 11:00","a_10mwindspeed": 5.48,"a_10mgust": 7.1,"a_50mwindspeed": 7.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.4,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.23,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 217.96,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 14:00","a_10mwindspeed": 7.69,"a_10mgust": 10.0,"a_50mwindspeed": 10.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.3,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.0,"sigwaveheight": 1.32,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 264.22,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 17:00","a_10mwindspeed": 6.54,"a_10mgust": 8.5,"a_50mwindspeed": 9.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.3,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.0,"sigwaveheight": 1.32,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 258.76,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 20:00","a_10mwindspeed": 3.0,"a_10mgust": 3.9,"a_50mwindspeed": 4.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 211.84,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/20/2024 23:00","a_10mwindspeed": 5.08,"a_10mgust": 6.6,"a_50mwindspeed": 7.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.2,"sigwaveheight": 1.42,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 126.36,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/21/2024 02:00","a_10mwindspeed": 5.16,"a_10mgust": 6.7,"a_50mwindspeed": 7.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.2,"sigwaveheight": 1.42,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 128.99,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 05:00","a_10mwindspeed": 6.98,"a_10mgust": 9.1,"a_50mwindspeed": 9.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.2,"sigwaveheight": 1.42,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 160.27,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 08:00","a_10mwindspeed": 5.31,"a_10mgust": 6.9,"a_50mwindspeed": 7.4,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.2,"sigwaveheight": 1.42,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 171.66,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 11:00","a_10mwindspeed": 3.19,"a_10mgust": 4.1,"a_50mwindspeed": 4.5,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.5,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.3,"sigwaveheight": 1.51,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 190.14,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 14:00","a_10mwindspeed": 4.47,"a_10mgust": 5.8,"a_50mwindspeed": 6.3,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 323.96,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 17:00","a_10mwindspeed": 4.47,"a_10mgust": 5.8,"a_50mwindspeed": 6.3,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 311.3,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 20:00","a_10mwindspeed": 7.0,"a_10mgust": 9.1,"a_50mwindspeed": 9.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 354.92,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/21/2024 23:00","a_10mwindspeed": 4.08,"a_10mgust": 5.3,"a_50mwindspeed": 5.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 100.03,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}],[{"datetimeutc": "12/22/2024 02:00","a_10mwindspeed": 6.0,"a_10mgust": 7.8,"a_50mwindspeed": 8.4,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 141.71,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 05:00","a_10mwindspeed": 6.22,"a_10mgust": 8.1,"a_50mwindspeed": 8.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 237.46,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"},{"datetimeutc": "12/22/2024 08:00","a_10mwindspeed": 3.83,"a_10mgust": 5.0,"a_50mwindspeed": 5.4,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 1.4,"swell1period": 8.5,"swell1direction": 315.0,"swell2height": 0.15,"swell2period": 5.8,"swell2direction": 337.5,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.41,"surfacecurrentdirection": null,"surfacecurrentspeed": null,"a_10mwinddir": 335.47,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+08:00) Kuala Lumpur, Singapore"}]]}
-        setCriteriaDatas(hardcodedData.criteria_datas || []);
+    {"criteria_datas": [{"forecast_osf_criteria_id": 5138,"forecast_id": 7373,"criteria_name": "Winds > 15 knots OR Hs Combined > 1.5m"},{"forecast_osf_criteria_id": 5139,"forecast_id": 7373,"criteria_name": "Winds > 25 knots OR Hs Combined > 2.5m"},{"forecast_osf_criteria_id": 5137,"forecast_id": 7373,"criteria_name": "Winds > 20 knots OR Hs Combined > 2.0m"}],"criteria_detail_datas": [{"forecast_osf_criteria_id": 5137,"field_id": 2,"value": "20.00","margin_value": "16.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"},{"forecast_osf_criteria_id": 5137,"field_id": 62,"value": "2.00","margin_value": "1.60","comparison_operator_id": 2,"field_name": "sigwaveheight"},{"forecast_osf_criteria_id": 5138,"field_id": 2,"value": "15.00","margin_value": "12.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"},{"forecast_osf_criteria_id": 5138,"field_id": 62,"value": "1.50","margin_value": "1.20","comparison_operator_id": 2,"field_name": "sigwaveheight"},{"forecast_osf_criteria_id": 5139,"field_id": 62,"value": "2.50","margin_value": "2.00","comparison_operator_id": 2,"field_name": "sigwaveheight"},{"forecast_osf_criteria_id": 5139,"field_id": 2,"value": "25.00","margin_value": "20.00","comparison_operator_id": 2,"field_name": "a_10mwindspeed"}],
+    
+    
+    
+    "datas": [[{"datetimeutc": "12/28/2024 00:00","a_10mwindspeed": 11.04,"a_10mgust": 14.4,"a_50mwindspeed": 15.5,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.5,"windseaperiod": null,"swell1height": 1.0,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.12,"surfacecurrentdirection": 115.87,"surfacecurrentspeed": 0.21,"a_10mwinddir": 296.66,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 03:00","a_10mwindspeed": 8.0,"a_10mgust": 10.4,"a_50mwindspeed": 11.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.4,"windseaperiod": null,"swell1height": 0.9,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.6,"sigwaveheight": 0.98,"surfacecurrentdirection": 193.99,"surfacecurrentspeed": 0.53,"a_10mwinddir": 292.39,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 06:00","a_10mwindspeed": 11.51,"a_10mgust": 15.0,"a_50mwindspeed": 16.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.6,"windseaperiod": null,"swell1height": 0.8,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.7,"sigwaveheight": 1.0,"surfacecurrentdirection": 81.57,"surfacecurrentspeed": 0.1,"a_10mwinddir": 294.76,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 09:00","a_10mwindspeed": 16.51,"a_10mgust": 21.5,"a_50mwindspeed": 23.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.8,"windseaperiod": null,"swell1height": 0.8,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.13,"surfacecurrentdirection": 35.68,"surfacecurrentspeed": 0.91,"a_10mwinddir": 290.24,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 12:00","a_10mwindspeed": 18.97,"a_10mgust": 24.7,"a_50mwindspeed": 26.6,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.9,"windseaperiod": null,"swell1height": 0.8,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.0,"sigwaveheight": 1.2,"surfacecurrentdirection": 40.83,"surfacecurrentspeed": 0.87,"a_10mwinddir": 288.96,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 15:00","a_10mwindspeed": 18.37,"a_10mgust": 23.9,"a_50mwindspeed": 25.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.9,"windseaperiod": null,"swell1height": 0.8,"swell1period": 7.6,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.0,"sigwaveheight": 1.2,"surfacecurrentdirection": 50.09,"surfacecurrentspeed": 0.51,"a_10mwinddir": 294.19,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 18:00","a_10mwindspeed": 17.22,"a_10mgust": 22.4,"a_50mwindspeed": 24.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.8,"windseaperiod": null,"swell1height": 0.7,"swell1period": 7.4,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.8,"sigwaveheight": 1.06,"surfacecurrentdirection": 48.15,"surfacecurrentspeed": 0.63,"a_10mwinddir": 292.66,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/28/2024 21:00","a_10mwindspeed": 17.15,"a_10mgust": 22.3,"a_50mwindspeed": 24.0,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.8,"windseaperiod": null,"swell1height": 0.7,"swell1period": 7.6,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.8,"sigwaveheight": 1.06,"surfacecurrentdirection": 46.8,"surfacecurrentspeed": 0.86,"a_10mwinddir": 287.45,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/29/2024 00:00","a_10mwindspeed": 15.41,"a_10mgust": 20.0,"a_50mwindspeed": 21.6,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.7,"windseaperiod": null,"swell1height": 0.8,"swell1period": 8.2,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.8,"sigwaveheight": 1.06,"surfacecurrentdirection": 81.47,"surfacecurrentspeed": 0.34,"a_10mwinddir": 286.46,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 03:00","a_10mwindspeed": 14.79,"a_10mgust": 19.2,"a_50mwindspeed": 20.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.7,"windseaperiod": null,"swell1height": 0.9,"swell1period": 7.9,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.14,"surfacecurrentdirection": 184.95,"surfacecurrentspeed": 0.53,"a_10mwinddir": 287.74,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 06:00","a_10mwindspeed": 11.14,"a_10mgust": 14.5,"a_50mwindspeed": 15.6,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.5,"windseaperiod": null,"swell1height": 1.0,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.12,"surfacecurrentdirection": 124.59,"surfacecurrentspeed": 0.13,"a_10mwinddir": 290.62,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 09:00","a_10mwindspeed": 8.81,"a_10mgust": 11.5,"a_50mwindspeed": 12.3,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.3,"windseaperiod": null,"swell1height": 0.9,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.6,"sigwaveheight": 0.95,"surfacecurrentdirection": 35.41,"surfacecurrentspeed": 1.1,"a_10mwinddir": 290.15,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 12:00","a_10mwindspeed": 5.17,"a_10mgust": 6.7,"a_50mwindspeed": 7.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 0.7,"swell1period": 7.3,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.2,"sigwaveheight": 0.73,"surfacecurrentdirection": 37.9,"surfacecurrentspeed": 1.18,"a_10mwinddir": 256.69,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 15:00","a_10mwindspeed": 4.46,"a_10mgust": 5.8,"a_50mwindspeed": 6.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 0.6,"swell1period": 7.1,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.0,"sigwaveheight": 0.61,"surfacecurrentdirection": 51.52,"surfacecurrentspeed": 0.55,"a_10mwinddir": 179.87,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 18:00","a_10mwindspeed": 1.54,"a_10mgust": 2.0,"a_50mwindspeed": 2.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 0.5,"swell1period": 7.5,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 0.9,"sigwaveheight": 0.51,"surfacecurrentdirection": 53.6,"surfacecurrentspeed": 0.51,"a_10mwinddir": 108.53,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/29/2024 21:00","a_10mwindspeed": 2.08,"a_10mgust": 2.7,"a_50mwindspeed": 2.9,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.1,"windseaperiod": null,"swell1height": 0.4,"swell1period": 7.4,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 0.7,"sigwaveheight": 0.41,"surfacecurrentdirection": 42.89,"surfacecurrentspeed": 0.87,"a_10mwinddir": 253.78,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/30/2024 00:00","a_10mwindspeed": 6.57,"a_10mgust": 8.5,"a_50mwindspeed": 9.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 0.6,"swell1period": 8.9,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.1,"sigwaveheight": 0.63,"surfacecurrentdirection": 53.22,"surfacecurrentspeed": 0.5,"a_10mwinddir": 262.18,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 03:00","a_10mwindspeed": 7.43,"a_10mgust": 9.7,"a_50mwindspeed": 10.4,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 0.7,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.2,"sigwaveheight": 0.73,"surfacecurrentdirection": 183.95,"surfacecurrentspeed": 0.44,"a_10mwinddir": 262.92,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 06:00","a_10mwindspeed": 8.57,"a_10mgust": 11.1,"a_50mwindspeed": 12.0,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.3,"windseaperiod": null,"swell1height": 0.7,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.3,"sigwaveheight": 0.76,"surfacecurrentdirection": 167.04,"surfacecurrentspeed": 0.22,"a_10mwinddir": 261.1,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 09:00","a_10mwindspeed": 8.29,"a_10mgust": 10.8,"a_50mwindspeed": 11.6,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.3,"windseaperiod": null,"swell1height": 0.6,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.1,"sigwaveheight": 0.67,"surfacecurrentdirection": 36.51,"surfacecurrentspeed": 1.03,"a_10mwinddir": 266.78,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 12:00","a_10mwindspeed": 9.78,"a_10mgust": 12.7,"a_50mwindspeed": 13.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.4,"windseaperiod": null,"swell1height": 0.5,"swell1period": 8.7,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.1,"sigwaveheight": 0.64,"surfacecurrentdirection": 31.66,"surfacecurrentspeed": 1.41,"a_10mwinddir": 254.58,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 15:00","a_10mwindspeed": 13.98,"a_10mgust": 18.2,"a_50mwindspeed": 19.6,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.5,"windseaperiod": null,"swell1height": 0.4,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.1,"sigwaveheight": 0.64,"surfacecurrentdirection": 33.85,"surfacecurrentspeed": 0.76,"a_10mwinddir": 252.79,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 18:00","a_10mwindspeed": 12.0,"a_10mgust": 15.6,"a_50mwindspeed": 16.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.5,"windseaperiod": null,"swell1height": 0.5,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.2,"sigwaveheight": 0.71,"surfacecurrentdirection": 39.18,"surfacecurrentspeed": 0.49,"a_10mwinddir": 244.7,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/30/2024 21:00","a_10mwindspeed": 10.37,"a_10mgust": 13.5,"a_50mwindspeed": 14.5,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.4,"windseaperiod": null,"swell1height": 0.6,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.2,"sigwaveheight": 0.72,"surfacecurrentdirection": 35.43,"surfacecurrentspeed": 0.9,"a_10mwinddir": 256.46,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "12/31/2024 00:00","a_10mwindspeed": 10.0,"a_10mgust": 13.0,"a_50mwindspeed": 14.0,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.4,"windseaperiod": null,"swell1height": 0.6,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.2,"sigwaveheight": 0.72,"surfacecurrentdirection": 36.97,"surfacecurrentspeed": 0.67,"a_10mwinddir": 286.1,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 03:00","a_10mwindspeed": 8.62,"a_10mgust": 11.2,"a_50mwindspeed": 12.1,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.4,"windseaperiod": null,"swell1height": 0.6,"swell1period": 7.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.2,"sigwaveheight": 0.72,"surfacecurrentdirection": 196.96,"surfacecurrentspeed": 0.32,"a_10mwinddir": 275.32,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 06:00","a_10mwindspeed": 11.9,"a_10mgust": 15.5,"a_50mwindspeed": 16.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.5,"windseaperiod": null,"swell1height": 0.5,"swell1period": 7.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.2,"sigwaveheight": 0.71,"surfacecurrentdirection": 201.53,"surfacecurrentspeed": 0.38,"a_10mwinddir": 314.76,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 09:00","a_10mwindspeed": 12.7,"a_10mgust": 16.5,"a_50mwindspeed": 17.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.6,"windseaperiod": null,"swell1height": 0.5,"swell1period": 7.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.3,"sigwaveheight": 0.78,"surfacecurrentdirection": 31.92,"surfacecurrentspeed": 0.8,"a_10mwinddir": 296.59,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 12:00","a_10mwindspeed": 12.0,"a_10mgust": 15.6,"a_50mwindspeed": 16.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.6,"windseaperiod": null,"swell1height": 0.5,"swell1period": 7.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.3,"sigwaveheight": 0.78,"surfacecurrentdirection": 31.5,"surfacecurrentspeed": 1.57,"a_10mwinddir": 334.06,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 15:00","a_10mwindspeed": 12.0,"a_10mgust": 15.6,"a_50mwindspeed": 16.8,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.6,"windseaperiod": null,"swell1height": 0.5,"swell1period": 7.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.3,"sigwaveheight": 0.78,"surfacecurrentdirection": 34.06,"surfacecurrentspeed": 0.97,"a_10mwinddir": 339.83,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 18:00","a_10mwindspeed": 12.5,"a_10mgust": 16.2,"a_50mwindspeed": 17.5,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.6,"windseaperiod": null,"swell1height": 0.6,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.4,"sigwaveheight": 0.85,"surfacecurrentdirection": 41.31,"surfacecurrentspeed": 0.5,"a_10mwinddir": 333.3,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "12/31/2024 21:00","a_10mwindspeed": 7.86,"a_10mgust": 10.2,"a_50mwindspeed": 11.0,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.3,"windseaperiod": null,"swell1height": 0.7,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.3,"sigwaveheight": 0.76,"surfacecurrentdirection": 36.19,"surfacecurrentspeed": 0.89,"a_10mwinddir": 303.41,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}],[{"datetimeutc": "01/01/2025 00:00","a_10mwindspeed": 6.19,"a_10mgust": 8.0,"a_50mwindspeed": 8.7,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 0.9,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.5,"sigwaveheight": 0.92,"surfacecurrentdirection": 36.54,"surfacecurrentspeed": 0.98,"a_10mwinddir": 294.71,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "01/01/2025 03:00","a_10mwindspeed": 7.79,"a_10mgust": 10.1,"a_50mwindspeed": 10.9,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.1,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 1.9,"sigwaveheight": 1.12,"surfacecurrentdirection": 118.61,"surfacecurrentspeed": 0.12,"a_10mwinddir": 300.66,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "01/01/2025 06:00","a_10mwindspeed": 9.45,"a_10mgust": 12.3,"a_50mwindspeed": 13.2,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.3,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.1,"sigwaveheight": 1.24,"surfacecurrentdirection": 185.63,"surfacecurrentspeed": 0.42,"a_10mwinddir": 306.8,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"},{"datetimeutc": "01/01/2025 09:00","a_10mwindspeed": 6.7,"a_10mgust": 8.7,"a_50mwindspeed": 9.4,"a_80mwindspeed": null,"a_100mwindspeed": null,"windseaheight": 0.2,"windseaperiod": null,"swell1height": 1.2,"swell1period": 8.0,"swell1direction": 45.0,"swell2height": 0.0,"swell2period": null,"swell2direction": null,"cloudbase": null,"modelvisibility": null,"rainrate": null,"a_2mtemp": null,"totalprecip": null,"mslp": null,"maxwave": 2.0,"sigwaveheight": 1.22,"surfacecurrentdirection": 47.18,"surfacecurrentspeed": 0.67,"a_10mwinddir": 250.59,"peakwavedir": null,"windseadirection": null,"time_zone": "(UTC+09:00) Osaka, Sapporo, Tokyo"}]]}
+    
+    
+    
+    
+    setCriteriaDatas(hardcodedData.criteria_datas || []);
 
         setCriteriaDetailDatas(hardcodedData.criteria_detail_datas || []);
         setTableDatas(hardcodedData.datas || []);
@@ -398,6 +351,14 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
               gap: "15px",
             }}
           >
+            {loading ? (
+                <div className={"overview_table_container"} style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+                <WeatherLoader />
+              </div>
+              
+              ) : data.length === 0 ? (
+                <h1>No Criteria Datas Available</h1>
+              ) : (
             <div className={"maincontainer"}>
               <div className={"heading-container"}>
                 <span className={"heading"}>5 Day Forecast Quick Summary </span>
@@ -421,50 +382,45 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
                     sx={{ m: 1, minWidth: 180, width: "100%" }}
                     size="small"
                   >
-                  <Select
-                      labelId="model-data"
-                      id="model-data"
-                      value={SelectValue}
-                      onChange={(s) => {
-                        if (s.target.value === "No datas Available") {
-                          return;
-                        }
-                        setSelectValue(s.target.value);
-                      }}
-                      style={{
-                        height: 30,
-                        backgroundColor: "white",
-                        borderRadius: "10px",
-                        textAlign: "center",
-                        fontSize: 15,
-                      }}
-                    >
-                      {criteriaDatas.length === 0 ? (
-                        <MenuItem value="No datas Available">
-                          No datas Available
-                        </MenuItem>
-                      ) : (
-                        criteriaDatas.map((data: any) => (
-                          <MenuItem
-                            key={data.forecast_osf_criteria_id}
-                            value={data.forecast_osf_criteria_id}
-                          >
-                            {data.criteria_name}
-                          </MenuItem>
-                        ))
-                      )}
-                    </Select>
+                <Select
+  labelId="model-data"
+  id="model-data"
+  value={criteriaDatas.length === 0 ? "None Defined" : SelectValue}
+  onChange={(s) => {
+    if (criteriaDatas.length === 0) {
+      return;
+    }
+    setSelectValue(s.target.value);
+  }}
+  style={{
+    height: 30,
+    backgroundColor: "white",
+    borderRadius: "10px",
+    textAlign: "center",
+    fontSize: 15,
+  }}
+>
+  {criteriaDatas.length > 0 ? (
+    criteriaDatas.map((data: any) => (
+      <MenuItem
+        key={data.forecast_osf_criteria_id}
+        value={data.forecast_osf_criteria_id}
+      >
+        {data.criteria_name}
+      </MenuItem>
+    ))
+  ) : (
+    <MenuItem value="None Defined" disabled>
+      None Defined
+    </MenuItem>
+  )}
+</Select>
+
 
                   </FormControl>
                 </Stack>
               </div>
-              {loading ? (
-                <div className={"overview_table_container"}>
-                  <WeatherLoader />
-                </div>
-              ) : data.length === 0 ? (
-                <h1>No Criteria Datas Available</h1>
-              ) : (
+              
                 <div className={"overview_table_container"}>
 
 
@@ -546,7 +502,7 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
   </TableContainer>
 </Paper>
 
-    <Stack
+<Stack
   className={"graph"}
   direction="column"
   spacing={3}
@@ -554,43 +510,48 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
     alignItems: "center",
   }}
 >
-  {[
-    {
-      name: "Wind",
-      dataKeys: ["a_10mwindspeed", "a_10mgust", "a_50mwindspeed", "a_80mwindspeed", "a_100mwindspeed"],
-      color: "#8884d8",
-      directionKey: "a_10mwinddir",
-    },
-    {
-      name: "Wind Wave",
-      dataKeys: ["windseaheight", "windseaperiod"],
-      color: "#82ca9d",
-      directionKey: "windseadirection",
-    },
-    {
-      name: "Weather",
-      dataKeys: ["cloudbase", "modelvisibility", "rainrate", "a_2mtemp", "totalprecip", "mslp"],
-      color: "#a4de6c",
-    },
-    {
-      name: "Currents",
-      dataKeys: [
-        "maxwave",
-        "sigwaveheight",
-        "swell1height",
-        "swell1period",
-        "swell2height",
-        "swell2period",
-        "surfacecurrentspeed",
-      ],
-      color: "#ff6347",
-      directionKey: null,
-    },
+  {[{
+    name: "Wind",
+    dataKeys: ["a_10mwindspeed", "a_10mgust", "a_50mwindspeed", "a_80mwindspeed", "a_100mwindspeed"],
+    color: "#8884d8",
+    directionKey: "a_10mwinddir",
+  },
+  {
+    name: "Wind Wave",
+    dataKeys: ["windseaheight", "windseaperiod"],
+    color: "#82ca9d",
+    directionKey: "windseadirection",
+  },
+  {
+    name: "Weather",
+    dataKeys: ["cloudbase", "modelvisibility", "rainrate", "a_2mtemp", "totalprecip", "mslp"],
+    color: "#a4de6c",
+  },
+  {
+    name: "Currents",
+    dataKeys: [
+      "maxwave",
+      "sigwaveheight",
+      "swell1height",
+      "swell1period",
+      "swell2height",
+      "swell2period",
+      "surfacecurrentspeed",
+    ],
+    color: "#ff6347",
+    directionKey: "surfacecurrentdirection",
+  },
   ].map((chart, index) => {
     const hasData = chart.dataKeys.some((key) =>
       ScrapeGraphDatas().some((data: any) => data[key] !== null && data[key] !== undefined)
-
     );
+
+    const directionValues =
+      chart.directionKey &&
+      ScrapeGraphDatas().map((data: any) => {
+        const direction = data[chart.directionKey] ?? "";
+        return calculateWindDir(direction);
+      });
 
     return (
       hasData && (
@@ -598,6 +559,41 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
           <Typography variant="h6" sx={{ mb: 1 }}>
             {chart.name}
           </Typography>
+
+          {Array.isArray(directionValues) && directionValues.length > 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                maxWidth: "80%",
+                margin: "0 auto",
+              }}
+            >
+              {directionValues.map((value: any, idx: any) => (
+                <Typography
+                  key={idx}
+                  variant="caption"
+                  sx={{
+                    display: "inline-block",
+                    fontSize: "5px",
+                  }}
+                >
+                  {value}
+                </Typography>
+              ))}
+            </Box>
+          ) : (
+            <Typography
+              variant="caption"
+              sx={{
+                display: "inline-block",
+                fontSize: "5px",
+                marginLeft: "2px",
+              }}
+            />
+          )}
 
           <Box
             sx={{
@@ -612,13 +608,12 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
             {chart.dataKeys
               .sort((keyA, keyB) => {
                 const maxValueA = Math.max(
-                  ...ScrapeGraphDatas().map((data:any) =>
-                    (data[keyA] != null ? (data[keyA] as number) : -Infinity)
-
+                  ...ScrapeGraphDatas().map((data: any) =>
+                    data[keyA] != null ? (data[keyA] as number) : -Infinity
                   )
                 );
                 const maxValueB = Math.max(
-                  ...ScrapeGraphDatas().map((data:any) =>
+                  ...ScrapeGraphDatas().map((data: any) =>
                     data[keyB] != null ? (data[keyB] as number) : -Infinity
                   )
                 );
@@ -626,7 +621,7 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
               })
               .map((dataKey, i) => {
                 const maxValue = Math.max(
-                  ...ScrapeGraphDatas().map((data:any) =>
+                  ...ScrapeGraphDatas().map((data: any) =>
                     data[dataKey] != null ? (data[dataKey] as number) : -Infinity
                   )
                 );
@@ -638,11 +633,7 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
                       maxWidth: "100px",
                       textAlign: "center",
                     }}
-                  >
-                    {/* <Typography sx={{ fontSize: 4, whiteSpace: "nowrap" }}>
-                      {`${dataKey}: ${maxValue}`}
-                    </Typography> */}
-                  </Box>
+                  ></Box>
                 );
               })}
           </Box>
@@ -668,23 +659,22 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
               padding={{ left: 20, right: 20 }}
               tickFormatter={(value, index) => (index % 1 === 0 ? formatDate1(value) : "")}
             />
-           <YAxis yAxisId="left" label={{  position: 'insideLeft', angle: -90 }} />
-<Tooltip contentStyle={{ borderRadius: "8px" }} />
-{chart.dataKeys.map((dataKey) =>
-  ScrapeGraphDatas().some((data: any) => data[dataKey] != null) ? (
-    <Area
-      key={dataKey}
-      type="monotone"
-      name={`${chart.name} - ${dataKey}`}
-      dataKey={dataKey}
-      stroke={chart.color}
-      fillOpacity={0.3}
-      fill={`url(#color${chart.name})`}
-      yAxisId="left"
-    />
-  ) : null
-)}
-
+            <YAxis yAxisId="left" label={{ position: "insideLeft", angle: -90 }} />
+            <Tooltip contentStyle={{ borderRadius: "8px" }} />
+            {chart.dataKeys.map((dataKey) =>
+              ScrapeGraphDatas().some((data: any) => data[dataKey] != null) ? (
+                <Area
+                  key={dataKey}
+                  type="monotone"
+                  name={`${chart.name} - ${dataKey}`}
+                  dataKey={dataKey}
+                  stroke={chart.color}
+                  fillOpacity={0.3}
+                  fill={`url(#color${chart.name})`}
+                  yAxisId="left"
+                />
+              ) : null
+            )}
           </AreaChart>
         </Box>
       )
@@ -692,10 +682,11 @@ function getColorForField(data: number | undefined, marginValue: number, value: 
   })}
 </Stack>
 
-                
+   
                 </div>
-              )}
+              
             </div>
+  )}
           </Main>
         </div>
       </Box>

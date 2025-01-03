@@ -109,11 +109,15 @@ const SideNavMenu = (props: any) => {
     alignItems: "center",
   };
 
-  // useEffect(() => {
-  //   if (!localStorage.getItem("token")) {
-  //     window.location.href = "/auth";
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location.href = "/auth";
+    }
+  }, []);
+
+  if (location.pathname === "/operations") {
+    return null; 
+  }
 
   return (
     <div className="sidenav">

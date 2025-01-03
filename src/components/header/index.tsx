@@ -92,6 +92,7 @@ const Header = (props: any) => {
     localStorage.removeItem("login");
     localStorage.removeItem("user");
     localStorage.removeItem("user_id");
+    localStorage.removeItem("loginStep")
     localStorage.setItem("sideNav", "true");
     window.location.href = "/auth";
   };
