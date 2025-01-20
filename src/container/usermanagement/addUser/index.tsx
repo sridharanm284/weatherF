@@ -106,6 +106,7 @@ const AddNewUserComponent = () => {
       console.error("Error:", error);
     }
   };
+  
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitted(true);
@@ -158,6 +159,8 @@ const AddNewUserComponent = () => {
       console.error("Error:", error);
     }
   };
+
+
   useEffect(() => {
     const l = localStorage.getItem("sideNav");
     setSn(l);
@@ -671,22 +674,25 @@ const AddNewUserComponent = () => {
               }}
               xs={6}
             >
-              <InputLabel
-                className={
-                  isSubmitted && formData.expected_date === ""
-                    ? "input-error"
-                    : ""
-                }
-                htmlFor="expected_date"
-              >
-                Expected Date
-              </InputLabel>
-              <input
-                name="expected_date"
-                type="datetime-local"
-                defaultValue={formData.expected_date}
-                onChange={handleInputChange}
-              />
+            <InputLabel
+  className={
+    isSubmitted && formData.expected_date === "" ? "input-error" : ""
+  }
+  htmlFor="expected_date"
+>
+  Expected Date
+</InputLabel>
+<input
+  name="expected_date"
+  type="datetime-local"
+  value={formData.expected_date} 
+  onChange={handleInputChange}
+  min={new Date().toISOString().slice(0, 16)} 
+  className={
+    isSubmitted && formData.expected_date === "" ? "input-error" : ""
+  }
+/>
+
               <InputLabel
                 className={
                   isSubmitted && formData.metsys_name === ""

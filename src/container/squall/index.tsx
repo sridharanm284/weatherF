@@ -200,40 +200,49 @@ const Squall = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
    const [apiUrl, setApiUrl] = useState<string | null>(null);
    const [imageData, setImageData] = useState<string | null>(null);
+   const [showNoDataMessage, setShowNoDataMessage] = useState(false);
+
+   useEffect(() => {
+     if (!loading && !(title || desc)) {
+       const timer = setTimeout(() => setShowNoDataMessage(true), 3000);
+       return () => clearTimeout(timer); 
+     } else {
+       setShowNoDataMessage(false);
+     }
+   }, [loading, title, desc]);
 
  
-  useEffect(() => {
-    const fetchData = async () => {
+   useEffect(() => {
+    const hardcodedData = [{"Forecast ID (from Metsys)": "4358","Client's Name": "PT MIFA BERSAUDARA","Site/Vessel name": "OFFSHORE POINT","Client's lat": "4","Client's lon": "96.1","Squall Header": "Severe Weather Warning for OFFSHORE POINT issued at 06 Jan 2025 11:43 UTC+7","Squall Advisory": "Latest satellite imagery shows convection area are still in the vicinity of your site and likely to affect your site from the ESE. There is a MODERATE to HIGH risk of squalls around 20-30 knots in/near heavy thunderstorms with risk of lightning and rough seas temporarily higher than forecast over the next 3-4 hours. ","Previous Sat lat": "3.52","Previous Sat lon": "96.66","Previous Sat Time (UTC)": "06/01/2025 02:15:00","Latest Sat lat": "3.88","Latest Sat lon": "96.2","Latest Sat Time (UTC)": "06/01/2025 04:25:00","SatImgSection": "section-0076","Initial Heading": "308.11972795433","Storm Speed": "16.1548032797387","Squall Intensity": "20-30 kn","Forecaster": "Fira","Date/Time Forecast": "06/01/2025 11:43:47","Position lat": "3.93203151677766","Position lon": "96.1335254528472","Time to Site (hr)": "-15.9929730867747","Distance to Site (nm)": "4.30659406014506"},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "06/01/2025 11:58:47","Position lat": "3.9735817862193","Position lon": "96.0804410565288","Time to Site (hr)": "-0.99297307253901","Distance to Site (nm)": "0.267623995298227"},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "06/01/2025 12:13:47","Position lat": "4.01513203801092","Position lon": "96.0273551517489","Time to Site (hr)": "0","Distance to Site (nm)": "0"},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "06/01/2025 18:13:47","Position lat": "","Position lon": "","Time to Site (hr)": "ALL CLEAR","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""},{"Forecast ID (from Metsys)": "","Client's Name": "","Site/Vessel name": "","Client's lat": "","Client's lon": "","Squall Header": "","Squall Advisory": "","Previous Sat lat": "","Previous Sat lon": "","Previous Sat Time (UTC)": "","Latest Sat lat": "","Latest Sat lon": "","Latest Sat Time (UTC)": "","SatImgSection": "","Initial Heading": "","Storm Speed": "","Squall Intensity": "","Forecaster": "","Date/Time Forecast": "","Position lat": "","Position lon": "","Time to Site (hr)": "","Distance to Site (nm)": ""}]
+    const fetchData = () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_IP}api/getcsv/${localStorage.fid}`
-        );
-        if (response.status === 404) {
+        if (hardcodedData.length === 0 || !hardcodedData[0]["Squall Header"]) {
           setTitle("No squall warnings are currently active");
         } else {
-          const csvText = response.data;
+          const csvText = hardcodedData;
           setJsonData(csvText);
           setTitle(csvText[0]["Squall Header"]);
           setDesc(csvText[0]["Squall Advisory"]);
           setSquallMap(csvText[0]["SatImgSection"]);
-          setUserLat(csvText[0]["Client's lat"]);
-          setUserLon(csvText[0]["Client's lon"]);
-          setCurLat(csvText[0]["Previous Sat lat"]);
-          setCurLon(csvText[0]["Previous Sat lon"]);
-          setPrevLat(csvText[0]["Latest Sat lat"]);
-          setPrevLon(csvText[0]["Latest Sat lon"]);
+          setUserLat(parseFloat(csvText[0]["Client's lat"])); // Convert to number
+          setUserLon(parseFloat(csvText[0]["Client's lon"])); // Convert to number
+          setCurLat(parseFloat(csvText[0]["Previous Sat lat"])); // Convert to number
+          setCurLon(parseFloat(csvText[0]["Previous Sat lon"])); // Convert to number
+          setPrevLat(parseFloat(csvText[0]["Latest Sat lat"])); // Convert to number
+          setPrevLon(parseFloat(csvText[0]["Latest Sat lon"])); // Convert to number
           setInit(csvText[0]["Initial Heading"]);
           setStorm(csvText[0]["Storm Speed"]);
           setIntensity(csvText[0]["Squall Intensity"]);
           setFc(csvText[0]["Forecaster"]);
         }
-      } catch (error: any) {
-        setError(error.message || "An error occurred while fetching data");
+      } catch (error) {
+        // Handle the error if needed
       }
     };
+    
     fetchData();
-  }, []);
-
+  }, []);    
+  
   useEffect(() => {
     const fetchCroppedImage = async () => {
 
@@ -241,7 +250,7 @@ const Squall = () => {
   
       try {
 
-        const response = await fetch('http://127.0.0.1:8000/converter/crop_pdf/', {
+        const response = await fetch('http://127.0.0.1:8000/converter/crop-pdf/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -337,17 +346,22 @@ const Squall = () => {
         const positionLon = isNaN(parseFloat(elem[`Position lon`]))
           ? elem[`Position lon`]
           : parseFloat(elem[`Position lon`]).toFixed(1) + " E";
-        const timeToSiteInHours = parseFloat(elem[`Time to Site (hr)`]);
-        let timeToSite;
-        if (isNaN(timeToSiteInHours)) {
-          timeToSite = elem[`Time to Site (hr)`];
-        } else {
-          const hours = Math.floor(timeToSiteInHours);
-          const minutes = Math.round((timeToSiteInHours - hours) * 60);
-          timeToSite = hours > 0
-            ? `${hours}hr ${minutes}min`
-            : `${minutes}min`;
-        }
+          const timeToSiteInHours = parseFloat(elem[`Time to Site (hr)`]);
+          let timeToSite;
+          
+          if (isNaN(timeToSiteInHours)) {
+            timeToSite = elem[`Time to Site (hr)`];
+          } else {
+            const roundedTime = Math.abs(Math.round(timeToSiteInHours));
+            const hours = Math.floor(roundedTime / 60);
+            const minutes = roundedTime % 60;
+          
+            timeToSite = hours > 0
+              ? `${hours}hr ${minutes.toString().padStart(2, '0')}mins`
+              : `${minutes.toString().padStart(1, '0')}mins`;
+          }
+          
+          
         const distanceToSite = isNaN(parseFloat(elem[`Distance to Site (nm)`]))
           ? elem[`Distance to Site (nm)`]
           : Math.round(parseFloat(elem[`Distance to Site (nm)`])) + "NM";
@@ -385,11 +399,13 @@ const Squall = () => {
     }
   }, [SquallMap]);
 
+
+  
   return (
     <div className={open ? "sideNavOpen" : "sideNavClose"}>
       <Box className="fug-container bg-default flex sidenav-full">
         {loading ? (
-          <div className={"loader-div1"}>
+          <div className="loader-div1">
             <WeatherLoader />
           </div>
         ) : (
@@ -405,107 +421,101 @@ const Squall = () => {
             >
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                {(title || desc) ? (
-  <div className="titleBox">
-    {title && <div className="title">{title}</div>}
-    {desc && (
-      <div className="description">
-        <p>{desc}</p>
-      </div>
-    )}
-  </div>
-) : (
-  <div className="noData">There are currently no severe warnings active for this location</div>
-)}
-
- 
-<div className="map" style={{ overflowX: 'auto' }}>
-      {imageData ? (
-        <img
-          src={imageData}
-          alt="Cropped PDF"
-          style={{ maxWidth: '50%', height: '50%' }}
-        />
-      ) : (
-        <p></p>
-      )}
-    </div>
-                  {(init || storm || intensity || fc) && (
-  <div className="tableBox margin-tableBox">
-    <table className="table">
-      <thead className="tableheader">
-        <tr className="sqtr">
-          <th className="sqth">INITIAL HEADING</th>
-          <th className="sqth">STORM SPEED</th>
-          <th className="sqth">SQUALL INTENSITY</th>
-          <th className="sqth">FORECASTER</th>
-        </tr>
-      </thead>
-      <tbody className="tablebody">
-        <tr className="sqtr">
-          <td className="sqtd">{init ? Math.floor(init) : "-"}</td>
-          <td className="sqtd">{storm ? Math.floor(storm) : "-"}</td>
-          <td className="sqtd">{intensity ? intensity : "-"}</td>
-          <td className="sqtd">{fc ? fc : "-"}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-)}
-
-{(localStorage.getItem("project") && render()) ? (
-  <div className="tableBox margin-tableBox">
-    <table className="table">
-      <thead className="tableheader">
-        <tr className="sqtr">
-          <th className="sqth">Date/Time</th>
-          <th className="sqth" colSpan={2}>Position</th>
-          <th className="sqth">Time to</th>
-          <th className="sqth">Distance to</th>
-        </tr>
-        <tr className="sqtr">
-          <th className="sqth">UTC+8</th>
-          <th className="sqth">LAT.</th>
-          <th className="sqth">LONG.</th>
-          <th className="sqth">
-  {(() => {
-    const project = localStorage.getItem("project");
-    return project
-      ? project.split("-").slice(0, 2).join("-")
-      : "No project";
-  })()}
-</th>
-
-<th className="sqth">
-  {(() => {
-    const project = localStorage.getItem("project");
-    return project
-      ? project.split("-").slice(0, 2).join("-")
-      : "No project";
-  })()}
-</th>
-
-        </tr>
-      </thead>
-      <tbody className="tablebody">{render()}</tbody>
-    </table>
-  </div>
-) : null}
-
-<div className="button">
-  {data && data.length > 0 && (
-    <button id="file" onClick={() => setFile((prev: boolean) => !prev)}>
-      MP4 animation (large)
-    </button>
-  )}
-</div>
-
-                  {file && (
-                    <ImageModal onClose={closeModalVideo} VideoUrl={videoUrl} />
+                  {(title || desc) ? (
+                    <div className="titleBox">
+                      {title && <div className="title">{title}</div>}
+                      {desc && (
+                        <div className="description">
+                          <p>{desc}</p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    showNoDataMessage && (
+                      <div className="noData">
+                        There are currently no severe warnings active for this location
+                      </div>
+                    )
                   )}
-                  {gif && (
-                    <GifModal onClose={closeModalGif} SquallMap={SquallMap} />
-                  )}
+
+                  <div className="map" style={{ overflowX: "auto" }}>
+                    {imageData ? (
+                      <img
+                        src={imageData}
+                        alt="Cropped PDF"
+                        style={{ maxWidth: "50%", height: "50%" }}
+                      />
+                    ) : (
+                      <p></p>
+                    )}
+                  </div>
+
+                  <div className="tableBox margin-tableBox">
+                    <table className="table">
+                      <thead className="tableheader">
+                        <tr className="sqtr">
+                          <th className="sqth">INITIAL HEADING</th>
+                          <th className="sqth">STORM SPEED</th>
+                          <th className="sqth">SQUALL INTENSITY</th>
+                          <th className="sqth">FORECASTER</th>
+                        </tr>
+                      </thead>
+                      <tbody className="tablebody">
+                        <tr className="sqtr">
+                          <td className="sqtd">{init ? Math.floor(init) : "-"}</td>
+                          <td className="sqtd">{storm ? Math.floor(storm) : "-"}</td>
+                          <td className="sqtd">{intensity || "-"}</td>
+                          <td className="sqtd">{fc || "-"}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="tableBox margin-tableBox">
+                    <table className="table">
+                      <thead className="tableheader">
+                        <tr className="sqtr">
+                          <th className="sqth">Date/Time</th>
+                          <th className="sqth" colSpan={2}>Position</th>
+                          <th className="sqth">Time to</th>
+                          <th className="sqth">Distance to</th>
+                        </tr>
+                        <tr className="sqtr">
+                          <th className="sqth">UTC+8</th>
+                          <th className="sqth">LAT.</th>
+                          <th className="sqth">LONG.</th>
+                          <th className="sqth">
+                            {(() => {
+                              const project = localStorage.getItem("project");
+                              return project
+                                ? project.split("-").slice(0, 2).join("-")
+                                : "No project";
+                            })()}
+                          </th>
+                          <th className="sqth">
+                            {(() => {
+                              const project = localStorage.getItem("project");
+                              return project
+                                ? project.split("-").slice(0, 2).join("-")
+                                : "No project";
+                            })()}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="tablebody">{render()}</tbody>
+                    </table>
+                  </div>
+
+                  <div className="button">
+                    {data && data.length > 0 && (
+                      <button id="file" onClick={() => setFile((prev) => !prev)}>
+                        MP4 animation (large)
+                      </button>
+                    )}
+                  </div>
+
+                  {file && <ImageModal onClose={closeModalVideo} VideoUrl={videoUrl} />}
+                  {gif && <GifModal onClose={closeModalGif} SquallMap={SquallMap} />}
                 </Grid>
               </Grid>
             </div>
@@ -515,4 +525,5 @@ const Squall = () => {
     </div>
   );
 };
+
 export default Squall;

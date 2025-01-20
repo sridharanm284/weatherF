@@ -100,58 +100,6 @@
   border-radius: 8px;
 }
 
-.image-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%; 
-  height: auto; 
-  max-width: 800px; 
-
-
-
-.chart-image {
-  max-width: 90%; 
-  max-height: 100vh; 
-  width: auto; 
-  height: auto; 
-  object-fit: contain; 
-  border: 2px solid #ccc; 
-  border-radius: 8px; 
-}
-.nav-icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(250%);
-  font-size: 2rem;
-  cursor: pointer;
-  color: #333;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem; 
-  height: 3rem; 
-  background-color: rgba(255, 255, 255, 0.7); 
-  border-radius: 50%; 
-}
-
-.nav-icon.left {
-  left: 28rem; 
-}
-
-.nav-icon.right {
-  right: 22rem;
-}
-
-  p {
-    text-align: center;
-    margin-top: 10px;
-  }
-}
-
-
 .video-container {
   position: relative;
 }
